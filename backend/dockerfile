@@ -1,31 +1,38 @@
 ###################
 # BUILD FOR LOCAL DEVELOPMENT
 ###################
-
 FROM node:20-alpine3.20 AS development
 
 # Crear directorio de la aplicación
 WORKDIR /usr/src/app
 
+# Instalar herramientas de compilación
+RUN apk add --no-cache python3 make gcc g++
+
 # Copiar manifests de dependencias
 COPY --chown=node:node package*.json ./
 
-# Instalar dependencias
-RUN npm ci
+# Actualizar npm
+RUN npm install -g npm@latest
+
+# Instalar dependencias con opciones flexibles
+RUN npm install --legacy-peer-deps --verbose
 
 # Copiar el código fuente
 COPY --chown=node:node . .
 
-# Usar el usuario node (en lugar de root)
+# Usar el usuario node
 USER node
 
 ###################
 # BUILD FOR PRODUCTION
 ###################
-
 FROM node:20-alpine3.20 AS build
 
 WORKDIR /usr/src/app
+
+# Instalar herramientas de compilación
+RUN apk add --no-cache python3 make gcc g++
 
 # Copiar manifests de dependencias
 COPY --chown=node:node package*.json ./
@@ -39,11 +46,11 @@ COPY --chown=node:node . .
 # Compilar la aplicación
 RUN npm run build
 
-# Establecer variable de entorno NODE_ENV
+# Establecer variable de entorno de producción
 ENV NODE_ENV=production
 
 # Instalar solo dependencias de producción
-RUN npm ci --only=production
+RUN npm ci --only=production --legacy-peer-deps
 
 # Usar el usuario node
 USER node
@@ -51,12 +58,11 @@ USER node
 ###################
 # PRODUCTION
 ###################
-
 FROM node:20-alpine3.20 AS production
 
 WORKDIR /usr/src/app
 
-# Copiar node_modules y el código compilado desde la etapa de build
+# Copiar node_modules y el código compilado
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 
