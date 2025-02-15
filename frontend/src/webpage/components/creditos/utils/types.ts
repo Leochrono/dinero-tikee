@@ -18,6 +18,12 @@ export interface CreditResponse {
   status: string;
   createdAt: Date;
   institutionId?: string;
+  user?: {
+    // Define la estructura del objeto `user` aquí
+    id: string;
+    name: string; 
+    // otras propiedades...
+  };
 }
 
 // Interfaces para opciones y detalles de crédito

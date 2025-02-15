@@ -51,6 +51,10 @@ export const BackButton = styled(Box)(({ theme }) => ({
 export const LoginWrapper = styled(Box)(({ theme }) => ({
   minHeight: "100vh",
   backgroundColor: theme.palette.background.default,
+  backgroundImage: "url('/assets/img/background.webp')", // Ruta a la imagen
+  backgroundSize: "cover", // Ajusta la imagen para cubrir todo el contenedor
+  backgroundPosition: "center", // Centra la imagen
+  backgroundRepeat: "no-repeat", // Evita que la imagen se repita
   display: "flex",
   alignItems: "center",
   justifyContent: "center",

@@ -246,7 +246,8 @@ useEffect(() => {
   
     try {
       setIsSubmitting(true);
-      
+  
+      // Subir todos los documentos
       for (const [key, fileData] of Object.entries(uploadedFiles)) {
         if (fileData?.file) {
           const formData = new FormData();
@@ -254,43 +255,41 @@ useEffect(() => {
           console.log(`Preparando archivo ${key}:`, {
             name: fileData.file.name,
             type: fileData.file.type,
-            size: fileData.file.size
+            size: fileData.file.size,
+            documentType: key
           });
   
-          // Asegúrate de que el orden sea correcto
           formData.append('documentType', key);
           formData.append('file', fileData.file);
   
-          try {
-            const response = await uploadCreditFiles(
-              currentCreditId, 
-              formData,
-              (progress) => {
-                setUploadProgress(prev => ({
-                  ...prev,
-                  [key]: progress
-                }));
-              }
-            );
-  
-            console.log(`Respuesta para archivo ${key}:`, response);
-  
-            if (!response.success) {
-              throw new Error(`Error al subir el archivo ${key}`);
+          const response = await uploadCreditFiles(
+            currentCreditId, 
+            formData,
+            (progress) => {
+              setUploadProgress(prev => ({
+                ...prev,
+                [key]: progress
+              }));
             }
-          } catch (uploadError) {
-            console.error(`Error subiendo archivo ${key}:`, uploadError);
-            throw uploadError;
+          );
+  
+          if (!response.success) {
+            throw new Error(`Error al subir el archivo ${key}`);
           }
         }
       }
   
-      // Solo actualizar el estado si todos los archivos se subieron correctamente
+      // Actualizar el estado del crédito
       const updateResponse = await updateStatus(currentCreditId, "DOCUMENTS_SUBMITTED");
       if (updateResponse.success) {
         toast.success("Documentos subidos exitosamente");
+        // Pequeño delay antes de navegar
+        await new Promise(resolve => setTimeout(resolve, 500));
         onApply();
+      } else {
+        throw new Error("Error al actualizar el estado del crédito");
       }
+  
     } catch (error: any) {
       console.error("Error en el proceso:", error);
       toast.error(error.message || "Error al procesar la solicitud");

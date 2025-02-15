@@ -335,8 +335,7 @@ export const useCredit = (
       }
       try {
         setLoading(true);
-        // Modificamos aquí para pasar un objeto en lugar de un string
-        const response = await creditService.updateStatus(creditId, { status });
+        const response = await creditService.updateStatus(creditId, status);
         if (!response?.success) {
           throw new Error("Error al actualizar el estado");
         }

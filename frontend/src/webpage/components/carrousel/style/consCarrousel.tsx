@@ -1,11 +1,20 @@
 import { Box, Button, Typography, styled } from "@mui/material";
 
-export const CarouselWrapper = styled(Box)({
+// Definición de tipos para el carrusel
+export interface CarouselImage {
+  src: string;
+  alt: string;
+  title: string;
+  routes: string[];
+}
+
+export const CarouselWrapper = styled(Box)(({ theme }) => ({
   position: "relative",
   width: "100%",
   height: "auto",
   display: "block",
-});
+  backgroundColor: theme.palette.background.default,
+}));
 
 export const CarouselContainer = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -56,11 +65,11 @@ export const ContentOverlay = styled(Box)(({ theme }) => ({
 }));
 
 export const SlideTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: "'Galano Grotesque', sans-serif", // Cambiado a Galano Grotesque
+  fontFamily: "'Galano Grotesque', sans-serif",
   color: theme.palette.common.white,
   fontSize: "64px",
-  letterSpacing: '-2px', // Añadido tracking negativo
-  lineHeight: 0.9, // Reducido line-height
+  letterSpacing: '-2px',
+  lineHeight: 0.9,
   marginBottom: "32px",
   [theme.breakpoints.down("lg")]: {
     fontSize: "56px",
@@ -79,14 +88,14 @@ export const SlideTitle = styled(Typography)(({ theme }) => ({
 }));
 
 export const ActionButton = styled(Button)(({ theme }) => ({
-  fontFamily: "'Stage Grotesque', sans-serif", 
+  fontFamily: "'Stage Grotesque', sans-serif",
   backgroundColor: theme.palette.custom.green.neon,
   color: theme.palette.text.secondary,
   padding: "12px 32px",
   borderRadius: "50px",
   fontSize: "16px",
   textTransform: "none",
-  fontWeight: 200, 
+  fontWeight: 200,
   "&:hover": {
     backgroundColor: theme.palette.custom.green.hover,
   },
@@ -98,7 +107,7 @@ export const ActionButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export const Slide = styled(Box)({
+export const Slide = styled(Box)(({ theme }) => ({
   position: "relative",
   width: "100%",
   height: "100%",
@@ -109,12 +118,13 @@ export const Slide = styled(Box)({
     left: 0,
     right: 0,
     bottom: 0,
-    // Reducimos la opacidad del gradiente para hacerlo más sutil
-    background:
-      "linear-gradient(90deg, rgba(0,27,48,0.3) 0%, rgba(0,27,48,0.1) 100%)",
-    "@media (max-width: 600px)": {
-      background:
-        "linear-gradient(180deg, rgba(0,27,48,0.2) 0%, rgba(0,27,48,0.4) 100%)",
+    background: `linear-gradient(90deg, 
+      ${theme.palette.custom.blue.dark}cc 0%, 
+      ${theme.palette.custom.blue.dark}33 100%)`,
+    [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
+      background: `linear-gradient(180deg, 
+        ${theme.palette.custom.blue.dark}66 0%, 
+        ${theme.palette.custom.blue.dark}99 100%)`,
     },
   },
-});
+}));

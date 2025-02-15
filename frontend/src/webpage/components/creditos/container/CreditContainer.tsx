@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/src/core/hooks/api/useAuth';
 import { useCredit } from '@/src/core/hooks/api/use-credit';
 import GreenLine from '@/components/greenline/greenline';
@@ -12,18 +12,37 @@ const CreditContainer: React.FC = () => {
   const { user } = useAuth();
   const { contextValue } = useCredit(user?.email, user?.cedula);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // Define el contexto con todas las propiedades necesarias
+  // Mejorar el manejo de navegación
   const enhancedContextValue = {
     ...contextValue,
     onSelect: (institutionId: string) => {
-      navigate(routesWebpage.creditoDetails, {
-        state: { institutionId } // Pasa el ID de la institución
-      });
+      // Guardar el ID de la institución en localStorage
+      localStorage.setItem('selectedInstitutionId', institutionId);
+      navigate(routesWebpage.creditoDetails);
     },
     onBack: () => {
-      navigate(-1); // Volver a la página anterior
+      const currentPath = location.pathname;
+      if (currentPath === routesWebpage.creditoResults) {
+        navigate(routesWebpage.creditoForm);
+      } else if (currentPath === routesWebpage.creditoDetails) {
+        navigate(routesWebpage.creditoResults);
+      } else {
+        navigate(-1);
+      }
     },
+    onApply: () => {
+      // Asegurarse de que la navegación a la página de éxito funcione
+      navigate(routesWebpage.creditoSuccess);
+    },
+    onNewSearch: () => {
+      // Limpiar localStorage y navegar al formulario
+      localStorage.removeItem('currentCreditId');
+      localStorage.removeItem('selectedInstitutionId');
+      localStorage.removeItem('creditFormData');
+      navigate(routesWebpage.creditoForm);
+    }
   };
 
   return (

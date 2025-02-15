@@ -35,7 +35,6 @@ export const BannerContainer = styled(Box)(({ theme }) => ({
     left: 0,
     right: 0,
     bottom: 0,
-    background: "linear-gradient(90deg, rgba(0,27,48,0.8) 0%, rgba(0,27,48,0.4) 100%)", // Cambiado al color del theme
     zIndex: 1,
     transition: "background 0.3s ease",
   },

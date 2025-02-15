@@ -6,6 +6,7 @@ import { useUserProfile } from "@/src/core/hooks/api/use-user-profile";
 import { useGlobalAuth } from "@/src/core/context/authContext";
 import LoadingResults from "../shared/loadingResults";
 import ErrorMessage from "../shared/errorMessage";
+import { routesWebpage } from '@/components/contants/routes';
 import {
   UserContainer,
   Header,
@@ -24,13 +25,25 @@ import {
   HistoryDetails,
 } from "./components/constUsuario";
 import Navbar from "../navbar/navbar";
-import { 
-  SearchHistory, 
-  CreditResponse,
-  Credit
-} from "@/src/core/types/credit.types";
+import { SearchHistory, CreditResponse, Credit } from "@/src/core/types/credit.types";
 import { UserProfile } from "@/src/core/types/user.types";
 import { useCreditCalculations } from "@/src/core/hooks/api/use-credit-calculations";
+
+interface CreditWithDetails extends Credit {
+  monthlyPayment: number;
+  totalPayment: number;
+  institution: {
+    id: string;
+    name: string;
+    logo: string;
+    minRate: number;
+    email?: string;
+  };
+  status: string;
+  amount: number;
+  term: number;
+  income: number;
+}
 
 const Usuario = () => {
   const navigate = useNavigate();
@@ -39,7 +52,7 @@ const Usuario = () => {
   const { transformCredits } = useCreditCalculations();
 
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-  const [userCredits, setUserCredits] = useState<Credit[]>([]);
+  const [userCredits, setUserCredits] = useState<CreditWithDetails[]>([]);
   const [searchHistory, setSearchHistory] = useState<SearchHistory[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const [dataError, setDataError] = useState<string | null>(null);
@@ -54,32 +67,31 @@ const Usuario = () => {
         setUserProfile(profileResponse.data);
       }
 
-      // Obtener créditos
+      // Obtener créditos con toda la información
       try {
         const creditsResponse = await getUserCredits();
         if (creditsResponse?.success && creditsResponse?.data) {
           const transformedCredits = transformCredits(
             creditsResponse.data as unknown as CreditResponse[]
           );
-          setUserCredits(transformedCredits as unknown as Credit[]);
-        } else {
-          setUserCredits([]);
+          setUserCredits(transformedCredits as CreditWithDetails[]);
         }
       } catch (error) {
-        console.warn("Error loading credits:", error);
+        console.error("Error loading credits:", error);
         setUserCredits([]);
       }
 
-      // Obtener historial
+      // Obtener historial actualizado
       try {
         const historyResponse = await getSearchHistory();
         if (Array.isArray(historyResponse)) {
-          setSearchHistory(historyResponse);
-        } else {
-          setSearchHistory([]);
+          const sortedHistory = historyResponse.sort(
+            (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+          setSearchHistory(sortedHistory);
         }
       } catch (error) {
-        console.warn("Error loading history:", error);
+        console.error("Error loading history:", error);
         setSearchHistory([]);
       }
     } catch (error) {
@@ -96,6 +108,23 @@ const Usuario = () => {
 
   const handleLogout = () => {
     logout();
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'DOCUMENTS_SUBMITTED':
+        return 'Documentos Enviados';
+      case 'INSTITUTION_SELECTED':
+        return 'Institución Seleccionada';
+      case 'UNDER_REVIEW':
+        return 'En Revisión';
+      case 'APPROVED':
+        return 'Aprobado';
+      case 'REJECTED':
+        return 'Rechazado';
+      default:
+        return 'Pendiente';
+    }
   };
 
   if (loadingData) return <LoadingResults />;
@@ -133,23 +162,15 @@ const Usuario = () => {
         </WelcomeSection>
 
         <SectionTitle>Créditos en proceso</SectionTitle>
-        {!userCredits ||
-        userCredits.length === 0 ||
-        !userCredits[0]?.institution ? (
-          <Typography
-            variant="body2"
-            sx={{ textAlign: "center", my: 2, color: "white" }}
-          >
+        {!userCredits || userCredits.length === 0 ? (
+          <Typography variant="body2" sx={{ textAlign: "center", my: 2, color: "white" }}>
             No tienes créditos en proceso
           </Typography>
         ) : (
           userCredits.map((credit) => (
             <CreditCard key={credit.id}>
               <BankLogo>
-                <img
-                  src={credit.institution.logo}
-                  alt={credit.institution.name}
-                />
+                <img src={credit.institution.logo} alt={credit.institution.name} />
               </BankLogo>
               <CreditInfo>
                 <InfoRow>
@@ -166,13 +187,31 @@ const Usuario = () => {
                     </Typography>
                   </InfoItem>
                 </InfoRow>
-                <InfoItem>
-                  <Typography className="label">Pago Total (aprox.)</Typography>
-                  <Typography className="value">
-                    ${credit.totalPayment.toLocaleString()}
-                  </Typography>
-                </InfoItem>
-                <ActionButton>CONTACTAR</ActionButton>
+                <InfoRow>
+                  <InfoItem>
+                    <Typography className="label">Pago Total (aprox.)</Typography>
+                    <Typography className="value">
+                      ${credit.totalPayment.toLocaleString()}
+                    </Typography>
+                  </InfoItem>
+                  <InfoItem>
+                    <Typography className="label">Estado</Typography>
+                    <Typography className="value">
+                      {getStatusText(credit.status)}
+                    </Typography>
+                  </InfoItem>
+                </InfoRow>
+                <ActionButton
+                  onClick={() => {
+                    if (credit.status === 'DOCUMENTS_SUBMITTED') {
+                      window.open(`mailto:${credit.institution.email || ''}?subject=Consulta sobre crédito ${credit.id}`);
+                    } else {
+                      navigate(`/creditos/detalles/${credit.id}`);
+                    }
+                  }}
+                >
+                  {credit.status === 'DOCUMENTS_SUBMITTED' ? 'CONTACTAR' : 'VER DETALLES'}
+                </ActionButton>
               </CreditInfo>
             </CreditCard>
           ))
@@ -180,10 +219,7 @@ const Usuario = () => {
 
         <SectionTitle>Historial de Búsqueda</SectionTitle>
         {searchHistory.length === 0 ? (
-          <Typography
-            variant="body2"
-            sx={{ textAlign: "center", my: 2, color: "white" }}
-          >
+          <Typography variant="body2" sx={{ textAlign: "center", my: 2, color: "white" }}>
             No tienes búsquedas recientes
           </Typography>
         ) : (
@@ -221,15 +257,14 @@ const Usuario = () => {
                   </InfoItem>
                 </HistoryDetails>
                 <ActionButton
-                  onClick={() =>
-                    navigate("/credit", {
-                      state: {
-                        amount: search.amount,
-                        term: search.term,
-                        income: search.income,
-                      },
-                    })
-                  }
+                  onClick={() => {
+                    localStorage.setItem('creditFormData', JSON.stringify({
+                      amount: search.amount,
+                      term: search.term,
+                      income: search.income
+                    }));
+                    navigate(routesWebpage.creditoForm);
+                  }}
                 >
                   BUSCAR NUEVAMENTE
                 </ActionButton>

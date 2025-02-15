@@ -32,23 +32,35 @@ export class CreditDocumentController {
 
   @Post('upload')
 @HttpCode(HttpStatus.OK)
-@UseInterceptors(FileInterceptor('file'))
+@UseInterceptors(FileInterceptor('file', {
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB
+  }
+}))
 async uploadDocument(
   @Param('creditId') creditId: string,
   @Body('documentType') documentType: DocumentType,
-  @UploadedFile() file: Express.Multer.File,
+  @UploadedFile(
+    new ParseFilePipe({
+      validators: [
+        new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }),
+        new FileTypeValidator({ fileType: /(jpg|jpeg|png|pdf)$/ }),
+      ],
+    }),
+  ) file: Express.Multer.File,
 ) {
   this.logger.log(`Iniciando carga de documento - CreditId: ${creditId}, DocumentType: ${documentType}`);
-  
+
   try {
-    if (!file) {
-      throw new BadRequestException('No se proporcionó ningún archivo');
+    if (!file || !file.buffer) {
+      throw new BadRequestException('No se proporcionó un archivo válido');
     }
 
     this.logger.debug('Archivo recibido:', {
       filename: file.originalname,
       mimetype: file.mimetype,
-      size: file.size
+      size: file.size,
+      hasBuffer: !!file.buffer
     });
 
     const document = await this.creditDocumentService.uploadDocument(
@@ -57,8 +69,6 @@ async uploadDocument(
       documentType
     );
 
-    this.logger.log(`Documento cargado exitosamente: ${document.id}`);
-    
     return {
       success: true,
       data: document
@@ -66,17 +76,14 @@ async uploadDocument(
   } catch (error) {
     this.logger.error('Error al cargar documento:', {
       error: error.message,
-      stack: error.stack
+      stack: error.stack,
+      creditId,
+      documentType,
+      fileName: file?.originalname,
+      fileType: file?.mimetype
     });
 
-    if (error instanceof BadRequestException) {
-      throw error;
-    }
-    
-    throw new BadRequestException({
-      message: 'Error al procesar el archivo',
-      details: error.message
-    });
+    throw new BadRequestException(error.message);
   }
 }
 

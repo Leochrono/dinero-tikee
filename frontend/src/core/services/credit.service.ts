@@ -98,35 +98,30 @@ export const creditService = {
   },
 
   // En credit.service.ts
-updateStatus: async (creditId: string, updateData: { institutionId?: string; status?: string }): Promise<ApiResponse<CreditResponse>> => {
-  try {
-    if (!creditId) {
-      throw new Error('ID de crédito requerido');
+  updateStatus: async (creditId: string, status: string): Promise<ApiResponse<CreditResponse>> => {
+    try {
+      if (!creditId) {
+        throw new Error('ID de crédito requerido');
+      }
+  
+      console.log('Actualizando estado del crédito:', { creditId, status });
+  
+      const response = await axiosInstance.post(`/credits/${creditId}/status`, {
+        status: status
+      });
+      
+      console.log('Respuesta del servidor (updateStatus):', response.data);
+  
+      if (!response?.data?.success) {
+        throw new Error(response?.data?.error || 'Error al actualizar el estado');
+      }
+  
+      return response.data;
+    } catch (error: any) {
+      console.error('Error detallado en updateStatus:', error);
+      throw new Error(error.message || 'Error al actualizar el crédito');
     }
-
-    if (!updateData.institutionId) {
-      throw new Error('ID de institución requerido');
-    }
-
-    console.log('Actualizando crédito:', { creditId, updateData });
-
-    const response = await axiosInstance.post(`/credits/${creditId}/status`, {
-      status: updateData.status,
-      institutionId: updateData.institutionId // Asegúrate de que este valor se envíe
-    });
-    
-    console.log('Respuesta del servidor (update):', response.data);
-
-    if (!response?.data?.success) {
-      throw new Error(response?.data?.error || 'Error al actualizar el crédito');
-    }
-
-    return response.data;
-  } catch (error: any) {
-    console.error('Error detallado en update:', error);
-    throw new Error(error.message || 'Error al actualizar el crédito');
-  }
-},
+  },
 
   getDetails: async (creditId: string): Promise<ApiResponse<CreditResponse>> => {
     try {
@@ -315,20 +310,32 @@ updateStatus: async (creditId: string, updateData: { institutionId?: string; sta
         throw new Error('ID de crédito y archivos son requeridos');
       }
   
-      // Log del contenido del FormData
-      console.log('FormData contents:', {
+      // Verificar el contenido del FormData antes de enviar
+      const file = formData.get('file') as File;
+      const documentType = formData.get('documentType');
+  
+      if (!file || !documentType) {
+        throw new Error('Archivo y tipo de documento son requeridos');
+      }
+  
+      // Crear un nuevo FormData limpio
+      const newFormData = new FormData();
+      newFormData.append('file', file, file.name); // Especificar el nombre del archivo
+      newFormData.append('documentType', documentType.toString());
+  
+      console.log('Enviando archivo:', {
         creditId,
-        has_file: formData.has('file'),
-        has_documentType: formData.has('documentType'),
-        formData_entries: Array.from(formData.entries()).map(([key, value]) => ({
-          key,
-          value: value instanceof File ? value.name : value
-        }))
+        file: {
+          name: file.name,
+          type: file.type,
+          size: file.size
+        },
+        documentType
       });
   
       const response = await axiosInstance.post(
         `/credits/${creditId}/documents/upload`,
-        formData,
+        newFormData,
         {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -339,24 +346,19 @@ updateStatus: async (creditId: string, updateData: { institutionId?: string; sta
               onProgress(Math.min(progress, 100));
             }
           },
-          // Aumentar el timeout para archivos grandes
-          timeout: 30000
+          timeout: 30000,
+          validateStatus: (status) => status < 500 // Considerar errores 4xx como manejables
         }
       );
   
-      if (!response?.data) {
-        throw new Error('No se recibió respuesta del servidor');
+      if (!response?.data?.success) {
+        throw new Error(response?.data?.message || 'Error al subir el archivo');
       }
   
       return response.data;
     } catch (error: any) {
-      console.error('Error detallado en uploadCreditFiles:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status
-      });
-      const errorMessage = error.response?.data?.message || error.message || 'Error al subir archivos';
-      throw new Error(errorMessage);
+      console.error('Error en uploadCreditFiles:', error);
+      throw new Error(error.response?.data?.message || error.message);
     }
   }
 };
