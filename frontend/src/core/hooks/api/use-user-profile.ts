@@ -48,9 +48,12 @@ export const useUserProfile = () => {
   const getUserCredits = useCallback(async (): Promise<ApiResponse<Credit[]>> => {
     try {
       updateState({ loading: true, error: null });
+      console.log('Solicitando créditos al servicio...');
       const response = await userService.getCredits();
+      console.log('Respuesta del servicio de créditos:', response);
       return response;
     } catch (error) {
+      console.error('Error en getUserCredits:', error);
       return { 
         success: false, 
         data: [],

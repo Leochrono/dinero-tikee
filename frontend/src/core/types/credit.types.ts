@@ -18,20 +18,21 @@ export enum FileType {
   PNG = "image/png",
 }
 
-// Interfaces relacionadas con créditos
 export interface Credit {
   id: string;
   amount: number;
   term: number;
+  income: number;
   status: string;
+  createdAt: Date;
   institution: {
     id: string;
     name: string;
+    type: string;
     logo: string;
     minRate: number;
+    email?: string; 
   };
-  monthlyPayment: number;
-  totalPayment: number;
 }
 
 export interface CreditFormData {
@@ -86,6 +87,7 @@ export interface UserCredit {
     name: string;
     logo: string;
     minRate: number;
+    email?: string;
   };
   monthlyPayment: number;
   totalPayment: number;
