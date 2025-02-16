@@ -15,7 +15,7 @@ import {
  UnlockButton,
  UnlockFormData,
  FormErrors
-} from "./styles/constUnlock";
+} from "../styles/constUnlock";
 
 const UnlockAccount = () => {
   const navigate = useNavigate();

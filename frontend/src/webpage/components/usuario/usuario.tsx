@@ -7,7 +7,6 @@ import { userData } from "./utils/userData";
 import UserHeader from "./components/design/userHeader";
 import WelcomeSectionComponent from "./components/design/welcomeSection";
 import CreditsList from "./components/creditsList";
-import SearchHistoryComponent from "./components/design/searchHistory";
 import NoCreditsMessage from "./components/design/noCreditsMessage";
 import CreditHeader from "./components/design/creditHeader";
 import CreditBasicInfo from "./components/design/creditBasicInfo";
@@ -20,7 +19,6 @@ const Usuario = () => {
   const {
     userProfile,
     userCredits,
-    searchHistory,
     loadingData,
     dataError,
     loadUserData
@@ -46,7 +44,7 @@ const Usuario = () => {
       <UserContainer>
         <UserHeader />
         <WelcomeSectionComponent userProfile={userProfile} />
-        <CreditsList 
+        <CreditsList
           credits={userCredits}
           components={{
             NoCreditsMessage,
@@ -58,7 +56,6 @@ const Usuario = () => {
             DocumentPreview
           }}
         />
-        <SearchHistoryComponent searchHistory={searchHistory} />
       </UserContainer>
     </>
   );

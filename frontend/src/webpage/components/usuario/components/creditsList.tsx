@@ -1,37 +1,81 @@
+import { useState } from "react";
+import { ComponentType } from "react";
 import { SectionTitle } from "../styles/constUsuario";
 import { UserCredit } from "@/src/core/types/credit.types";
+import CreditFilters from "./design/creditFilters";
 
 interface CreditsListProps {
   credits: UserCredit[];
   components: {
-    NoCreditsMessage: React.ComponentType;
-    CreditCardProfile: React.ComponentType<{ credit: UserCredit }>;
-    CreditHeader: React.ComponentType<any>;
-    CreditBasicInfo: React.ComponentType<any>;
-    CreditDetailsProfile: React.ComponentType<any>;
-    CreditDocuments: React.ComponentType<any>;
-    DocumentPreview: React.ComponentType<any>;
+    NoCreditsMessage: ComponentType;
+    CreditCardProfile: ComponentType<{ credit: UserCredit }>;
+    CreditHeader: ComponentType<{ institution: any }>;
+    CreditBasicInfo: ComponentType<{
+      monthlyPayment: number;
+      totalPayment: number;
+      minRate: number;
+      status: string;
+    }>;
+    CreditDetailsProfile: ComponentType<{
+      amount: number;
+      term: number;
+      income: number;
+    }>;
+    CreditDocuments: ComponentType<{ documents: any[] }>;
+    DocumentPreview: ComponentType<{ doc: any }>;
   };
 }
 
 const CreditsList = ({ credits, components }: CreditsListProps) => {
-  const {
-    NoCreditsMessage,
-    CreditCardProfile
+  const { 
+    NoCreditsMessage, 
+    CreditCardProfile 
   } = components;
+  
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+
+  // Simular algunos estados diferentes para las tarjetas
+  const mockCredits = credits.filter(credit => 
+    credit.institution && 
+    credit.monthlyPayment > 0
+  ).map((credit, index) => {
+    const mockStatuses = [
+      'DOCUMENTS_SUBMITTED',
+      'UNDER_REVIEW',
+      'APPROVED',
+      'REJECTED'
+    ];
+    return {
+      ...credit,
+      status: mockStatuses[index % mockStatuses.length]
+    };
+  });
+
+  // Filtrar solo los créditos con documentos enviados
+  const validCredits = mockCredits.filter(credit => 
+    credit.institution && 
+    credit.monthlyPayment > 0
+  );
+
+  // Aplicar filtros activos
+  const filteredCredits = validCredits.filter(credit => {
+    if (activeFilters.length === 0) return true;
+    return activeFilters.includes(credit.status);
+  });
 
   return (
     <>
-      <SectionTitle>Créditos en proceso</SectionTitle>
-      {!credits.length ? (
+      <SectionTitle>Créditos Enviados</SectionTitle>
+      <CreditFilters onFilterChange={setActiveFilters} />
+      
+      {!filteredCredits.length ? (
         <NoCreditsMessage />
       ) : (
-        credits.map((credit) => (
-          <CreditCardProfile 
-            key={credit.id} 
-            credit={credit}
-          />
-        ))
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {filteredCredits.map(credit => (
+            <CreditCardProfile key={credit.id} credit={credit} />
+          ))}
+        </div>
       )}
     </>
   );

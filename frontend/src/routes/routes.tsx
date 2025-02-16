@@ -3,11 +3,11 @@ import { RouteObject, useRoutes, Navigate, Outlet, useOutletContext } from 'reac
 import Home from '@/webpage/pages/home/home';
 import Login from '@/webpage/components/login/login';
 import { routesWebpage } from '@/webpage/components/contants/routes';
-import RecuperarPassword from '@/components/login/components/recuperarPassword';
-import Registro from '@/components/login/components/registro';
-import CambiarPassword from '@/components/login/components/cambiarPassword';
-import VerifyEmail from '@/components/login/components/verifyEmail';
-import UnlockAccount from '@/components/login/components/unlockAccount';
+import RecuperarPassword from '@/components/login/components/pages/recoveryPassword';
+import Registro from '@/components/login/components/pages/register';
+import CambiarPassword from '@/components/login/components/pages/changePassword';
+import VerifyEmail from '@/components/login/components/pages/verifyEmail';
+import UnlockAccount from '@/components/login/components/pages/unlockAccount';
 import Usuario from '@/webpage/components/usuario/usuario';
 import CreditContainer from '@/components/creditos/container/CreditContainer';
 import CreditForm from '@/webpage/components/creditos/creditForm';

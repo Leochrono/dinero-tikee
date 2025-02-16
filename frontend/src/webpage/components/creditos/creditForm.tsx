@@ -10,7 +10,7 @@ import CreditFormSliders from "./tools/CreditFormSliders";
 import CreditFormFields from "./tools/CreditFormFields";
 import CreditFormTerms from "./tools/CreditFormTerms";
 import CreditFormSubmit from "./tools/CreditFormSubmit";
-import LoginModal from "@/webpage/components/login/components/loginModal";
+import LoginModal from "../login/components/pages/loginModal";
 import {
   FormContainer,
   SliderGroup,

@@ -18,18 +18,6 @@ const UserHeader = () => {
   return (
     <Header>
       <BackButton onClick={() => navigate(-1)} />
-      <IconButton
-        onClick={handleLogout}
-        sx={{
-          color: theme.palette.common.white,
-          marginLeft: "auto",
-          "&:hover": {
-            backgroundColor: `${theme.palette.common.white}0A`, 
-          },
-        }}
-      >
-        <ExitToAppIcon />
-      </IconButton>
     </Header>
   );
 };

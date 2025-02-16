@@ -131,7 +131,7 @@ export const RecoverTitle = styled(Typography)(({ theme }) => ({
   },
  }));
 
-export const RecoveryButton = styled(Button)(({ theme }) => ({
+ export const RecoveryButton = styled(Button)(({ theme }) => ({
   width: '100%',
   padding: '12px 20px',
   marginBottom: '16px',
@@ -145,7 +145,8 @@ export const RecoveryButton = styled(Button)(({ theme }) => ({
   justifyContent: 'flex-start',
   textTransform: 'none',
   transition: 'all 0.2s ease',
-  boxShadow: '0 4px 12px rgba(0, 255, 200, 0.1)',
+  WebkitBoxShadow: '0 4px 12px rgba(0, 255, 200, 0.1)', 
+  boxShadow: '0 4px 12px rgba(0, 255, 200, 0.1)',        
   '&:hover': {
     backgroundColor: 'rgba(0, 255, 200, 0.1)',
     borderColor: theme.palette.primary.light,
@@ -154,7 +155,8 @@ export const RecoveryButton = styled(Button)(({ theme }) => ({
   '&.selected': {
     backgroundColor: 'rgba(0, 255, 200, 0.2)',
     borderColor: theme.palette.primary.light,
-    boxShadow: '0 0 20px rgba(0, 255, 200, 0.2)',
+    WebkitBoxShadow: '0 0 20px rgba(0, 255, 200, 0.2)', 
+    boxShadow: '0 0 20px rgba(0, 255, 200, 0.2)',        
   },
   '& .MuiSvgIcon-root': {
     fontSize: '24px',

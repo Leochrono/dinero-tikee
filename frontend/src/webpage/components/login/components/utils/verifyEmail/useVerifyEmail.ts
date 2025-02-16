@@ -1,31 +1,25 @@
 import { useState, useEffect } from "react";
-import { ArrowBack } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
-import { routesWebpage } from "@/webpage/components/contants/routes";
-import { useAuth } from "@/src/core/hooks/api/useAuth";
-import { Box, CircularProgress, Typography } from "@mui/material";
 import { toast } from "react-hot-toast";
+import { routesWebpage } from "@/webpage/components/contants/routes";
 import { verificationService } from "@/src/core/services/verification.service";
-import {
-  BackButton,
-  VerifyWrapper,
-  VerifyContainer,
-  VerifyTitle,
-  VerifySubtitle,
-  StyledTextField,
-  VerifyButton,
-  TimerText,
-  VerifyFormData,
-  FormErrors,
-} from "./styles/constVerify";
 import { useUserProfile } from "@/src/core/hooks/api/use-user-profile";
 
-const VerifyEmail = () => {
+export interface VerifyFormData {
+  email: string;
+  verificationCode: string;
+}
+
+export interface FormErrors {
+  verificationCode?: string;
+}
+
+export const useVerifyEmail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { register } = useUserProfile();
-  const [isLoading, setIsLoading] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<VerifyFormData>({
     email: location.state?.email || "",
     verificationCode: "",
@@ -37,6 +31,7 @@ const VerifyEmail = () => {
   const [resendCooldown, setResendCooldown] = useState<number>(0);
   const [isResending, setIsResending] = useState(false);
 
+  // Lógica de tiempo y expiración
   useEffect(() => {
     if (!location.state?.email) {
       navigate(routesWebpage.registro);
@@ -57,6 +52,7 @@ const VerifyEmail = () => {
     return () => clearInterval(timer);
   }, [location.state?.email, navigate]);
 
+  // Temporizador de reenvío
   useEffect(() => {
     if (resendCooldown > 0) {
       const cooldownTimer = setInterval(() => {
@@ -66,12 +62,14 @@ const VerifyEmail = () => {
     }
   }, [resendCooldown]);
 
+  // Formatear tiempo
   const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
+  // Reenviar código
   const handleResendCode = async () => {
     if (resendCooldown > 0) return;
 
@@ -96,6 +94,7 @@ const VerifyEmail = () => {
     }
   };
 
+  // Cambios en el formulario
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     let formattedValue = value;
@@ -108,6 +107,7 @@ const VerifyEmail = () => {
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
+  // Enviar verificación
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -152,6 +152,7 @@ const VerifyEmail = () => {
     }
   };
 
+  // Volver atrás
   const handleBack = () => {
     const confirmBack = window.confirm(
       "¿Estás seguro que deseas volver? Perderás el progreso actual."
@@ -162,130 +163,19 @@ const VerifyEmail = () => {
     }
   };
 
-  return (
-    <VerifyWrapper>
-      <BackButton onClick={handleBack}>
-        <ArrowBack />
-      </BackButton>
-
-      <VerifyContainer>
-        <form onSubmit={handleSubmit}>
-          <VerifyTitle variant="h1">Verificar Email</VerifyTitle>
-
-          <VerifySubtitle>
-            Ingresa el código de verificación enviado a tu correo
-          </VerifySubtitle>
-
-          {location.state?.email && (
-            <Typography
-              variant="body2"
-              sx={{
-                textAlign: "center",
-                marginBottom: 2,
-                color: "primary.light",
-                fontFamily: "Inter",
-              }}
-            >
-              Email: {location.state.email}
-            </Typography>
-          )}
-
-          <TimerText
-            variant="body1"
-            sx={{
-              color: isExpired ? "error.main" : "primary.light",
-            }}
-          >
-            Tiempo restante: {formatTime(timeLeft)}
-          </TimerText>
-
-          <StyledTextField
-            fullWidth
-            label="Código de verificación"
-            name="verificationCode"
-            value={formData.verificationCode}
-            onChange={handleChange}
-            error={!!errors.verificationCode}
-            helperText={errors.verificationCode}
-            required
-            inputProps={{
-              maxLength: 6,
-              style: {
-                textTransform: "uppercase",
-                textAlign: "center",
-                letterSpacing: "0.5em",
-              },
-            }}
-            placeholder="Ingrese el código de 6 caracteres"
-          />
-
-          <VerifyButton
-            type="submit"
-            variant="contained"
-            fullWidth
-            disableElevation
-            disabled={isLoading || !formData.verificationCode || isExpired}
-          >
-            {isLoading ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                  justifyContent: "center",
-                }}
-              >
-                <CircularProgress size={20} sx={{ color: "white" }} />
-                <span>VERIFICANDO...</span>
-              </Box>
-            ) : (
-              "VERIFICAR EMAIL"
-            )}
-          </VerifyButton>
-
-          <VerifyButton
-            type="button"
-            variant="outlined"
-            fullWidth
-            onClick={handleResendCode}
-            disabled={resendCooldown > 0 || isResending}
-            sx={{ mt: 2 }}
-          >
-            {isResending ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                  justifyContent: "center",
-                }}
-              >
-                <CircularProgress size={20} />
-                <span>REENVIANDO...</span>
-              </Box>
-            ) : resendCooldown > 0 ? (
-              `REENVIAR CÓDIGO (${resendCooldown}s)`
-            ) : (
-              "REENVIAR CÓDIGO"
-            )}
-          </VerifyButton>
-
-          {isExpired && !resendCooldown && (
-            <Typography
-              color="error"
-              sx={{
-                mt: 2,
-                textAlign: "center",
-                fontFamily: "Inter",
-              }}
-            >
-              El código ha expirado. Por favor, solicita uno nuevo.
-            </Typography>
-          )}
-        </form>
-      </VerifyContainer>
-    </VerifyWrapper>
-  );
+  return {
+    formData,
+    errors,
+    isLoading,
+    timeLeft,
+    isExpired,
+    resendCooldown,
+    isResending,
+    formatTime,
+    handleResendCode,
+    handleChange,
+    handleSubmit,
+    handleBack,
+    email: location.state?.email,
+  };
 };
-
-export default VerifyEmail;

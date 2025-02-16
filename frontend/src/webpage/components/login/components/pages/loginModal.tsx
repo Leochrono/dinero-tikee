@@ -19,7 +19,7 @@ import {
   StyledTextField,
   LoginButton,
   ActionLinks,
-} from "./styles/constlogin";
+} from "../styles/constlogin";
 import { styled } from '@mui/material/styles';
 import { routesWebpage } from "@/components/contants/routes";
 import { toast } from 'react-toastify';
