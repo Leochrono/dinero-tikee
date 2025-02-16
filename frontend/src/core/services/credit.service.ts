@@ -19,15 +19,12 @@ export const creditService = {
         throw new Error('Todos los campos son requeridos');
       }
 
-      console.log('Creando crédito con datos:', creditData);
-
       const response = await axiosInstance.post('/credits', creditData, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
       
-      console.log('Respuesta del servidor (create):', response.data);
 
       if (!response?.data) {
         throw new Error('No se recibió respuesta del servidor');
@@ -52,8 +49,6 @@ export const creditService = {
         throw new Error('ID de crédito requerido');
       }
 
-      console.log('Actualizando crédito:', { creditId, updateData });
-
       // Validar que al menos uno de los campos esté presente
       if (!updateData.status && !updateData.institutionId) {
         throw new Error('Se requiere status o institutionId para actualizar');
@@ -70,7 +65,6 @@ export const creditService = {
         timeout: 10000 // 10 segundos
       });
       
-      console.log('Respuesta del servidor (update):', response.data);
 
       if (!response?.data?.success) {
         throw new Error(response?.data?.error || 'Error al actualizar el crédito');
@@ -104,13 +98,10 @@ export const creditService = {
         throw new Error('ID de crédito requerido');
       }
   
-      console.log('Actualizando estado del crédito:', { creditId, status });
-  
       const response = await axiosInstance.post(`/credits/${creditId}/status`, {
         status: status
       });
       
-      console.log('Respuesta del servidor (updateStatus):', response.data);
   
       if (!response?.data?.success) {
         throw new Error(response?.data?.error || 'Error al actualizar el estado');
@@ -129,11 +120,8 @@ export const creditService = {
         throw new Error('ID de crédito requerido');
       }
 
-      console.log('Obteniendo detalles para:', creditId);
-
       const response = await axiosInstance.get(`/credits/${creditId}/details`);
       
-      console.log('Respuesta getDetails:', response.data);
 
       if (!response?.data?.success) {
         throw new Error(response?.data?.error || 'Error al obtener detalles');
@@ -157,7 +145,6 @@ export const creditService = {
         throw new Error('Monto, plazo e ingresos son requeridos');
       }
 
-      console.log('Buscando créditos con:', params);
 
       const response = await axiosInstance.get('/credits/search', { 
         params,
@@ -166,7 +153,6 @@ export const creditService = {
         }
       });
       
-      console.log('Respuesta search:', response.data);
 
       if (!response?.data?.success) {
         throw new Error(response?.data?.error || 'Error en la búsqueda');
@@ -181,11 +167,9 @@ export const creditService = {
 
   getUserCredits: async (): Promise<ApiResponse<CreditResponse[]>> => {
     try {
-      console.log('Obteniendo créditos del usuario');
 
       const response = await axiosInstance.get('/credits/user-credits');
       
-      console.log('Respuesta getUserCredits:', response.data);
 
       if (!response?.data?.success) {
         throw new Error(response?.data?.error || 'Error al obtener créditos');
@@ -209,7 +193,6 @@ export const creditService = {
         throw new Error('Todos los campos son requeridos');
       }
 
-      console.log('Subiendo documento:', { creditId, documentType, fileName: file.name });
 
       const formData = new FormData();
       formData.append('file', file);
@@ -229,7 +212,6 @@ export const creditService = {
         }
       );
 
-      console.log('Respuesta uploadDocument:', response.data);
 
       if (!response?.data?.success) {
         throw new Error(response?.data?.error || 'Error al subir documento');
@@ -248,11 +230,8 @@ export const creditService = {
         throw new Error('ID de crédito requerido');
       }
 
-      console.log('Obteniendo documentos para:', creditId);
-
       const response = await axiosInstance.get(`/credits/${creditId}/documents`);
       
-      console.log('Respuesta getDocuments:', response.data);
 
       if (!response?.data?.success) {
         throw new Error(response?.data?.error || 'Error al obtener documentos');
@@ -275,7 +254,6 @@ export const creditService = {
         throw new Error('ID de crédito y documento requeridos');
       }
 
-      console.log('Verificando documento:', { creditId, documentId, verifyData });
 
       const response = await axiosInstance.post(
         `/credits/${creditId}/documents/${documentId}/verify`,
@@ -287,7 +265,6 @@ export const creditService = {
         }
       );
 
-      console.log('Respuesta verifyDocument:', response.data);
 
       if (!response?.data?.success) {
         throw new Error(response?.data?.error || 'Error al verificar documento');

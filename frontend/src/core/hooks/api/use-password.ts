@@ -88,11 +88,8 @@ export const usePassword = () => {
   try {
     setLoading(true);
     const response = await passwordService.validateRecoveryCode(email, code);
-    console.log('validateRecoveryCode response:', response);
 
     if (response.success) {
-      console.log('Navigating to:', routesWebpage.cambiarPassword); // Debug
-      console.log('State:', { email, tempCode: code, isRecoveryFlow: true }); // Debug
       
       navigate(routesWebpage.cambiarPassword, {
         state: { 

@@ -21,7 +21,6 @@ class InstitutionServiceError extends Error {
 export const institutionService = {
   filterInstitutions: async (params: InstitutionFilters): Promise<ApiResponse<Institution[]>> => {
     try {
-      console.log('Service - Iniciando filtrado con parámetros:', params);
 
       // Validar parámetros
       if (params.amount !== undefined) {
@@ -51,7 +50,6 @@ export const institutionService = {
       });
 
       const url = `/institutions/search?${queryParams.toString()}`;
-      console.log('Service - Realizando petición a:', url);
 
       const response = await axiosInstance.get(url, {
         timeout: 10000,
@@ -61,7 +59,6 @@ export const institutionService = {
         }
       });
 
-      console.log('Service - Estado de la respuesta:', response.status);
 
       if (!response?.data) {
         throw new InstitutionServiceError('No se recibió respuesta del servidor', 'NO_RESPONSE');
@@ -75,7 +72,6 @@ export const institutionService = {
       }
 
       const institutions = response.data.data || [];
-      console.log('Service - Instituciones encontradas:', institutions.length);
 
       if (institutions.length > 0) {
         console.log('Service - Primera institución encontrada:', {
@@ -119,7 +115,6 @@ export const institutionService = {
     rateFilter?: 'min' | 'max'
   ): Promise<ApiResponse<Institution[]>> => {
     try {
-      console.log('Service - Buscando mejores tasas:', { amount, term, rateFilter });
 
       // Validar parámetros
       if (amount < LIMITS.AMOUNT.MIN || amount > LIMITS.AMOUNT.MAX) {
@@ -143,7 +138,6 @@ export const institutionService = {
       });
 
       const url = `/institutions/best-rates?${queryParams}`;
-      console.log('Service - Realizando petición a:', url);
 
       const response = await axiosInstance.get(url, {
         timeout: 10000,
@@ -165,7 +159,6 @@ export const institutionService = {
       }
 
       const institutions = response.data.data || [];
-      console.log('Service - Mejores tasas encontradas:', institutions.length);
 
       return {
         success: true,
@@ -201,12 +194,9 @@ getOne: async (id: string): Promise<ApiResponse<Institution>> => {
     if (!id) {
       throw new Error('ID de institución requerido');
     }
-
-    console.log('Obteniendo institución con ID:', id);
     
     const response = await axiosInstance.get<ApiResponse<Institution>>(`/institutions/${id}`);
     
-    console.log('Respuesta de getOne:', response.data);
     
     return response.data;
   } catch (error: any) {

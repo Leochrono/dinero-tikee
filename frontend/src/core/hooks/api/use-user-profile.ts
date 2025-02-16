@@ -1,10 +1,13 @@
 import { useState, useCallback } from "react";
 import { userService } from "../../services/user.service";
 import { toast } from "react-hot-toast";
-import { RegisterUserData, UserProfile, UserProfileState } from "../../types/user.types";
+import {
+  RegisterUserData,
+  UserProfile,
+  UserProfileState,
+} from "../../types/user.types";
 import { ApiResponse } from "../../types/auth.types";
 import { Credit } from "../../types/credit.types";
-
 
 export const useUserProfile = () => {
   const [state, setState] = useState<UserProfileState>({
@@ -29,40 +32,85 @@ export const useUserProfile = () => {
     [updateState]
   );
 
-  const getUserProfile = useCallback(async (): Promise<ApiResponse<UserProfile>> => {
+  const getUserProfile = useCallback(async (): Promise<
+    ApiResponse<UserProfile>
+  > => {
     try {
       updateState({ loading: true, error: null });
       const response = await userService.getProfile();
       return response;
     } catch (error) {
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Error al obtener perfil',
-        data: undefined  // Cambiado de null a undefined
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Error al obtener perfil",
+        data: undefined, // Cambiado de null a undefined
       };
     } finally {
       updateState({ loading: false });
     }
   }, [updateState, handleError]);
 
-  const getUserCredits = useCallback(async (): Promise<ApiResponse<Credit[]>> => {
+  const getUserCredits = useCallback(async (): Promise<
+    ApiResponse<Credit[]>
+  > => {
     try {
       updateState({ loading: true, error: null });
-      console.log('Solicitando créditos al servicio...');
       const response = await userService.getCredits();
-      console.log('Respuesta del servicio de créditos:', response);
-      return response;
+
+      // Si la respuesta es un array directamente
+      const credits = Array.isArray(response) ? response : response.data || [];
+
+      if (credits.length > 0) {
+        const creditsWithDetails = await Promise.all(
+          credits.map(async (credit) => {
+            try {
+              const detailsResponse = await userService.getCredit(credit.id);
+
+              // Si la respuesta tiene datos y documentos
+              if (
+                detailsResponse.success &&
+                detailsResponse.data &&
+                detailsResponse.data.documents
+              ) {
+                return {
+                  ...credit,
+                  documents: detailsResponse.data.documents,
+                };
+              }
+              return credit;
+            } catch (error) {
+              console.error(
+                `Error al obtener detalles del crédito ${credit.id}:`,
+                error
+              );
+              return credit;
+            }
+          })
+        );
+
+        return {
+          success: true,
+          data: creditsWithDetails,
+        };
+      }
+
+      return {
+        success: true,
+        data: credits,
+      };
     } catch (error) {
-      console.error('Error en getUserCredits:', error);
-      return { 
-        success: false, 
+      console.error("Error en getUserCredits:", error);
+      return {
+        success: false,
         data: [],
-        error: error instanceof Error ? error.message : 'Error al obtener créditos' 
+        error:
+          error instanceof Error ? error.message : "Error al obtener créditos",
       };
     } finally {
       updateState({ loading: false });
     }
-  }, [updateState, handleError]);
+  }, [updateState]);
 
   const getSearchHistory = useCallback(async () => {
     try {
@@ -101,41 +149,47 @@ export const useUserProfile = () => {
     [updateState, handleError]
   );
 
-  const register = useCallback(async (userData: RegisterUserData) => {
-    try {
-      updateState({ loading: true, error: null });
-      const response = await userService.register(userData);
+  const register = useCallback(
+    async (userData: RegisterUserData) => {
+      try {
+        updateState({ loading: true, error: null });
+        const response = await userService.register(userData);
 
-      if (!response.success || !response.data) {
-        throw new Error(response.error || "Error en el registro");
+        if (!response.success || !response.data) {
+          throw new Error(response.error || "Error en el registro");
+        }
+
+        toast.success("Registro exitoso");
+        return true;
+      } catch (error) {
+        return handleError(error, "Error en el registro");
+      } finally {
+        updateState({ loading: false });
       }
+    },
+    [updateState, handleError]
+  );
 
-      toast.success("Registro exitoso");
-      return true;
-    } catch (error) {
-      return handleError(error, "Error en el registro");
-    } finally {
-      updateState({ loading: false });
-    }
-  }, [updateState, handleError]);
+  const recoverUser = useCallback(
+    async (cedula: string) => {
+      try {
+        updateState({ loading: true, error: null });
+        const response = await userService.recoverUser(cedula);
 
-  const recoverUser = useCallback(async (cedula: string) => {
-    try {
-      updateState({ loading: true, error: null });
-      const response = await userService.recoverUser(cedula);
+        if (!response.success) {
+          throw new Error(response.error || "Error al recuperar usuario");
+        }
 
-      if (!response.success) {
-        throw new Error(response.error || "Error al recuperar usuario");
+        toast.success("Se ha enviado tu información al correo registrado");
+        return true;
+      } catch (error) {
+        return handleError(error, "Error al recuperar usuario");
+      } finally {
+        updateState({ loading: false });
       }
-
-      toast.success("Se ha enviado tu información al correo registrado");
-      return true;
-    } catch (error) {
-      return handleError(error, "Error al recuperar usuario");
-    } finally {
-      updateState({ loading: false });
-    }
-  }, [updateState, handleError]);
+    },
+    [updateState, handleError]
+  );
 
   const verifyDocument = useCallback(
     async (document: string) => {
@@ -160,35 +214,43 @@ export const useUserProfile = () => {
     [updateState, handleError]
   );
 
-  const verifyEmail = useCallback(async (email: string, code: string) => {
-    try {
-      updateState({ loading: true, error: null });
-      const response = await userService.verifyEmail(email, code);
-      if (!response.success) {
-        throw new Error(response.message || "Error al verificar email");
+  const verifyEmail = useCallback(
+    async (email: string, code: string) => {
+      try {
+        updateState({ loading: true, error: null });
+        const response = await userService.verifyEmail(email, code);
+        if (!response.success) {
+          throw new Error(response.message || "Error al verificar email");
+        }
+        return true;
+      } catch (error) {
+        return handleError(error, "Error al verificar email");
+      } finally {
+        updateState({ loading: false });
       }
-      return true;
-    } catch (error) {
-      return handleError(error, "Error al verificar email");
-    } finally {
-      updateState({ loading: false });
-    }
-  }, [updateState, handleError]);
+    },
+    [updateState, handleError]
+  );
 
-  const unlockAccount = useCallback(async (email: string, code: string) => {
-    try {
-      updateState({ loading: true });
-      const response = await userService.unlockAccount(email, code);
-      if (!response.success) {
-        throw new Error(response.data?.message || "Error al desbloquear cuenta");
+  const unlockAccount = useCallback(
+    async (email: string, code: string) => {
+      try {
+        updateState({ loading: true });
+        const response = await userService.unlockAccount(email, code);
+        if (!response.success) {
+          throw new Error(
+            response.data?.message || "Error al desbloquear cuenta"
+          );
+        }
+        return true;
+      } catch (error) {
+        return handleError(error, "Error al desbloquear cuenta");
+      } finally {
+        updateState({ loading: false });
       }
-      return true;
-    } catch (error) {
-      return handleError(error, "Error al desbloquear cuenta");
-    } finally {
-      updateState({ loading: false });
-    }
-  }, [updateState, handleError]);
+    },
+    [updateState, handleError]
+  );
 
   const refresh = useCallback(async () => {
     await Promise.all([getUserProfile(), getUserCredits(), getSearchHistory()]);

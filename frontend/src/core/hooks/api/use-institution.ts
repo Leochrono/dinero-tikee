@@ -40,8 +40,6 @@ export const useInstitution = () => {
       setError(null);
       setLastFilters(filters);
 
-      console.log('useInstitution - Iniciando filtrado con:', filters);
-
       // Validar filtros
       if (!filters.amount || !filters.term) {
         throw new Error('Monto y plazo son requeridos');
@@ -159,7 +157,6 @@ export const useInstitution = () => {
       setError(null);
 
       const response = await institutionService.getOne(id);
-      console.log('Respuesta de getInstitution:', response);
 
       if (!response?.success) {
         throw new Error(response?.error || 'Error al obtener la institución');

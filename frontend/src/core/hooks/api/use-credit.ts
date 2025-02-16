@@ -53,7 +53,6 @@ export const useCredit = (
           throw new Error(response?.error || "Error al actualizar el crédito");
         }
 
-        console.log('Actualización exitosa:', response);
         toast.success("Crédito actualizado exitosamente");
         return response;
       } catch (error: any) {
@@ -76,7 +75,6 @@ export const useCredit = (
 
       try {
         setLoading(true);
-        console.log('Creando crédito con datos:', creditData);
 
         setCurrentFormData(creditData);
         localStorage.setItem('creditFormData', JSON.stringify(creditData));
@@ -88,7 +86,6 @@ export const useCredit = (
           throw new Error("Error al crear el crédito");
         }
 
-        console.log('Crédito creado exitosamente:', response.data);
         return response;
       } catch (error: any) {
         console.error('Error en createCredit:', error);
@@ -194,7 +191,6 @@ export const useCredit = (
           return;
         }
 
-        console.log('Enviando formulario:', creditData);
         const response = await createCredit(creditData);
 
         if (response.success && response.data) {
@@ -222,7 +218,6 @@ export const useCredit = (
     async (institutionId: string) => {
       try {
         setLoading(true);
-        console.log('Seleccionando institución:', institutionId);
 
         const storedCreditId = localStorage.getItem('currentCreditId');
         if (!storedCreditId) {

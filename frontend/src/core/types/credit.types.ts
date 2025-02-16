@@ -91,6 +91,7 @@ export interface UserCredit {
   };
   monthlyPayment: number;
   totalPayment: number;
+  documents?: CreditDocument[]; // Agregamos esta línea
 }
 
 export interface SearchHistory {

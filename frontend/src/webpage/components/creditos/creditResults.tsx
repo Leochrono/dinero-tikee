@@ -36,7 +36,7 @@ import {
   BestRatesParams,
   InstitutionFilters,
 } from "@/src/core/types/institutions.types";
-import { InfoRow } from "../usuario/components/constUsuario";
+import { InfoRow } from "../usuario/styles/constUsuario";
 
 interface CreditResultsProps {
   formData: CreditFormData;
