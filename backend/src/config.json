@@ -1,0 +1,16 @@
+{
+    "JWT_SECRET": "V6S32O8i^fW#sK9pL4$mN2xQ7jR1yA3",
+    "JWT_EXPIRATION": "24h",
+    "DB_HOST": "database",
+    "DB_PORT": 3306,
+    "DB_USERNAME": "root",
+    "DB_PASSWORD": "tnTRO_NR80ys*n2P3_FQJCn@@otRC",
+    "DB_NAME": "dineroalvuelo",
+    "PORT": 3000,
+    "FRONTEND_URL": "http://localhost:4200",
+    "CORS_ORIGIN": "http://localhost:5173,http://localhost:4200",
+    "TIKEE_API_URL": "http://20.84.48.225:5056/api/emails/enviarDirecto",
+    "EMAIL_SENDER": "automatizaciones@tikee.tech",
+    "LOGO_EMPRESA": "https://s3-tikee-image-public.s3.amazonaws.com/quinociotest/dineroalvuelologo1.png",
+    "TELEFONO_EMERGENCIA": "123456789"
+  }
