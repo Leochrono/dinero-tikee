@@ -25,3 +25,21 @@ export interface AccountLockStatus {
 
 export interface AccountLockStatusResponse
   extends ApiResponse<AccountLockStatus> {}
+
+  export interface UnlockResponse {
+    success: boolean;
+    message: string;
+    data?: {
+      expiresAt?: Date;
+      remainingAttempts?: number;
+    };
+  }
+  
+  export interface UnlockStatusResponse {
+    success: boolean;
+    message: string;
+    data?: {
+      isLocked: boolean;
+      remainingAttempts?: number;
+    };
+  }
