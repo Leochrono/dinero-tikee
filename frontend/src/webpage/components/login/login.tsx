@@ -1,5 +1,11 @@
 import React from "react";
-import { Typography, InputAdornment, IconButton, Box, CircularProgress } from "@mui/material";
+import {
+  Typography,
+  InputAdornment,
+  IconButton,
+  Box,
+  CircularProgress,
+} from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { routesWebpage } from "@/webpage/components/contants/routes";
@@ -34,7 +40,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   if (isLoading) {
-    return null; // O puedes mostrar un spinner de carga
+    return null;
   }
 
   return (

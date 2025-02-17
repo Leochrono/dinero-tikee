@@ -1,6 +1,5 @@
 import { Box, Button, Typography, styled } from "@mui/material";
 
-// Definición de tipos para el carrusel
 export interface CarouselImage {
   src: string;
   alt: string;
@@ -68,7 +67,7 @@ export const SlideTitle = styled(Typography)(({ theme }) => ({
   fontFamily: "'Galano Grotesque', sans-serif",
   color: theme.palette.common.white,
   fontSize: "64px",
-  letterSpacing: '-2px',
+  letterSpacing: "-2px",
   lineHeight: 0.9,
   marginBottom: "32px",
   [theme.breakpoints.down("lg")]: {

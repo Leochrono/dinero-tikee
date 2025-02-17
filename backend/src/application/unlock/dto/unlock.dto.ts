@@ -1,4 +1,10 @@
-import { IsString, IsNotEmpty, IsEmail, IsOptional, IsUUID } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsEmail,
+  IsOptional,
+  IsUUID,
+} from 'class-validator';
 
 export class RequestUnlockDto {
   @IsEmail({}, { message: 'El email debe ser válido' })

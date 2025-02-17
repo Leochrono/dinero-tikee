@@ -4,7 +4,6 @@ import { toast } from "react-hot-toast";
 import { CreditFormData, CreditResponse } from "../../types/credit.types";
 import { ApiResponse } from "../../types/auth.types";
 
-
 interface CreditFormState {
   loading: boolean;
   error: string | null;

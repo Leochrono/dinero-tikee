@@ -48,7 +48,7 @@ export const SliderValue = styled(Typography)(({ theme }) => ({
   textAlign: "right",
   fontSize: "24px",
 
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+  fontFamily: "'Stage Grotesque', sans-serif",
   [theme.breakpoints.down("sm")]: {
     fontSize: "20px",
   },
@@ -82,7 +82,7 @@ export const ErrorText = styled(Typography)(({ theme }) => ({
   color: theme.palette.error.main,
   fontSize: "12px",
   marginTop: "4px",
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+  fontFamily: "'Stage Grotesque', sans-serif",
   animation: `${fadeIn} 0.3s ease-in-out`,
   [theme.breakpoints.down("sm")]: {
     fontSize: "11px",
@@ -93,12 +93,12 @@ export const FormFields = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   gap: "16px",
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+  fontFamily: "'Stage Grotesque', sans-serif",
 }));
 
 export const StyledTextField = styled(TextField)(({ theme }) => ({
   position: "relative",
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+  fontFamily: "'Stage Grotesque', sans-serif",
   "& .MuiOutlinedInput-root": {
     backgroundColor: theme.palette.common.white,
     borderRadius: "50px",
@@ -140,7 +140,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
   "& .MuiInputLabel-root": {
     color: theme.palette.text.secondary,
 
-    fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+    fontFamily: "'Stage Grotesque', sans-serif",
     transition: "all 0.3s ease-in-out",
     "&.Mui-focused": {
       color: theme.palette.text.secondary,
@@ -166,7 +166,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
   "& .MuiFormHelperText-root": {
     color: theme.palette.error.main,
     marginLeft: "16px",
-    fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+    fontFamily: "'Stage Grotesque', sans-serif",
     animation: `${fadeIn} 0.3s ease-in-out`,
     "&.Mui-success": {
       color: theme.palette.success.main,
@@ -178,7 +178,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
   },
   "& .MuiSelect-select": {
     color: theme.palette.text.secondary,
-    fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+    fontFamily: "'Stage Grotesque', sans-serif",
   },
   "& .success-icon": {
     position: "absolute",

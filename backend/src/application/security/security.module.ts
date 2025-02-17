@@ -13,12 +13,12 @@ import { MailerModule } from '../../infrastructure/mailer/mailer.module';
     TypeOrmModule.forFeature([
       SecurityLogEntity,
       UserEntity,
-      SecurityPreferencesEntity
+      SecurityPreferencesEntity,
     ]),
-    MailerModule
+    MailerModule,
   ],
   controllers: [SecurityController],
   providers: [SecurityService],
-  exports: [SecurityService]
+  exports: [SecurityService],
 })
 export class SecurityModule {}

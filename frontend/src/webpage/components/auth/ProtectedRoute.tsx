@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/src/core/hooks/api/useAuth'; // Hook para manejar autenticación
+import { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "@/src/core/hooks/api/useAuth";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -13,8 +13,8 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
-      navigate('/login', { 
-        state: { from: location.pathname }
+      navigate("/login", {
+        state: { from: location.pathname },
       });
     }
   }, [isAuthenticated, loading, navigate, location]);

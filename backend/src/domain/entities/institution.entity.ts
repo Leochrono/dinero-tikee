@@ -1,10 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryColumn,
-  OneToMany,
-  JoinColumn
-} from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToMany, JoinColumn } from 'typeorm';
 import {
   IsString,
   IsEnum,
@@ -14,14 +8,14 @@ import {
   IsOptional,
   Min,
   Max,
-  IsNotEmpty
+  IsNotEmpty,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreditEntity } from 'src/domain/entities/credit.entity';
 
 export enum InstitutionType {
   BANK = 'bank',
-  COOPERATIVE = 'cooperative'
+  COOPERATIVE = 'cooperative',
 }
 
 export class PersonalLoanProduct {
@@ -92,7 +86,7 @@ export class InstitutionEntity {
 
   @Column({
     type: 'enum',
-    enum: InstitutionType
+    enum: InstitutionType,
   })
   @IsEnum(InstitutionType)
   type: InstitutionType;
@@ -104,7 +98,7 @@ export class InstitutionEntity {
   @Column('decimal', {
     precision: 5,
     scale: 2,
-    default: 0
+    default: 0,
   })
   @IsNumber()
   @Min(0)
@@ -114,7 +108,7 @@ export class InstitutionEntity {
   @Column('decimal', {
     precision: 5,
     scale: 2,
-    default: 0
+    default: 0,
   })
   @IsNumber()
   @Min(0)
@@ -125,12 +119,12 @@ export class InstitutionEntity {
   @ValidateNested()
   @Type(() => PersonalLoanProduct)
   products: {
-    personalLoan: PersonalLoanProduct
+    personalLoan: PersonalLoanProduct;
   };
 
-  @OneToMany(() => CreditEntity, credit => credit.institution, {
+  @OneToMany(() => CreditEntity, (credit) => credit.institution, {
     cascade: true,
-    eager: false
+    eager: false,
   })
   @JoinColumn()
   @IsOptional()

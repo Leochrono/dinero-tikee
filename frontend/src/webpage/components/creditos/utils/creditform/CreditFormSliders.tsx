@@ -6,8 +6,8 @@ import {
   SliderValue,
   StyledSlider,
   ErrorText,
-} from "../styles/creditFormConst";
-import { CreditFormData, FormErrors } from "../utils/types";
+} from "../../styles/creditFormConst";
+import { CreditFormData, FormErrors } from "../../../../../core/types/types";
 
 interface CreditFormSlidersProps {
   formData: CreditFormData;
@@ -45,7 +45,7 @@ const CreditFormSliders = ({
         <StyledSlider
           value={formData.amount}
           onChange={handleSliderChange("amount")}
-          min={2000}  // Cambiado de 1000 a 2000
+          min={2000} 
           max={30000}
           step={100}
           hasError={!!formErrors.amount}

@@ -60,9 +60,9 @@ import { MailerModule } from 'src/infrastructure/mailer/mailer.module';
       SecurityLogEntity,
       SecurityPreferencesEntity,
       CreditDocumentEntity,
-      VerificationLogEntity
+      VerificationLogEntity,
     ]),
-    MailerModule
+    MailerModule,
   ],
   controllers: [
     UserController,
@@ -71,7 +71,7 @@ import { MailerModule } from 'src/infrastructure/mailer/mailer.module';
     CreditDocumentController,
     AuthController,
     PasswordController,
-    SecurityController
+    SecurityController,
   ],
   providers: [
     UserService,
@@ -81,7 +81,7 @@ import { MailerModule } from 'src/infrastructure/mailer/mailer.module';
     AuthService,
     PasswordService,
     SecurityService,
-    EmailService
+    EmailService,
   ],
   exports: [
     UserService,
@@ -92,7 +92,7 @@ import { MailerModule } from 'src/infrastructure/mailer/mailer.module';
     PasswordService,
     SecurityService,
     JwtModule,
-    EmailService
-  ]
+    EmailService,
+  ],
 })
 export class HttpModule {}

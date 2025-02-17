@@ -7,18 +7,24 @@ interface CreditDetailsProfileProps {
   income: number;
 }
 
-const CreditDetailsProfile = ({ amount, term, income }: CreditDetailsProfileProps) => {
+const CreditDetailsProfile = ({
+  amount,
+  term,
+  income,
+}: CreditDetailsProfileProps) => {
   return (
     <>
       <Typography variant="h6" sx={{ color: "white", mb: 2 }}>
         Detalles del Crédito
       </Typography>
-      <div style={{ 
-        backgroundColor: 'rgba(255, 255, 255, 0.05)',
-        padding: '16px',
-        borderRadius: '4px',
-        marginBottom: '16px'
-      }}>
+      <div
+        style={{
+          backgroundColor: "rgba(255, 255, 255, 0.05)",
+          padding: "16px",
+          borderRadius: "4px",
+          marginBottom: "16px",
+        }}
+      >
         <InfoRow>
           <InfoItem>
             <Typography className="label">Monto Solicitado</Typography>

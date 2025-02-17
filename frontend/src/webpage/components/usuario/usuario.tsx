@@ -16,13 +16,8 @@ import CreditDocuments from "./components/design/creditDocuments";
 import DocumentPreview from "./components/design/documentPreview";
 
 const Usuario = () => {
-  const {
-    userProfile,
-    userCredits,
-    loadingData,
-    dataError,
-    loadUserData
-  } = userData();
+  const { userProfile, userCredits, loadingData, dataError, loadUserData } =
+    userData();
 
   useEffect(() => {
     loadUserData();
@@ -53,7 +48,7 @@ const Usuario = () => {
             CreditBasicInfo,
             CreditDetailsProfile,
             CreditDocuments,
-            DocumentPreview
+            DocumentPreview,
           }}
         />
       </UserContainer>

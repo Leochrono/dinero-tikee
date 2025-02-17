@@ -69,13 +69,15 @@ const SocialButton: React.FC<SocialButtonProps> = ({
 }) => {
   const location = useLocation();
   const isActive = to ? location.pathname === to : false;
-  
+
   const buttonContent = (
     <StyledButton
       disabled={disabled}
       className={`${isActive ? "active" : ""} nav-button-hover`}
       sx={{
-        color: isActive ? theme => theme.palette.custom.green.neon : "inherit",
+        color: isActive
+          ? (theme) => theme.palette.custom.green.neon
+          : "inherit",
       }}
     >
       <Icon className="MuiSvgIcon-root" />
@@ -85,14 +87,14 @@ const SocialButton: React.FC<SocialButtonProps> = ({
 
   if (onClick) {
     return (
-      <Box onClick={onClick} sx={{ cursor: 'pointer' }}>
+      <Box onClick={onClick} sx={{ cursor: "pointer" }}>
         {buttonContent}
       </Box>
     );
   }
 
   return (
-    <StyledLink to={to || ''} disabled={disabled} tabIndex={disabled ? -1 : 0}>
+    <StyledLink to={to || ""} disabled={disabled} tabIndex={disabled ? -1 : 0}>
       {buttonContent}
     </StyledLink>
   );

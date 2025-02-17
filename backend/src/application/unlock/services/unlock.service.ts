@@ -1,4 +1,9 @@
-import { Injectable, Logger, UnauthorizedException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  UnauthorizedException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AccountLockEntity } from '../../../domain/entities/account-lock.entity';
@@ -13,7 +18,7 @@ export class UnlockService {
     CODE_LENGTH: 8,
     CODE_EXPIRY: 30, // minutos
     MAX_ATTEMPTS: 3,
-    LOCK_DURATION: 24 * 60 // 24 horas en minutos
+    LOCK_DURATION: 24 * 60, // 24 horas en minutos
   };
 
   constructor(
@@ -28,21 +33,32 @@ export class UnlockService {
     return crypto.randomBytes(4).toString('hex').toUpperCase();
   }
 
-  async generateAndSendUnlockCode(userId: string, email: string, reason: string, ipAddress?: string, userAgent?: string) {
+  async generateAndSendUnlockCode(
+    userId: string,
+    email: string,
+    reason: string,
+    ipAddress?: string,
+    userAgent?: string,
+  ) {
     const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user) {
       throw new BadRequestException('Usuario no encontrado');
     }
 
     const existingLock = await this.accountLockRepository.findOne({
-      where: { user: { id: userId }, isActive: true }
+      where: { user: { id: userId }, isActive: true },
     });
 
     if (existingLock && existingLock.unlockCode) {
       // Si ya existe un código válido, verificar si expiró
       const now = new Date();
-      if (existingLock.unlockCodeExpiresAt && existingLock.unlockCodeExpiresAt > now) {
-        throw new BadRequestException('Ya existe un código de desbloqueo válido');
+      if (
+        existingLock.unlockCodeExpiresAt &&
+        existingLock.unlockCodeExpiresAt > now
+      ) {
+        throw new BadRequestException(
+          'Ya existe un código de desbloqueo válido',
+        );
       }
     }
 
@@ -51,7 +67,9 @@ export class UnlockService {
     expiresAt.setMinutes(expiresAt.getMinutes() + this.CONFIG.CODE_EXPIRY);
 
     const lockDuration = new Date();
-    lockDuration.setMinutes(lockDuration.getMinutes() + this.CONFIG.LOCK_DURATION);
+    lockDuration.setMinutes(
+      lockDuration.getMinutes() + this.CONFIG.LOCK_DURATION,
+    );
 
     const accountLock = this.accountLockRepository.create({
       user: { id: userId },
@@ -62,7 +80,7 @@ export class UnlockService {
       ipAddress,
       userAgent,
       attempts: 0,
-      isActive: true
+      isActive: true,
     });
 
     await this.accountLockRepository.save(accountLock);
@@ -81,18 +99,23 @@ export class UnlockService {
     return {
       success: true,
       message: 'Código de desbloqueo enviado',
-      expiresAt
+      expiresAt,
     };
   }
 
-  async validateUnlockCode(email: string, code: string, ipAddress?: string, userAgent?: string) {
+  async validateUnlockCode(
+    email: string,
+    code: string,
+    ipAddress?: string,
+    userAgent?: string,
+  ) {
     const user = await this.userRepository.findOne({ where: { email } });
     if (!user) {
       throw new UnauthorizedException('Usuario no encontrado');
     }
 
     const lock = await this.accountLockRepository.findOne({
-      where: { user: { id: user.id }, isActive: true }
+      where: { user: { id: user.id }, isActive: true },
     });
 
     if (!lock) {
@@ -111,7 +134,9 @@ export class UnlockService {
 
     // Verificar intentos
     if (lock.attempts >= this.CONFIG.MAX_ATTEMPTS) {
-      throw new BadRequestException('Has excedido el número máximo de intentos');
+      throw new BadRequestException(
+        'Has excedido el número máximo de intentos',
+      );
     }
 
     // Incrementar contador de intentos
@@ -133,23 +158,23 @@ export class UnlockService {
     await this.userRepository.update(user.id, {
       isLocked: false,
       failedLoginAttempts: 0,
-      lastFailedLogin: null
+      lastFailedLogin: null,
     });
 
     return {
       success: true,
-      message: 'Cuenta desbloqueada exitosamente'
+      message: 'Cuenta desbloqueada exitosamente',
     };
   }
 
   async getLockStatus(userId: string) {
     const lock = await this.accountLockRepository.findOne({
-      where: { user: { id: userId }, isActive: true }
+      where: { user: { id: userId }, isActive: true },
     });
 
     if (!lock) {
       return {
-        isLocked: false
+        isLocked: false,
       };
     }
 
@@ -159,13 +184,13 @@ export class UnlockService {
       expiresAt: lock.expiresAt,
       attempts: lock.attempts,
       maxAttempts: this.CONFIG.MAX_ATTEMPTS,
-      remainingAttempts: this.CONFIG.MAX_ATTEMPTS - (lock.attempts || 0)
+      remainingAttempts: this.CONFIG.MAX_ATTEMPTS - (lock.attempts || 0),
     };
   }
 
   async forceUnlock(userId: string, adminId: string) {
     const lock = await this.accountLockRepository.findOne({
-      where: { user: { id: userId }, isActive: true }
+      where: { user: { id: userId }, isActive: true },
     });
 
     if (!lock) {
@@ -182,14 +207,16 @@ export class UnlockService {
     await this.userRepository.update(userId, {
       isLocked: false,
       failedLoginAttempts: 0,
-      lastFailedLogin: null
+      lastFailedLogin: null,
     });
 
-    this.logger.log(`Cuenta desbloqueada por admin ${adminId} para usuario ${userId}`);
+    this.logger.log(
+      `Cuenta desbloqueada por admin ${adminId} para usuario ${userId}`,
+    );
 
     return {
       success: true,
-      message: 'Cuenta desbloqueada exitosamente por administrador'
+      message: 'Cuenta desbloqueada exitosamente por administrador',
     };
   }
 }

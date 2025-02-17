@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 import {
   CarouselContainer,
   Title,
   MarqueeContainer,
   MarqueeContent,
   LogoItem,
-  LogoImage
-} from './Style/constBankLogos';
+  LogoImage,
+} from "./Style/constBankLogos";
 
 interface BankLogo {
   src: string;
@@ -38,7 +38,7 @@ const BankLogos: React.FC = () => {
     {
       src: "https://images.seeklogo.com/logo-png/40/1/banco-guayaquil-2020-fondo-magenta-logo-png_seeklogo-408168.png",
       alt: "Banco de Guayaquil",
-    }
+    },
   ];
 
   const duplicatedLogos = [...logos, ...logos];
@@ -54,7 +54,7 @@ const BankLogos: React.FC = () => {
                 src={logo.src}
                 alt={logo.alt}
                 title={logo.alt}
-                loading={index > 5 ? "lazy" : undefined} 
+                loading={index > 5 ? "lazy" : undefined}
               />
             </LogoItem>
           ))}

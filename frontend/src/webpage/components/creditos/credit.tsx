@@ -1,11 +1,11 @@
 import { useState, useCallback, useEffect } from "react";
 import { Box } from "@mui/material";
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
-import CreditForm from "@/components/creditos/creditForm";
-import CreditResults from "@/components/creditos/creditResults";
-import CreditDetails from "@/components/creditos/creditDetails";
-import CreditSuccess from "@/components/creditos/creditSucces";
-import { CreditFormData } from "@/components/creditos/utils/types";
+import CreditForm from "@/components/creditos/pages/creditForm";
+import CreditResults from "@/components/creditos/pages/creditResults";
+import CreditDetails from "./pages/creditDetails";
+import CreditSuccess from "@/components/creditos/pages/creditSucces";
+import { CreditFormData } from "@/src/core/types/types";
 import { useAuth } from "@/src/core/hooks/api/useAuth";
 import PrivateRoute from "@/src/routes/privateRoute";
 import { routesWebpage } from "../contants/routes";
@@ -26,7 +26,6 @@ const CreditPage = () => {
   const location = useLocation();
   const { user, isAuthenticated } = useAuth();
 
-  // Estados
   const [selectedInstitutionId, setSelectedInstitutionId] = useState<string>(
     () => {
       return localStorage.getItem("selectedInstitutionId") || "";
@@ -54,7 +53,6 @@ const CreditPage = () => {
     };
   });
 
-  // Actualizar datos cuando cambia el usuario
   useEffect(() => {
     if (user) {
       setFormData((prev) => ({
@@ -65,17 +63,12 @@ const CreditPage = () => {
     }
   }, [user]);
 
-  // Validar estado de la aplicación
   useEffect(() => {
     const currentPath = location.pathname;
-
-    // Definir rutas válidas como una constante
     const pathsRequiringCredit = [
       routesWebpage.creditoResults,
       routesWebpage.creditoDetails,
     ] as const;
-
-    // Validar que exista creditId para resultados y detalles
     if (
       pathsRequiringCredit.includes(
         currentPath as (typeof pathsRequiringCredit)[number]
@@ -87,8 +80,6 @@ const CreditPage = () => {
         return;
       }
     }
-
-    // Validar que exista institución seleccionada para detalles
     if (currentPath === routesWebpage.creditoDetails) {
       if (!selectedInstitutionId) {
         toast.error("No se ha seleccionado una institución");
@@ -97,12 +88,9 @@ const CreditPage = () => {
       }
     }
   }, [location.pathname, creditId, selectedInstitutionId, navigate]);
-
-  // Manejar el envío del formulario
   const handleFormSubmit = useCallback(
     (data: CreditFormData) => {
       try {
-        // Validar datos requeridos
         if (
           !data.amount ||
           !data.term ||
@@ -113,12 +101,8 @@ const CreditPage = () => {
         ) {
           throw new Error("Todos los campos son requeridos");
         }
-
-        // Guardar datos
         localStorage.setItem("creditFormData", JSON.stringify(data));
         setFormData(data);
-
-        // Verificar creditId
         const newCreditId = localStorage.getItem("currentCreditId");
         if (!newCreditId) {
           throw new Error("Error al crear el crédito");
@@ -134,7 +118,6 @@ const CreditPage = () => {
     [navigate]
   );
 
-  // Manejar selección de institución
   const handleOptionSelect = useCallback(
     (institutionId: string) => {
       try {
@@ -158,7 +141,6 @@ const CreditPage = () => {
     [creditId, navigate]
   );
 
-  // Manejar navegación hacia atrás
   const handleBack = useCallback(() => {
     const currentPath = location.pathname;
 
@@ -169,7 +151,6 @@ const CreditPage = () => {
     }
   }, [location.pathname, navigate]);
 
-  // Manejar aplicación del crédito
   const handleApply = useCallback(() => {
     try {
       if (!creditId) {
@@ -187,16 +168,13 @@ const CreditPage = () => {
     }
   }, [creditId, selectedInstitutionId, navigate]);
 
-  // Manejar nueva búsqueda
   const handleNewSearch = useCallback(() => {
     try {
-      // Limpiar localStorage
       localStorage.removeItem("currentCreditId");
       localStorage.removeItem("selectedInstitutionId");
       localStorage.removeItem("selectedInstitution");
       localStorage.removeItem("creditFormData");
 
-      // Restablecer estados
       setFormData({
         ...initialFormData,
         email: user?.email || "",

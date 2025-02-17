@@ -6,7 +6,7 @@ import {
   Container,
   styled,
   RadioGroup,
-  FormControlLabel
+  FormControlLabel,
 } from "@mui/material";
 
 export interface RecoverFormData {
@@ -116,50 +116,50 @@ export const RecoverContainer = styled(Container)(({ theme }) => ({
 export const RecoverTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "36px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500,
   marginBottom: "8px",
   textAlign: "center",
-  fontFamily: "'Galano Grotesque', sans-serif", // Cambiada a Galano Grotesque
+  fontFamily: "'Galano Grotesque', sans-serif",
   textShadow: `0 0 10px ${theme.palette.primary.light}`,
- 
+
   [theme.breakpoints.down("md")]: {
     fontSize: "32px",
   },
- 
+
   [theme.breakpoints.down("sm")]: {
     fontSize: "28px",
   },
- }));
+}));
 
- export const RecoveryButton = styled(Button)(({ theme }) => ({
-  width: '100%',
-  padding: '12px 20px',
-  marginBottom: '16px',
-  borderRadius: '12px',
-  backgroundColor: 'rgba(0, 20, 40, 0.5)',
+export const RecoveryButton = styled(Button)(({ theme }) => ({
+  width: "100%",
+  padding: "12px 20px",
+  marginBottom: "16px",
+  borderRadius: "12px",
+  backgroundColor: "rgba(0, 20, 40, 0.5)",
   border: `2px solid ${theme.palette.primary.main}`,
   color: theme.palette.common.white,
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  justifyContent: 'flex-start',
-  textTransform: 'none',
-  transition: 'all 0.2s ease',
-  WebkitBoxShadow: '0 4px 12px rgba(0, 255, 200, 0.1)', 
-  boxShadow: '0 4px 12px rgba(0, 255, 200, 0.1)',        
-  '&:hover': {
-    backgroundColor: 'rgba(0, 255, 200, 0.1)',
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  justifyContent: "flex-start",
+  textTransform: "none",
+  transition: "all 0.2s ease",
+  WebkitBoxShadow: "0 4px 12px rgba(0, 255, 200, 0.1)",
+  boxShadow: "0 4px 12px rgba(0, 255, 200, 0.1)",
+  "&:hover": {
+    backgroundColor: "rgba(0, 255, 200, 0.1)",
     borderColor: theme.palette.primary.light,
-    transform: 'translateY(-2px)',
+    transform: "translateY(-2px)",
   },
-  '&.selected': {
-    backgroundColor: 'rgba(0, 255, 200, 0.2)',
+  "&.selected": {
+    backgroundColor: "rgba(0, 255, 200, 0.2)",
     borderColor: theme.palette.primary.light,
-    WebkitBoxShadow: '0 0 20px rgba(0, 255, 200, 0.2)', 
-    boxShadow: '0 0 20px rgba(0, 255, 200, 0.2)',        
+    WebkitBoxShadow: "0 0 20px rgba(0, 255, 200, 0.2)",
+    boxShadow: "0 0 20px rgba(0, 255, 200, 0.2)",
   },
-  '& .MuiSvgIcon-root': {
-    fontSize: '24px',
+  "& .MuiSvgIcon-root": {
+    fontSize: "24px",
     color: theme.palette.primary.light,
   },
 }));
@@ -170,20 +170,20 @@ export const RecoverSubtitle = styled(Typography)(({ theme }) => ({
   marginBottom: "32px",
   textAlign: "center",
   opacity: 0.8,
-  fontFamily: "'Stage Grotesque', sans-serif", // Cambiada a Stage Grotesque
+  fontFamily: "'Stage Grotesque', sans-serif",
   lineHeight: 1.5,
- 
+
   [theme.breakpoints.down("md")]: {
     fontSize: "15px",
     marginBottom: "28px",
   },
- 
+
   [theme.breakpoints.down("sm")]: {
     fontSize: "14px",
     marginBottom: "24px",
     lineHeight: 1.4,
   },
- }));
+}));
 
 export const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "24px",
@@ -253,8 +253,8 @@ export const RecoverButton = styled(Button)(({ theme }) => ({
   color: theme.palette.text.secondary,
   padding: "12px",
   fontSize: "16px",
-  fontWeight: 500, 
-  fontFamily: "'Stage Grotesque', sans-serif", 
+  fontWeight: 500,
+  fontFamily: "'Stage Grotesque', sans-serif",
   marginTop: "24px",
   height: "56px",
   width: "100%",
@@ -268,7 +268,8 @@ export const RecoverButton = styled(Button)(({ theme }) => ({
     left: "-100%",
     width: "100%",
     height: "100%",
-    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+    background:
+      "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
     transition: "0.5s",
   },
 
@@ -296,57 +297,57 @@ export const RecoverButton = styled(Button)(({ theme }) => ({
 
 export const StyledFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
   color: theme.palette.common.white,
-  padding: '8px',
-  margin: '0',
-  width: '100%',
-  borderRadius: '8px',
-  transition: 'all 0.2s ease',
+  padding: "8px",
+  margin: "0",
+  width: "100%",
+  borderRadius: "8px",
+  transition: "all 0.2s ease",
 
-  '& .MuiRadio-root': {
+  "& .MuiRadio-root": {
     color: theme.palette.common.white,
-    padding: '8px',
+    padding: "8px",
 
-    '&.Mui-checked': {
+    "&.Mui-checked": {
       color: theme.palette.primary.light,
     },
 
-    '&:hover': {
-      backgroundColor: 'rgba(99, 255, 72, 0.08)',
+    "&:hover": {
+      backgroundColor: "rgba(99, 255, 72, 0.08)",
     },
   },
 
-  '&:hover': {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+  "&:hover": {
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
   },
 
   [theme.breakpoints.down("sm")]: {
-    padding: '6px',
-    '& .MuiTypography-root': {
-      fontSize: '14px',
+    padding: "6px",
+    "& .MuiTypography-root": {
+      fontSize: "14px",
     },
-    '& .MuiRadio-root': {
-      padding: '6px',
+    "& .MuiRadio-root": {
+      padding: "6px",
     },
   },
 }));
 
 export const StyledRadioGroup = styled(RadioGroup)(({ theme }) => ({
-  gap: '8px',
-  padding: '12px',
-  backgroundColor: 'rgba(255, 255, 255, 0.05)',
-  borderRadius: '8px',
+  gap: "8px",
+  padding: "12px",
+  backgroundColor: "rgba(255, 255, 255, 0.05)",
+  borderRadius: "8px",
   border: `1px solid ${theme.palette.primary.main}`,
-  marginBottom: '24px',
+  marginBottom: "24px",
 
   [theme.breakpoints.down("md")]: {
-    padding: '10px',
-    gap: '6px',
-    marginBottom: '20px',
+    padding: "10px",
+    gap: "6px",
+    marginBottom: "20px",
   },
 
   [theme.breakpoints.down("sm")]: {
-    padding: '8px',
-    gap: '4px',
-    marginBottom: '16px',
+    padding: "8px",
+    gap: "4px",
+    marginBottom: "16px",
   },
 }));

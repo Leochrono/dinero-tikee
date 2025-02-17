@@ -10,10 +10,13 @@ import {
   Max,
   IsPositive,
   IsObject,
-  ValidateIf
+  ValidateIf,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { InstitutionType, PersonalLoanProduct } from '../../../domain/entities/institution.entity';
+import {
+  InstitutionType,
+  PersonalLoanProduct,
+} from '../../../domain/entities/institution.entity';
 
 export class PersonalLoanProductDto implements PersonalLoanProduct {
   @IsNumber()
@@ -102,7 +105,7 @@ export class CreateInstitutionDto {
   @Type(() => PersonalLoanProductDto)
   @IsObject()
   products: {
-    personalLoan: PersonalLoanProductDto
+    personalLoan: PersonalLoanProductDto;
   };
 }
 
@@ -138,7 +141,7 @@ export class UpdateInstitutionDto {
   @Type(() => PersonalLoanProductDto)
   @IsObject()
   products?: {
-    personalLoan: PersonalLoanProductDto
+    personalLoan: PersonalLoanProductDto;
   };
 }
 
@@ -152,7 +155,7 @@ export class FilterInstitutionsDto {
   @IsPositive()
   @Min(500)
   @Max(100000)
-  @ValidateIf(o => o.amount !== undefined)
+  @ValidateIf((o) => o.amount !== undefined)
   amount?: number;
 
   @IsOptional()
@@ -160,23 +163,23 @@ export class FilterInstitutionsDto {
   @IsPositive()
   @Min(3)
   @Max(72)
-  @ValidateIf(o => o.term !== undefined)
+  @ValidateIf((o) => o.term !== undefined)
   term?: number;
 
   @IsOptional()
   @IsNumber()
   @IsPositive()
-  @ValidateIf(o => o.income !== undefined)
+  @ValidateIf((o) => o.income !== undefined)
   income?: number;
 
   @IsOptional()
   @IsString()
-  @ValidateIf(o => o.location !== undefined)
+  @ValidateIf((o) => o.location !== undefined)
   location?: string;
 
   @IsOptional()
   @IsEnum(['min', 'max'], {
-    message: 'rateFilter debe ser "min" o "max"'
+    message: 'rateFilter debe ser "min" o "max"',
   })
   rateFilter?: 'min' | 'max';
 }
@@ -189,6 +192,6 @@ export class InstitutionResponseDto {
   minRate: number;
   maxRate: number;
   products: {
-    personalLoan: PersonalLoanProductDto
+    personalLoan: PersonalLoanProductDto;
   };
 }

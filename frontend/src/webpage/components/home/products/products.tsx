@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import instituciones from "@/webpage/components/info/instituciones.json";
 import {
   ProductsContainer,
@@ -14,8 +14,8 @@ import {
   InterestRateLabel,
   InterestRateValue,
   ProductDetails,
-  ActionButton
-} from './style/constproduct';
+  ActionButton,
+} from "./style/constproduct";
 
 interface Product {
   id: string;
@@ -46,9 +46,9 @@ const Products: React.FC<ProductsProps> = ({ onProductSelect }) => {
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('es-EC', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("es-EC", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(amount);
@@ -62,8 +62,8 @@ const Products: React.FC<ProductsProps> = ({ onProductSelect }) => {
           <ProductCard key={product.id}>
             <HighlightText>DESTACADO</HighlightText>
             <LogoContainer>
-              <LogoImage 
-                src={product.logo} 
+              <LogoImage
+                src={product.logo}
                 alt={`Logo ${product.name}`}
                 loading="lazy"
                 title={product.name}
@@ -78,14 +78,15 @@ const Products: React.FC<ProductsProps> = ({ onProductSelect }) => {
                 </InterestRateValue>
               </InterestRateContainer>
               <ProductDetails>
-                Monto mínimo: {formatCurrency(product.products.personalLoan.minAmount)}
+                Monto mínimo:{" "}
+                {formatCurrency(product.products.personalLoan.minAmount)}
               </ProductDetails>
               <ProductDetails>
-                Plazo: {product.products.personalLoan.minTerm} a{' '}
+                Plazo: {product.products.personalLoan.minTerm} a{" "}
                 {product.products.personalLoan.maxTerm} meses
               </ProductDetails>
             </ProductInfo>
-            <ActionButton 
+            <ActionButton
               onClick={() => handleProductClick(product.id)}
               aria-label={`Solicitar préstamo en ${product.name}`}
             >

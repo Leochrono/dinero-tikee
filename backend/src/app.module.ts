@@ -21,7 +21,7 @@ import { MailerModule } from './infrastructure/mailer/mailer.module';
       envFilePath: '.env',
       cache: false,
     }),
-    TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService}),
+    TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     AuthModule,
     PasswordModule,
     HttpModule,
@@ -30,8 +30,6 @@ import { MailerModule } from './infrastructure/mailer/mailer.module';
     VerificationModule,
     MailerModule,
   ],
-  providers: [
-    { provide: IHttpService, useClass: HttpService, },
-  ]
+  providers: [{ provide: IHttpService, useClass: HttpService }],
 })
 export class AppModule {}

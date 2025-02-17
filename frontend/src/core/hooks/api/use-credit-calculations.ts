@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
-import { CreditResponse, Credit } from '../../types/credit.types';
-import { creditCalculationsService } from '../../services/credit-calculations.service';
+import { useMemo } from "react";
+import { CreditResponse, Credit } from "../../types/credit.types";
+import { creditCalculationsService } from "../../services/credit-calculations.service";
 
 interface CalculatedCredit extends CreditResponse {
   monthlyPayment: number;
@@ -22,25 +22,24 @@ export const useCreditCalculations = () => {
 
   const transformCredits = useMemo(() => {
     return (credits: Credit[] | CreditResponse[]): CalculatedCredit[] => {
-      // Aseguramos que los créditos tengan todas las propiedades necesarias
-      const completeCredits = credits.map(credit => ({
+      const completeCredits = credits.map((credit) => ({
         ...credit,
-        income: 'income' in credit ? credit.income : credit.amount * 0.4,
-        createdAt: 'createdAt' in credit ? credit.createdAt : new Date(),
+        income: "income" in credit ? credit.income : credit.amount * 0.4,
+        createdAt: "createdAt" in credit ? credit.createdAt : new Date(),
         institution: {
           ...credit.institution,
-          type: credit.institution?.type || 'bank'
-        }
+          type: credit.institution?.type || "bank",
+        },
       })) as CreditResponse[];
-
-      // Transformamos los créditos completados
-      return creditCalculationsService.transformCredits(completeCredits) as CalculatedCredit[];
+      return creditCalculationsService.transformCredits(
+        completeCredits
+      ) as CalculatedCredit[];
     };
   }, []);
 
   return {
     calculatePayments,
-    transformCredits
+    transformCredits,
   };
 };
 

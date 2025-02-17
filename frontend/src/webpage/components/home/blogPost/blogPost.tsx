@@ -1,5 +1,5 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   BlogContainer,
   BlogTitle,
@@ -9,8 +9,8 @@ import {
   BlogImage,
   ContentContainer,
   BlogPostTitle,
-  ReadButton
-} from './style/constBlogPost';
+  ReadButton,
+} from "./style/constBlogPost";
 
 interface BlogPost {
   id: string;
@@ -21,31 +21,31 @@ interface BlogPost {
 
 const BlogPosts: React.FC = () => {
   const navigate = useNavigate();
-  
+
   const posts: BlogPost[] = [
     {
-      id: '1',
+      id: "1",
       image: "/assets/img/unpaid-loans.jpg",
       title: "Estrategias Financieras para Préstamos Impagos",
-      slug: "prestamos-impagos"
+      slug: "prestamos-impagos",
     },
     {
-      id: '2',
+      id: "2",
       image: "/assets/img/budget-planning.jpg",
       title: "Metas y Presupuesto: Guía Financiera Práctica",
-      slug: "metas-presupuesto"
+      slug: "metas-presupuesto",
     },
     {
-      id: '3',
+      id: "3",
       image: "/assets/img/creative-finances.jpg",
       title: "Finanzas Creativas en Época Festiva",
-      slug: "finanzas-creativas"
+      slug: "finanzas-creativas",
     },
     {
-      id: '4',
+      id: "4",
       image: "/assets/img/mutual-funds.jpg",
       title: "Fondos Mutuos: Guía Completa de Inversión",
-      slug: "fondos-mutuos"
+      slug: "fondos-mutuos",
     },
   ];
 

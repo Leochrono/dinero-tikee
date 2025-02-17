@@ -31,61 +31,46 @@ export class CreditDocumentController {
   constructor(private creditDocumentService: CreditDocumentService) {}
 
   @Post('upload')
-@HttpCode(HttpStatus.OK)
-@UseInterceptors(FileInterceptor('file', {
-  limits: {
-    fileSize: 5 * 1024 * 1024 // 5MB
-  }
-}))
-async uploadDocument(
-  @Param('creditId') creditId: string,
-  @Body('documentType') documentType: DocumentType,
-  @UploadedFile(
-    new ParseFilePipe({
-      validators: [
-        new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }),
-        new FileTypeValidator({ fileType: /(jpg|jpeg|png|pdf)$/ }),
-      ],
+  @HttpCode(HttpStatus.OK)
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: {
+        fileSize: 5 * 1024 * 1024, // 5MB
+      },
     }),
-  ) file: Express.Multer.File,
-) {
-  this.logger.log(`Iniciando carga de documento - CreditId: ${creditId}, DocumentType: ${documentType}`);
+  )
+  async uploadDocument(
+    @Param('creditId') creditId: string,
+    @Body('documentType') documentType: DocumentType,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }),
+          new FileTypeValidator({ fileType: /(jpg|jpeg|png|pdf)$/ }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+  ) {
+    try {
+      if (!file || !file.buffer) {
+        throw new BadRequestException('No se proporcionó un archivo válido');
+      }
 
-  try {
-    if (!file || !file.buffer) {
-      throw new BadRequestException('No se proporcionó un archivo válido');
+      const document = await this.creditDocumentService.uploadDocument(
+        creditId,
+        file,
+        documentType,
+      );
+
+      return {
+        success: true,
+        data: document,
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
-
-    this.logger.debug('Archivo recibido:', {
-      filename: file.originalname,
-      mimetype: file.mimetype,
-      size: file.size,
-      hasBuffer: !!file.buffer
-    });
-
-    const document = await this.creditDocumentService.uploadDocument(
-      creditId,
-      file,
-      documentType
-    );
-
-    return {
-      success: true,
-      data: document
-    };
-  } catch (error) {
-    this.logger.error('Error al cargar documento:', {
-      error: error.message,
-      stack: error.stack,
-      creditId,
-      documentType,
-      fileName: file?.originalname,
-      fileType: file?.mimetype
-    });
-
-    throw new BadRequestException(error.message);
   }
-}
 
   @Get()
   @HttpCode(HttpStatus.OK)
@@ -97,7 +82,6 @@ async uploadDocument(
         data: documents,
       };
     } catch (error) {
-      this.logger.error(`Error al obtener documentos: ${error.message}`);
       throw new BadRequestException('Error al obtener los documentos');
     }
   }
@@ -115,7 +99,6 @@ async uploadDocument(
         data: document,
       };
     } catch (error) {
-      this.logger.error(`Error al obtener documento: ${error.message}`);
       throw new BadRequestException('Error al obtener el documento');
     }
   }
@@ -134,7 +117,6 @@ async uploadDocument(
         message: 'Documento eliminado exitosamente',
       };
     } catch (error) {
-      this.logger.error(`Error al eliminar documento: ${error.message}`);
       throw new BadRequestException('Error al eliminar el documento');
     }
   }
@@ -160,7 +142,6 @@ async uploadDocument(
           : 'Documento marcado como no verificado',
       };
     } catch (error) {
-      this.logger.error(`Error al verificar documento: ${error.message}`);
       throw new BadRequestException('Error al verificar el documento');
     }
   }

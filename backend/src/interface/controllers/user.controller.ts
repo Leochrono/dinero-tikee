@@ -65,7 +65,6 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
   async getSearchHistory(@Request() req) {
     try {
-      this.logger.log(`Getting search history for user: ${req.user.id}`);
       const searchHistory = await this.userService.getSearchHistory(
         req.user.id,
       );
@@ -74,7 +73,6 @@ export class UserController {
         data: searchHistory || [],
       };
     } catch (error) {
-      this.logger.error(`Error getting search history: ${error.message}`);
       throw new BadRequestException('Error al obtener historial de búsqueda');
     }
   }

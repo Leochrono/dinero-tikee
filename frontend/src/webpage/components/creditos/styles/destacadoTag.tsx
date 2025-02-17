@@ -2,7 +2,7 @@ import { Typography, styled } from "@mui/material";
 
 const DestacadoTag = styled(Typography)(({ theme }) => ({
   display: "none",
-  
+
   [theme.breakpoints.down("md")]: {
     display: "block",
     backgroundColor: theme.palette.primary.light,
@@ -18,17 +18,17 @@ const DestacadoTag = styled(Typography)(({ theme }) => ({
     left: 0,
     right: 0,
     maxWidth: "calc(100% - 16px)",
-    transform: 'translateY(-50%)',
+    transform: "translateY(-50%)",
     zIndex: 2,
-    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-    transition: 'all 0.3s ease',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    
+    boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+    transition: "all 0.3s ease",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+
     "&:hover": {
-      transform: 'translateY(-50%) scale(1.02)',
-      boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
+      transform: "translateY(-50%) scale(1.02)",
+      boxShadow: "0 4px 8px rgba(0,0,0,0.3)",
     },
   },
 
@@ -36,7 +36,7 @@ const DestacadoTag = styled(Typography)(({ theme }) => ({
     fontSize: "12px",
     padding: "4px 10px",
     margin: "6px",
-    maxWidth: "calc(100% - 12px)", 
+    maxWidth: "calc(100% - 12px)",
     borderRadius: "8px",
   },
 

@@ -2,7 +2,7 @@ import { Box, Typography, styled } from "@mui/material";
 
 export const StepsContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(10, 0),
-  backgroundColor: theme.palette.custom.blue.background, // Usando color de fondo personalizado
+  backgroundColor: theme.palette.custom.blue.background,
   textAlign: "center",
   transition: "padding 0.3s ease",
 
@@ -16,42 +16,41 @@ export const StepsContainer = styled(Box)(({ theme }) => ({
 
 export const StepsTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
-  fontSize: "4rem", // 64px
-  fontFamily: "'Galano Grotesque', sans-serif", // Cambiado a Galano Grotesque
-  textTransform: 'uppercase', // Añadido para mayúsculas
+  fontSize: "4rem",
+  fontFamily: "'Galano Grotesque', sans-serif",
+  textTransform: "uppercase",
   transition: "font-size 0.3s ease",
-  letterSpacing: '-1px', // Tracking ligeramente negativo
+  letterSpacing: "-1px",
   [theme.breakpoints.down("lg")]: {
-    fontSize: "3.5rem", // 56px
+    fontSize: "3.5rem",
   },
   [theme.breakpoints.down("md")]: {
-    fontSize: "3rem", // 48px
+    fontSize: "3rem",
   },
   [theme.breakpoints.down("sm")]: {
-    fontSize: "2.25rem", // 36px
+    fontSize: "2.25rem",
     marginBottom: theme.spacing(1),
   },
 }));
 
-
 export const StepsSubtitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
-  fontSize: "3.25rem", // 52px
+  fontSize: "3.25rem",
   fontWeight: 500,
   marginBottom: theme.spacing(10),
-  fontFamily: "'Stage Grotesque', sans-serif", // Cambiado a Stage Grotesque
+  fontFamily: "'Stage Grotesque', sans-serif",
   transition: "all 0.3s ease",
 
   [theme.breakpoints.down("lg")]: {
-    fontSize: "2.75rem", // 44px
+    fontSize: "2.75rem",
     marginBottom: theme.spacing(7.5),
   },
   [theme.breakpoints.down("md")]: {
-    fontSize: "2.25rem", // 36px
+    fontSize: "2.25rem",
     marginBottom: theme.spacing(5),
   },
   [theme.breakpoints.down("sm")]: {
-    fontSize: "1.75rem", // 28px
+    fontSize: "1.75rem",
     marginBottom: theme.spacing(4),
   },
 }));
@@ -94,8 +93,8 @@ export const StepItem = styled(Box)(({ theme }) => ({
 }));
 
 export const StepWrapper = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.light, // Verde neón del theme
-  borderRadius: "80px", // Bordes redondeados suaves
+  backgroundColor: theme.palette.primary.light,
+  borderRadius: "80px",
   width: "350px",
   height: "120px",
   marginBottom: theme.spacing(3),
@@ -107,20 +106,20 @@ export const StepWrapper = styled(Box)(({ theme }) => ({
   transition: "all 0.3s ease",
   "& .MuiSvgIcon-root": {
     fontSize: "35px",
-    color: theme.palette.text.secondary, // Color oscuro para el ícono
+    color: theme.palette.text.secondary,
     transition: "font-size 0.3s ease",
     [theme.breakpoints.down("sm")]: {
       fontSize: "28px",
     },
   },
   "& .step-text": {
-    color: theme.palette.text.secondary, // Color oscuro para el texto
+    color: theme.palette.text.secondary,
     fontSize: "35px",
     fontWeight: 500,
     textAlign: "left",
     lineHeight: 1.2,
-    fontFamily: "'Galano Grotesque', sans-serif", // Fuente Galano Grotesque
-    textTransform: 'uppercase', // Mayúsculas
+    fontFamily: "'Galano Grotesque', sans-serif",
+    textTransform: "uppercase",
     transition: "font-size 0.3s ease",
   },
   [theme.breakpoints.down("lg")]: {
@@ -153,10 +152,10 @@ export const StepDescription = styled(Typography)(({ theme }) => ({
   fontSize: "24px",
   lineHeight: 1.5,
   maxWidth: "300px",
-  margin: "0 auto", // Esto ya centraba el texto horizontalmente
+  margin: "0 auto",
   marginTop: theme.spacing(3),
   fontFamily: "'Stage Grotesque', sans-serif",
-  textAlign: 'left', // Añadido para centrar el texto verticalmente
+  textAlign: "left",
   transition: "all 0.3s ease",
   [theme.breakpoints.down("lg")]: {
     fontSize: "16px",

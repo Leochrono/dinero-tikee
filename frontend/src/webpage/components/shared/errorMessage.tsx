@@ -1,5 +1,5 @@
 import { Box, Typography, Button, styled } from "@mui/material";
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 const ErrorContainer = styled(Box)(({ theme }) => ({
   padding: "40px 20px",
@@ -50,21 +50,17 @@ interface ErrorMessageProps {
   message?: string;
 }
 
-const ErrorMessage = ({ 
-  onRetry, 
+const ErrorMessage = ({
+  onRetry,
   title = "¡Ups! Algo salió mal",
-  message = "No pudimos cargar la información en este momento. Por favor, intenta nuevamente."
+  message = "No pudimos cargar la información en este momento. Por favor, intenta nuevamente.",
 }: ErrorMessageProps) => {
   return (
     <ErrorContainer>
       <ErrorIcon />
       <ErrorTitle>{title}</ErrorTitle>
-      <ErrorText>
-        {message}
-      </ErrorText>
-      <RetryButton onClick={onRetry}>
-        Intentar nuevamente
-      </RetryButton>
+      <ErrorText>{message}</ErrorText>
+      <RetryButton onClick={onRetry}>Intentar nuevamente</RetryButton>
     </ErrorContainer>
   );
 };

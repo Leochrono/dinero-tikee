@@ -4,23 +4,23 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   CreateDateColumn,
-  Index
- } from 'typeorm';
- import { UserEntity } from './user.entity';
- 
- @Entity('security_logs')
- @Index(['userId', 'eventType'])
- @Index(['timestamp', 'eventType'])
- export class SecurityLogEntity {
+  Index,
+} from 'typeorm';
+import { UserEntity } from './user.entity';
+
+@Entity('security_logs')
+@Index(['userId', 'eventType'])
+@Index(['timestamp', 'eventType'])
+export class SecurityLogEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
- 
-  @ManyToOne(() => UserEntity, user => user.securityLogs)
+
+  @ManyToOne(() => UserEntity, (user) => user.securityLogs)
   user: UserEntity;
- 
+
   @Column()
   userId: string;
- 
+
   @Column({
     type: 'enum',
     enum: [
@@ -33,27 +33,27 @@ import {
       'ACCOUNT_UNLOCKED',
       'SUSPICIOUS_ACTIVITY',
       'LOCATION_CHANGE',
-      'DEVICE_CHANGE'
-    ]
+      'DEVICE_CHANGE',
+    ],
   })
   eventType: string;
- 
+
   @Column({
     type: 'enum',
     enum: ['success', 'failure', 'warning', 'info'],
-    default: 'info'
+    default: 'info',
   })
   status: string;
- 
+
   @CreateDateColumn()
   timestamp: Date;
- 
+
   @Column()
   ipAddress: string;
- 
+
   @Column({ nullable: true })
   userAgent: string;
- 
+
   @Column({ type: 'json', nullable: true })
   location: {
     country?: string;
@@ -62,7 +62,7 @@ import {
     longitude?: number;
     accuracyRadius?: number;
   };
- 
+
   @Column({ type: 'json', nullable: true })
   deviceInfo: {
     browser?: string;
@@ -70,7 +70,7 @@ import {
     device?: string;
     deviceType?: string;
   };
- 
+
   @Column({ type: 'json', nullable: true })
   metadata: {
     previousIp?: string;
@@ -87,27 +87,27 @@ import {
     attemptCount?: number;
     relatedEventId?: string;
   };
- 
+
   @Column({
     type: 'enum',
     enum: ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'],
-    default: 'LOW'
+    default: 'LOW',
   })
   riskLevel: string;
- 
+
   @Column({
     type: 'enum',
     enum: ['low', 'medium', 'high', 'critical'],
-    default: 'low'
+    default: 'low',
   })
   severity: string;
- 
+
   @Column({ nullable: true })
   details: string;
- 
+
   @Column({ default: false })
   requiresAction: boolean;
- 
+
   @Column({ nullable: true })
   actionTaken: string;
- }
+}

@@ -127,39 +127,39 @@ export const RegisterContainer = styled(Container)(({ theme }) => ({
 export const RegisterTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "48px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500,
   marginBottom: "8px",
   textAlign: "center",
-  fontFamily: "'Galano Grotesque', sans-serif", // Cambiada a Galano Grotesque
+  fontFamily: "'Galano Grotesque', sans-serif",
   textShadow: `0 0 10px ${theme.palette.primary.light}`,
- 
+
   [theme.breakpoints.down("md")]: {
     fontSize: "42px",
   },
- 
+
   [theme.breakpoints.down("sm")]: {
     fontSize: "32px",
   },
- }));
+}));
 
- export const RegisterSubtitle = styled(Typography)(({ theme }) => ({
+export const RegisterSubtitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "16px",
   marginBottom: "32px",
   textAlign: "center",
   opacity: 0.8,
   fontFamily: "'Stage Grotesque', sans-serif", // Cambiada a Stage Grotesque
- 
+
   [theme.breakpoints.down("md")]: {
     fontSize: "15px",
     marginBottom: "28px",
   },
- 
+
   [theme.breakpoints.down("sm")]: {
     fontSize: "14px",
     marginBottom: "24px",
   },
- }));
+}));
 
 export const FieldsGrid = styled(Box)(({ theme }) => ({
   display: "grid",
@@ -191,7 +191,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
     "&:-webkit-autofill": {
       "-webkit-text-fill-color": theme.palette.common.white,
       "-webkit-box-shadow": `0 0 0px 1000px ${theme.palette.secondary.main} inset`,
-      transition: "background-color 5000s ease-in-out 0s"
+      transition: "background-color 5000s ease-in-out 0s",
     },
 
     [theme.breakpoints.down("sm")]: {
@@ -256,8 +256,8 @@ export const RegisterButton = styled(Button)(({ theme }) => ({
   color: theme.palette.text.secondary,
   padding: "12px",
   fontSize: "16px",
-  fontWeight: 500, 
-  fontFamily: "'Stage Grotesque', sans-serif", 
+  fontWeight: 500,
+  fontFamily: "'Stage Grotesque', sans-serif",
   marginTop: "32px",
   height: "56px",
   width: "100%",
@@ -271,7 +271,8 @@ export const RegisterButton = styled(Button)(({ theme }) => ({
     left: "-100%",
     width: "100%",
     height: "100%",
-    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+    background:
+      "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
     transition: "0.5s",
   },
 

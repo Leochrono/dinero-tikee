@@ -1,13 +1,16 @@
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { filterFeedback, filterChange } from "@/components/creditos/styles/animations";
+import {
+  filterFeedback,
+  filterChange,
+} from "@/components/creditos/styles/animations";
 
 interface FilterButtonProps {
   $isActive?: boolean;
 }
 
 const FilterButton = styled(Button, {
-  shouldForwardProp: (prop) => prop !== '$isActive',
+  shouldForwardProp: (prop) => prop !== "$isActive",
 })<FilterButtonProps>(({ theme, $isActive }) => ({
   backgroundColor: $isActive ? theme.palette.primary.light : "transparent",
   color: $isActive ? theme.palette.text.secondary : theme.palette.common.white,
@@ -31,13 +34,13 @@ const FilterButton = styled(Button, {
     animation: `${filterFeedback} 0.3s ease`,
     transform: "translateY(0)",
   },
-  ...$isActive && {
+  ...($isActive && {
     "&::after": {
       content: '"✓"',
       marginLeft: "4px",
       animation: `${filterFeedback} 0.3s ease`,
-    }
-  }
+    },
+  }),
 }));
 
 export default FilterButton;

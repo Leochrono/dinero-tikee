@@ -1,39 +1,50 @@
-import { IsEnum, IsNotEmpty, IsString, IsNumber, IsOptional, IsBoolean, IsDate } from 'class-validator';
-import { DocumentType, FileType } from '../../../domain/entities/credit-document.entity';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsString,
+  IsNumber,
+  IsOptional,
+  IsBoolean,
+  IsDate,
+} from 'class-validator';
+import {
+  DocumentType,
+  FileType,
+} from '../../../domain/entities/credit-document.entity';
 import { Type } from 'class-transformer';
 
 export class UploadDocumentDto {
- @IsEnum(DocumentType)
- @IsNotEmpty({ message: 'El tipo de documento es requerido' })
- documentType: DocumentType;
+  @IsEnum(DocumentType)
+  @IsNotEmpty({ message: 'El tipo de documento es requerido' })
+  documentType: DocumentType;
 
- @IsString()
- @IsNotEmpty({ message: 'El nombre del archivo es requerido' })
- fileName: string;
+  @IsString()
+  @IsNotEmpty({ message: 'El nombre del archivo es requerido' })
+  fileName: string;
 
- @IsNumber()
- @IsNotEmpty({ message: 'El tamaño del archivo es requerido' })
- fileSize: number;
+  @IsNumber()
+  @IsNotEmpty({ message: 'El tamaño del archivo es requerido' })
+  fileSize: number;
 
- @IsEnum(FileType)
- @IsNotEmpty({ message: 'El tipo de archivo es requerido' })
- fileType: FileType;
+  @IsEnum(FileType)
+  @IsNotEmpty({ message: 'El tipo de archivo es requerido' })
+  fileType: FileType;
 
- @IsOptional()
- metadata?: {
-   originalName: string;
-   mimeType: string;
-   dimensions?: {
-     width: number;
-     height: number;
-   };
-   hash?: string;
-   verificationDetails?: {
-     verifiedAt: Date;
-     verifiedBy: string;
-     comments: string;
-   };
- };
+  @IsOptional()
+  metadata?: {
+    originalName: string;
+    mimeType: string;
+    dimensions?: {
+      width: number;
+      height: number;
+    };
+    hash?: string;
+    verificationDetails?: {
+      verifiedAt: Date;
+      verifiedBy: string;
+      comments: string;
+    };
+  };
 }
 
 export class DocumentResponseDto {
@@ -67,21 +78,20 @@ export class DocumentResponseDto {
 }
 
 export class VerifyDocumentDto {
- @IsBoolean()
- @IsNotEmpty({ message: 'El estado de verificación es requerido' })
- verified: boolean;
+  @IsBoolean()
+  @IsNotEmpty({ message: 'El estado de verificación es requerido' })
+  verified: boolean;
 
- @IsString()
- @IsOptional()
- comments?: string;
+  @IsString()
+  @IsOptional()
+  comments?: string;
 }
 
 // DTO para respuestas de verificación
 export interface VerifyDocumentResponseDto extends DocumentResponseDto {
- verificationDetails: {
-   verifiedAt: Date;
-   verifiedBy: string;
-   comments?: string;
- };
+  verificationDetails: {
+    verifiedAt: Date;
+    verifiedBy: string;
+    comments?: string;
+  };
 }
-

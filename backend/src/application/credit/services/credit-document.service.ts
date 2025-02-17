@@ -63,7 +63,7 @@ export class CreditDocumentService {
     this.logger.debug('Validating file:', {
       originalname: file.originalname,
       mimetype: file.mimetype,
-      size: file.size
+      size: file.size,
     });
 
     if (!file) {
@@ -72,119 +72,127 @@ export class CreditDocumentService {
 
     if (!this.ALLOWED_MIME_TYPES.includes(file.mimetype)) {
       throw new BadRequestException(
-        `Tipo de archivo no permitido. Tipos permitidos: ${this.ALLOWED_MIME_TYPES.join(', ')}`
+        `Tipo de archivo no permitido. Tipos permitidos: ${this.ALLOWED_MIME_TYPES.join(', ')}`,
       );
     }
 
     if (file.size > this.MAX_FILE_SIZE) {
       throw new BadRequestException(
-        `El archivo excede el tamaño máximo permitido (${this.MAX_FILE_SIZE / 1024 / 1024}MB)`
+        `El archivo excede el tamaño máximo permitido (${this.MAX_FILE_SIZE / 1024 / 1024}MB)`,
       );
     }
 
     const ext = path.extname(file.originalname).toLowerCase();
     if (!['.pdf', '.jpg', '.jpeg', '.png'].includes(ext)) {
-      throw new BadRequestException(`Extensión de archivo no permitida: ${ext}`);
+      throw new BadRequestException(
+        `Extensión de archivo no permitida: ${ext}`,
+      );
     }
   }
 
   private async processImage(file: Express.Multer.File) {
     try {
       if (!file || !file.buffer) {
-        this.logger.error('No se proporcionó un archivo válido o el buffer está vacío');
+        this.logger.error(
+          'No se proporcionó un archivo válido o el buffer está vacío',
+        );
         return null;
       }
-  
+
       if (!file.mimetype.startsWith('image/')) {
         this.logger.debug('El archivo no es una imagen');
         return null;
       }
-  
+
       this.logger.debug('Iniciando procesamiento de imagen', {
         originalName: file.originalname,
         mimeType: file.mimetype,
-        size: file.buffer.length
+        size: file.buffer.length,
       });
-  
+
       // Crear instancia de Sharp con el buffer
       let image = sharp(file.buffer);
-  
+
       try {
         const metadata = await image.metadata();
-        
+
         this.logger.debug('Metadata de imagen obtenida:', metadata);
-  
+
         if (!metadata.width || !metadata.height) {
-          throw new Error('No se pudieron obtener las dimensiones de la imagen');
+          throw new Error(
+            'No se pudieron obtener las dimensiones de la imagen',
+          );
         }
-  
+
         // Comprimir la imagen si es muy grande
         if (metadata.width > 2000) {
-          const newHeight = Math.round((2000 * metadata.height) / metadata.width);
-  
+          const newHeight = Math.round(
+            (2000 * metadata.height) / metadata.width,
+          );
+
           this.logger.debug('Redimensionando imagen:', {
             originalWidth: metadata.width,
             originalHeight: metadata.height,
             newWidth: 2000,
-            newHeight: newHeight
+            newHeight: newHeight,
           });
-  
+
           const resizedBuffer = await image
             .resize(2000, newHeight, {
               fit: 'inside',
-              withoutEnlargement: true
+              withoutEnlargement: true,
             })
             .jpeg({
               quality: 80,
               progressive: true,
-              force: false
+              force: false,
             })
             .toBuffer();
-  
+
           return {
             buffer: resizedBuffer,
             dimensions: {
               original: {
                 width: metadata.width,
-                height: metadata.height
+                height: metadata.height,
               },
               resized: {
                 width: 2000,
-                height: newHeight
-              }
+                height: newHeight,
+              },
             },
             format: 'jpeg',
-            quality: 80
+            quality: 80,
           };
         }
-  
+
         // Si la imagen no necesita ser redimensionada, solo optimizarla
         const optimizedBuffer = await image
           .jpeg({
             quality: 85,
             progressive: true,
-            force: false
+            force: false,
           })
           .toBuffer();
-  
+
         return {
           buffer: optimizedBuffer,
           dimensions: {
             width: metadata.width,
-            height: metadata.height
+            height: metadata.height,
           },
           format: metadata.format,
-          quality: 85
+          quality: 85,
         };
-  
       } catch (error) {
         this.logger.error('Error procesando metadata de imagen:', error);
         throw new Error(`Error procesando metadata: ${error.message}`);
       }
-  
     } catch (error) {
       this.logger.error('Error en el procesamiento de imagen:', error);
-      throw new BadRequestException(`Error procesando la imagen: ${error.message}`);
+      throw new BadRequestException(
+        `Error procesando la imagen: ${error.message}`,
+      );
     }
   }
 
@@ -218,7 +226,7 @@ export class CreditDocumentService {
       this.logger.debug('Paths construidos:', {
         relativePath,
         absolutePath,
-        directory: dir
+        directory: dir,
       });
 
       // Crear directorio si no existe
@@ -229,7 +237,7 @@ export class CreditDocumentService {
 
       this.logger.debug('Archivo guardado exitosamente:', {
         path: relativePath,
-        size: buffer.length
+        size: buffer.length,
       });
 
       return relativePath;
@@ -245,32 +253,36 @@ export class CreditDocumentService {
     documentType: DocumentType,
   ): Promise<DocumentResponseDto> {
     this.logger.log(`Iniciando upload para crédito ${creditId}`);
-  
+
     try {
       // Validación inicial del archivo
       if (!file || !file.buffer) {
         throw new BadRequestException('No se proporcionó un archivo válido');
       }
-  
+
       // Validación específica de tipo de archivo
-      if (!['image/jpeg', 'image/png', 'application/pdf'].includes(file.mimetype)) {
-        throw new BadRequestException('Solo se permiten archivos JPG, PNG y PDF');
+      if (
+        !['image/jpeg', 'image/png', 'application/pdf'].includes(file.mimetype)
+      ) {
+        throw new BadRequestException(
+          'Solo se permiten archivos JPG, PNG y PDF',
+        );
       }
-  
+
       const credit = await this.creditRepository.findOne({
         where: { id: creditId },
         relations: ['documents'],
       });
-  
+
       if (!credit) {
         throw new NotFoundException('Crédito no encontrado');
       }
-  
+
       this.validateFile(file);
-  
+
       let fileBuffer: Buffer;
       let imageMetadata: any = null;
-  
+
       // Procesamiento específico para imágenes
       if (file.mimetype.startsWith('image/')) {
         try {
@@ -287,7 +299,9 @@ export class CreditDocumentService {
           }
         } catch (error) {
           this.logger.error('Error procesando imagen:', error);
-          throw new BadRequestException(`Error procesando imagen: ${error.message}`);
+          throw new BadRequestException(
+            `Error procesando imagen: ${error.message}`,
+          );
         }
       } else if (file.mimetype === 'application/pdf') {
         // Para PDFs, usar el buffer original
@@ -297,12 +311,12 @@ export class CreditDocumentService {
           name: file.originalname,
         });
       }
-  
+
       // Generar nombre único para el archivo
       const fileExtension = path.extname(file.originalname).toLowerCase();
       const randomId = crypto.randomBytes(4).toString('hex');
       const fileName = `${documentType}-${Date.now()}-${randomId}${fileExtension}`;
-  
+
       // Guardar el archivo
       const fileUrl = await this.saveFile(
         fileBuffer,
@@ -310,7 +324,7 @@ export class CreditDocumentService {
         creditId,
         documentType,
       );
-  
+
       // Crear el documento en la base de datos
       const document = this.documentRepository.create({
         credit: { id: creditId },
@@ -323,31 +337,36 @@ export class CreditDocumentService {
         metadata: {
           originalName: file.originalname,
           mimeType: file.mimetype,
-          dimensions: imageMetadata?.dimensions ? {
-            original: imageMetadata.dimensions.original,
-            resized: imageMetadata.dimensions.resized
-          } : undefined,
+          dimensions: imageMetadata?.dimensions
+            ? {
+                original: imageMetadata.dimensions.original,
+                resized: imageMetadata.dimensions.resized,
+              }
+            : undefined,
           hash: crypto.createHash('md5').update(fileBuffer).digest('hex'),
           processedAt: new Date(),
-          processingDetails: imageMetadata ? {
-            format: imageMetadata.format,
-            quality: imageMetadata.quality,
-            wasResized: !!imageMetadata.dimensions?.resized
-          } : undefined
-        }
+          processingDetails: imageMetadata
+            ? {
+                format: imageMetadata.format,
+                quality: imageMetadata.quality,
+                wasResized: !!imageMetadata.dimensions?.resized,
+              }
+            : undefined,
+        },
       });
-  
+
       const savedDocument = await this.documentRepository.save(document);
-      const baseUrl = this.configService.get('APP_URL') || 'http://localhost:3000';
+      const baseUrl =
+        this.configService.get('APP_URL') || 'http://localhost:3000';
       const publicUrl = `${baseUrl}/uploads/${fileUrl}`;
-  
+
       this.logger.log(`Documento guardado exitosamente:`, {
         id: savedDocument.id,
         type: documentType,
         fileName: fileName,
         size: fileBuffer.length,
       });
-  
+
       return {
         id: savedDocument.id,
         documentType: savedDocument.documentType,
@@ -358,21 +377,25 @@ export class CreditDocumentService {
         createdAt: savedDocument.createdAt,
         metadata: savedDocument.metadata,
       };
-  
     } catch (error) {
       this.logger.error('Error en uploadDocument:', {
         error: error.message,
         stack: error.stack,
         creditId,
         fileName: file?.originalname,
-        fileType: file?.mimetype
+        fileType: file?.mimetype,
       });
-  
-      if (error instanceof BadRequestException || error instanceof NotFoundException) {
+
+      if (
+        error instanceof BadRequestException ||
+        error instanceof NotFoundException
+      ) {
         throw error;
       }
-  
-      throw new BadRequestException(`Error al procesar el documento: ${error.message}`);
+
+      throw new BadRequestException(
+        `Error al procesar el documento: ${error.message}`,
+      );
     }
   }
 
@@ -382,9 +405,10 @@ export class CreditDocumentService {
         where: { credit: { id: creditId } },
         order: { createdAt: 'DESC' },
       });
-  
-      const baseUrl = this.configService.get('APP_URL') || 'http://localhost:3000';
-  
+
+      const baseUrl =
+        this.configService.get('APP_URL') || 'http://localhost:3000';
+
       return documents.map((document) => ({
         id: document.id,
         documentType: document.documentType,
@@ -411,7 +435,8 @@ export class CreditDocumentService {
         throw new NotFoundException('Documento no encontrado');
       }
 
-      const baseUrl = this.configService.get('APP_URL') || 'http://localhost:3000';
+      const baseUrl =
+        this.configService.get('APP_URL') || 'http://localhost:3000';
 
       return {
         id: document.id,
@@ -485,7 +510,8 @@ export class CreditDocumentService {
 
       await this.documentRepository.save(document);
 
-      const baseUrl = this.configService.get('APP_URL') || 'http://localhost:3000';
+      const baseUrl =
+        this.configService.get('APP_URL') || 'http://localhost:3000';
 
       return {
         id: document.id,

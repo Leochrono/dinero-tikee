@@ -34,7 +34,7 @@ interface RequestWithUser extends Request {
           destination: (req: RequestWithUser, file, callback) => {
             try {
               const baseDir = './uploads/users';
-              
+
               const userId = req.user?.id;
               if (!userId) {
                 throw new Error('ID de usuario no encontrado');
@@ -42,7 +42,7 @@ interface RequestWithUser extends Request {
 
               const uploadPath = join(baseDir, userId);
               console.log('Creando directorio de usuario:', uploadPath);
-              
+
               mkdirSync(uploadPath, { recursive: true });
               callback(null, uploadPath);
             } catch (error) {
@@ -54,19 +54,19 @@ interface RequestWithUser extends Request {
               const uniqueName = uuidv4();
               const fileExtension = extname(file.originalname);
               const fileName = `${uniqueName}${fileExtension}`;
-              
+
               console.log('Nombre de archivo generado:', fileName);
               callback(null, fileName);
             } catch (error) {
               callback(error as Error, '');
             }
-          }
+          },
         }),
         fileFilter: (req, file, callback) => {
           if (!file.originalname.match(/\.(jpg|jpeg|png|pdf)$/)) {
             return callback(
               new Error('Solo se permiten archivos jpg, jpeg, png y pdf'),
-              false
+              false,
             );
           }
           callback(null, true);
@@ -83,9 +83,9 @@ interface RequestWithUser extends Request {
     UserService,
     {
       provide: 'UPLOAD_PATH',
-      useValue: './uploads/users'
-    }
+      useValue: './uploads/users',
+    },
   ],
-  exports: [UserService]
+  exports: [UserService],
 })
 export class UserModule {}

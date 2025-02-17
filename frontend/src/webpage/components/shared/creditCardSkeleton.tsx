@@ -18,38 +18,38 @@ const SkeletonCard = styled(Box)(({ theme }) => ({
 const CreditCardSkeleton = () => {
   return (
     <SkeletonCard>
-      <Skeleton 
-        variant="rectangular" 
-        width={120} 
-        height={120} 
-        sx={{ borderRadius: 2, bgcolor: 'rgba(255, 255, 255, 0.1)' }} 
+      <Skeleton
+        variant="rectangular"
+        width={120}
+        height={120}
+        sx={{ borderRadius: 2, bgcolor: "rgba(255, 255, 255, 0.1)" }}
       />
-      <Box sx={{ display: 'flex', gap: 4 }}>
+      <Box sx={{ display: "flex", gap: 4 }}>
         {[1, 2, 3].map((index) => (
           <Box key={index}>
-            <Skeleton 
-              width={60} 
-              height={20} 
-              sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)' }} 
+            <Skeleton
+              width={60}
+              height={20}
+              sx={{ bgcolor: "rgba(255, 255, 255, 0.1)" }}
             />
-            <Skeleton 
-              width={80} 
-              height={32} 
-              sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)' }} 
+            <Skeleton
+              width={80}
+              height={32}
+              sx={{ bgcolor: "rgba(255, 255, 255, 0.1)" }}
             />
           </Box>
         ))}
       </Box>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <Skeleton 
-          width={200} 
-          height={40} 
-          sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)' }} 
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <Skeleton
+          width={200}
+          height={40}
+          sx={{ bgcolor: "rgba(255, 255, 255, 0.1)" }}
         />
-        <Skeleton 
-          width={120} 
-          height={40} 
-          sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)' }} 
+        <Skeleton
+          width={120}
+          height={40}
+          sx={{ bgcolor: "rgba(255, 255, 255, 0.1)" }}
         />
       </Box>
     </SkeletonCard>

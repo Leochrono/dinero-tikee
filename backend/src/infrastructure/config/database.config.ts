@@ -19,8 +19,6 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory
     //const nodeEnv = this.envService.get('NODE_ENV');
     //const synchronize = nodeEnv === 'development';
 
-    console.log(host, port, username, password, database);
-
     return {
       type: 'mysql',
       host,

@@ -65,18 +65,13 @@ export const useLoginModal = (onLoginSuccess?: () => void) => {
   );
 
   return {
-    // Estado
     loading: state.loading,
     error: state.error,
     isOpen: state.isOpen,
-
-    // Métodos
     login,
     openModal,
     closeModal,
     navigateToPublic,
-
-    // Utilidades
     setError: (error: string | null) => updateState({ error }),
   };
 };

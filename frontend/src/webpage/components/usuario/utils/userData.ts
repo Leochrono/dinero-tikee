@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { useUserProfile } from "@/src/core/hooks/api/use-user-profile";
 import { UserProfile } from "@/src/core/types/user.types";
 import { UserCredit, SearchHistory } from "@/src/core/types/credit.types";
@@ -15,7 +15,6 @@ export const userData = () => {
     setLoadingData(true);
     setDataError(null);
     try {
-      
       const profileResponse = await getUserProfile();
       if (profileResponse?.success && profileResponse?.data) {
         setUserProfile(profileResponse.data ?? null);
@@ -23,33 +22,39 @@ export const userData = () => {
 
       try {
         const creditsResponse = await getUserCredits();
-        const credits = Array.isArray(creditsResponse) 
-        ? creditsResponse 
-        : (creditsResponse?.data || []);
+        const credits = Array.isArray(creditsResponse)
+          ? creditsResponse
+          : creditsResponse?.data || [];
 
         if (credits.length > 0) {
-          const calculatedCredits: UserCredit[] = credits.map(credit => {
-            const monthlyRate = credit.institution?.minRate ? 
-              credit.institution.minRate / 12 / 100 : 0;
-            
-            const monthlyPayment = credit.institution ? 
-              (credit.amount * monthlyRate * Math.pow(1 + monthlyRate, credit.term)) /
-              (Math.pow(1 + monthlyRate, credit.term) - 1) : 0;
+          const calculatedCredits: UserCredit[] = credits.map((credit) => {
+            const monthlyRate = credit.institution?.minRate
+              ? credit.institution.minRate / 12 / 100
+              : 0;
+
+            const monthlyPayment = credit.institution
+              ? (credit.amount *
+                  monthlyRate *
+                  Math.pow(1 + monthlyRate, credit.term)) /
+                (Math.pow(1 + monthlyRate, credit.term) - 1)
+              : 0;
 
             return {
               ...credit,
               institution: {
                 ...credit.institution,
-                email: credit.institution?.email || ''
+                email: credit.institution?.email || "",
               },
               monthlyPayment: isNaN(monthlyPayment) ? 0 : monthlyPayment,
-              totalPayment: isNaN(monthlyPayment) ? 0 : monthlyPayment * credit.term
+              totalPayment: isNaN(monthlyPayment)
+                ? 0
+                : monthlyPayment * credit.term,
             };
           });
 
           setUserCredits(calculatedCredits);
         } else {
-          console.error('No se recibieron créditos o el array está vacío');
+          console.error("No se recibieron créditos o el array está vacío");
           setUserCredits([]);
         }
       } catch (error) {
@@ -62,7 +67,11 @@ export const userData = () => {
         if (Array.isArray(historyResponse)) {
           const sortedHistory = historyResponse
             .filter(Boolean)
-            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+            .sort(
+              (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+            );
           setSearchHistory(sortedHistory);
         }
       } catch (error) {
@@ -83,6 +92,6 @@ export const userData = () => {
     searchHistory,
     loadingData,
     dataError,
-    loadUserData
+    loadUserData,
   };
 };

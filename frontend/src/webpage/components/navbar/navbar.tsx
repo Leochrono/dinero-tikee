@@ -68,9 +68,10 @@ const Navbar: React.FC = () => {
     navigate(routesWebpage.perfil);
   };
 
-  const profileLabel = isAuthenticated && user
-    ? `${user.nombres.split(' ')[0]} ${user.apellidos.split(' ')[0]}`
-    : "Perfil";
+  const profileLabel =
+    isAuthenticated && user
+      ? `${user.nombres.split(" ")[0]} ${user.apellidos.split(" ")[0]}`
+      : "Perfil";
 
   return (
     <StyledAppBar>
@@ -100,18 +101,18 @@ const Navbar: React.FC = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
                 anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
+                  vertical: "bottom",
+                  horizontal: "right",
                 }}
                 transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 PaperProps={{
                   sx: {
-                    backgroundColor: 'secondary.main',
-                    color: 'common.white',
-                  }
+                    backgroundColor: "secondary.main",
+                    color: "common.white",
+                  },
                 }}
               >
                 <MenuItem onClick={handleProfileNavigation}>

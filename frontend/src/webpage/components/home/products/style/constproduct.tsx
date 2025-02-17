@@ -20,10 +20,10 @@ export const ProductsContainer = styled(Box)(({ theme }) => ({
 export const ProductsTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "48px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500,
   textAlign: "center",
   marginBottom: "40px",
-  fontFamily: "'Galano Grotesque', sans-serif", // Cambiado a Galano Grotesque
+  fontFamily: "'Galano Grotesque', sans-serif",
   [theme.breakpoints.down("lg")]: {
     fontSize: "42px",
     marginBottom: "36px",
@@ -31,7 +31,7 @@ export const ProductsTitle = styled(Typography)(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
     display: "none",
   },
- }));
+}));
 
 export const ProductsGrid = styled(Box)(({ theme }) => ({
   display: "grid",
@@ -58,13 +58,13 @@ export const ProductCard = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   gap: "24px",
-  border: `1px solid ${theme.palette.primary.light}`, 
+  border: `1px solid ${theme.palette.primary.light}`,
   position: "relative",
   transition: "all 0.3s ease",
   "&:hover": {
     transform: "translateY(-5px)",
     boxShadow: "0 10px 20px rgba(0,0,0,0.2)",
-    borderColor: theme.palette.custom.green.neon, 
+    borderColor: theme.palette.custom.green.neon,
   },
   [theme.breakpoints.down("lg")]: {
     padding: "28px",
@@ -80,7 +80,7 @@ export const ProductCard = styled(Box)(({ theme }) => ({
     padding: "20px",
     gap: "16px",
   },
- }));
+}));
 
 export const HighlightText = styled(Typography)(({ theme }) => ({
   display: "none",
@@ -169,9 +169,9 @@ export const ProductInfo = styled(Box)(({ theme }) => ({
 export const ProductTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "28px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500,
   lineHeight: 1.2,
-  fontFamily: "'Galano Grotesque', sans-serif", // Añadida la fuente Galano Grotesque
+  fontFamily: "'Galano Grotesque', sans-serif",
   [theme.breakpoints.down("lg")]: {
     fontSize: "24px",
   },
@@ -182,7 +182,7 @@ export const ProductTitle = styled(Typography)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     fontSize: "20px",
   },
- }));
+}));
 
 export const InterestRateContainer = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -199,21 +199,21 @@ export const InterestRateContainer = styled(Box)(({ theme }) => ({
 export const InterestRateLabel = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "20px",
-  fontWeight: 500, // Cambiado a 500
-  fontFamily: "'Galano Grotesque', sans-serif", // Añadida la fuente Galano Grotesque
+  fontWeight: 500,
+  fontFamily: "'Galano Grotesque', sans-serif",
   [theme.breakpoints.down("lg")]: {
     fontSize: "18px",
   },
   [theme.breakpoints.down("md")]: {
     fontSize: "16px",
   },
- }));
+}));
 
- export const InterestRateValue = styled(Typography)(({ theme }) => ({
+export const InterestRateValue = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.light,
   fontSize: "32px",
-  fontWeight: 500, 
-  fontFamily: "'Galano Grotesque', sans-serif", 
+  fontWeight: 500,
+  fontFamily: "'Galano Grotesque', sans-serif",
   [theme.breakpoints.down("lg")]: {
     fontSize: "28px",
   },
@@ -223,14 +223,14 @@ export const InterestRateLabel = styled(Typography)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     fontSize: "32px",
   },
- }));
+}));
 
 export const ProductDetails = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "16px",
   opacity: 0.9,
   lineHeight: 1.5,
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida la fuente Stage Grotesque
+  fontFamily: "'Stage Grotesque', sans-serif",
   [theme.breakpoints.down("lg")]: {
     fontSize: "15px",
   },
@@ -259,7 +259,8 @@ export const ActionButton = styled(Button)(({ theme }) => ({
     left: "-100%",
     width: "100%",
     height: "100%",
-    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+    background:
+      "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
     transition: "0.5s",
   },
 

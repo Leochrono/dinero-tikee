@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
@@ -7,17 +7,12 @@ interface PasswordVisibilityToggleProps {
   onToggle: () => void;
 }
 
-export const PasswordVisibilityToggle: React.FC<PasswordVisibilityToggleProps> = ({ 
-  isVisible, 
-  onToggle 
-}) => {
+export const PasswordVisibilityToggle: React.FC<
+  PasswordVisibilityToggleProps
+> = ({ isVisible, onToggle }) => {
   return (
     <InputAdornment position="end">
-      <IconButton
-        onClick={onToggle}
-        edge="end"
-        sx={{ color: "white" }}
-      >
+      <IconButton onClick={onToggle} edge="end" sx={{ color: "white" }}>
         {isVisible ? <VisibilityOff /> : <Visibility />}
       </IconButton>
     </InputAdornment>

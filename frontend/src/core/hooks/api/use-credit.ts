@@ -4,12 +4,12 @@ import { creditService } from "../../services/credit.service";
 import { useGlobalAuth } from "@/src/core/context/authContext";
 import { routesWebpage } from "@/components/contants/routes";
 import { toast } from "react-hot-toast";
-import { 
-  CreateCreditDTO, 
-  CreditHookReturn, 
-  CreditResponse, 
+import {
+  CreateCreditDTO,
+  CreditHookReturn,
+  CreditResponse,
   DocumentType,
-  DocumentResponseDto 
+  DocumentResponseDto,
 } from "../../types/credit.types";
 import { ApiResponse } from "../../types/auth.types";
 
@@ -23,8 +23,10 @@ export const useCredit = (
   const [error, setError] = useState<string | null>(null);
   const [creditId, setCreditId] = useState<string>("");
   const [status, setStatus] = useState<string>("PENDING");
-  const [selectedInstitutionId, setSelectedInstitutionId] = useState<string>("");
-  const [currentFormData, setCurrentFormData] = useState<CreateCreditDTO | null>(null);
+  const [selectedInstitutionId, setSelectedInstitutionId] =
+    useState<string>("");
+  const [currentFormData, setCurrentFormData] =
+    useState<CreateCreditDTO | null>(null);
 
   // Primero definimos updateCredit ya que otras funciones la utilizan
   const updateCredit = useCallback(
@@ -40,23 +42,18 @@ export const useCredit = (
       }
 
       try {
-        console.log('Iniciando actualización del crédito:', {
-          creditId,
-          updateData
-        });
-
         setLoading(true);
         const response = await creditService.update(creditId, updateData);
 
         if (!response?.success) {
-          console.error('Error en la respuesta:', response);
+          console.error("Error en la respuesta:", response);
           throw new Error(response?.error || "Error al actualizar el crédito");
         }
 
         toast.success("Crédito actualizado exitosamente");
         return response;
       } catch (error: any) {
-        console.error('Error completo en updateCredit:', error);
+        console.error("Error completo en updateCredit:", error);
         const errorMessage = error.response?.data?.message || error.message;
         toast.error(errorMessage);
         throw error;
@@ -68,7 +65,9 @@ export const useCredit = (
   );
 
   const createCredit = useCallback(
-    async (creditData: CreateCreditDTO): Promise<ApiResponse<CreditResponse>> => {
+    async (
+      creditData: CreateCreditDTO
+    ): Promise<ApiResponse<CreditResponse>> => {
       if (!isAuthenticated) {
         throw new Error("Debe iniciar sesión para continuar");
       }
@@ -77,18 +76,18 @@ export const useCredit = (
         setLoading(true);
 
         setCurrentFormData(creditData);
-        localStorage.setItem('creditFormData', JSON.stringify(creditData));
+        localStorage.setItem("creditFormData", JSON.stringify(creditData));
 
         const response = await creditService.create(creditData);
 
         if (!response?.success || !response?.data) {
-          console.error('Error en la respuesta:', response);
+          console.error("Error en la respuesta:", response);
           throw new Error("Error al crear el crédito");
         }
 
         return response;
       } catch (error: any) {
-        console.error('Error en createCredit:', error);
+        console.error("Error en createCredit:", error);
         const errorMessage = error.response?.data?.message || error.message;
         setError(errorMessage);
         throw error;
@@ -183,10 +182,10 @@ export const useCredit = (
       try {
         setLoading(true);
         if (!isAuthenticated) {
-          localStorage.setItem('creditFormData', JSON.stringify(creditData));
+          localStorage.setItem("creditFormData", JSON.stringify(creditData));
           setCurrentFormData(creditData);
           navigate(routesWebpage.login, {
-            state: { from: routesWebpage.creditoForm }
+            state: { from: routesWebpage.creditoForm },
           });
           return;
         }
@@ -199,13 +198,13 @@ export const useCredit = (
           setStatus("PENDING");
           setCurrentFormData(creditData);
           localStorage.setItem("currentCreditId", newCreditId);
-          localStorage.setItem('creditFormData', JSON.stringify(creditData));
-          
+          localStorage.setItem("creditFormData", JSON.stringify(creditData));
+
           toast.success("Solicitud creada exitosamente");
           navigate(routesWebpage.creditoResults);
         }
       } catch (error: any) {
-        console.error('Error en handleFormSubmit:', error);
+        console.error("Error en handleFormSubmit:", error);
         toast.error(error.message);
       } finally {
         setLoading(false);
@@ -219,18 +218,18 @@ export const useCredit = (
       try {
         setLoading(true);
 
-        const storedCreditId = localStorage.getItem('currentCreditId');
+        const storedCreditId = localStorage.getItem("currentCreditId");
         if (!storedCreditId) {
           throw new Error("No hay un crédito activo");
         }
 
         // Guardar datos antes de la actualización
         const selectedInstitution = institutionId;
-        localStorage.setItem('selectedInstitutionId', selectedInstitution);
+        localStorage.setItem("selectedInstitutionId", selectedInstitution);
 
         const response = await updateCredit(storedCreditId, {
           institutionId: selectedInstitution,
-          status: "INSTITUTION_SELECTED"
+          status: "INSTITUTION_SELECTED",
         });
 
         if (response.success) {
@@ -239,14 +238,14 @@ export const useCredit = (
           setCreditId(storedCreditId);
 
           // Pequeño delay antes de navegar
-          await new Promise(resolve => setTimeout(resolve, 200));
+          await new Promise((resolve) => setTimeout(resolve, 200));
           navigate(routesWebpage.creditoDetails);
         }
       } catch (error: any) {
-        console.error('Error en handleOptionSelect:', error);
+        console.error("Error en handleOptionSelect:", error);
         toast.error(error.message);
         // Limpiar datos si hay error
-        localStorage.removeItem('selectedInstitutionId');
+        localStorage.removeItem("selectedInstitutionId");
       } finally {
         setLoading(false);
       }
@@ -267,11 +266,13 @@ export const useCredit = (
     try {
       setLoading(true);
       if (creditId) {
-        const response = await updateCredit(creditId, { status: 'DOCUMENTS_SUBMITTED' });
+        const response = await updateCredit(creditId, {
+          status: "DOCUMENTS_SUBMITTED",
+        });
         if (response.success) {
-          setStatus('DOCUMENTS_SUBMITTED');
+          setStatus("DOCUMENTS_SUBMITTED");
           navigate(routesWebpage.creditoSuccess);
-          toast.success('Solicitud enviada exitosamente');
+          toast.success("Solicitud enviada exitosamente");
         }
       }
     } catch (error: any) {
@@ -287,8 +288,8 @@ export const useCredit = (
     setSelectedInstitutionId("");
     setCurrentFormData(null);
     setError(null);
-    localStorage.removeItem('currentCreditId');
-    localStorage.removeItem('creditFormData');
+    localStorage.removeItem("currentCreditId");
+    localStorage.removeItem("creditFormData");
     navigate(routesWebpage.creditoForm);
   }, [navigate]);
 
@@ -324,7 +325,10 @@ export const useCredit = (
   );
 
   const updateStatus = useCallback(
-    async (creditId: string, status: string): Promise<ApiResponse<CreditResponse>> => {
+    async (
+      creditId: string,
+      status: string
+    ): Promise<ApiResponse<CreditResponse>> => {
       if (!isAuthenticated) {
         throw new Error("USER_NOT_AUTHENTICATED");
       }
@@ -346,13 +350,13 @@ export const useCredit = (
   );
 
   const loadStoredFormData = useCallback(() => {
-    const storedData = localStorage.getItem('creditFormData');
+    const storedData = localStorage.getItem("creditFormData");
     if (storedData) {
       try {
         const parsedData = JSON.parse(storedData);
         setCurrentFormData(parsedData);
       } catch (e) {
-        console.error('Error al cargar datos del formulario:', e);
+        console.error("Error al cargar datos del formulario:", e);
       }
     }
   }, []);
@@ -378,7 +382,7 @@ export const useCredit = (
       formData: currentFormData || {
         email: _userEmail,
         document: _userDocument,
-        ...JSON.parse(localStorage.getItem('creditFormData') || '{}')
+        ...JSON.parse(localStorage.getItem("creditFormData") || "{}"),
       },
       loading,
       error,
@@ -388,7 +392,7 @@ export const useCredit = (
       onBack: handleBack,
       onApply: handleApply,
       onNewSearch: handleNewSearch,
-      selectedInstitutionId
-    }
+      selectedInstitutionId,
+    },
   };
 };

@@ -1,11 +1,7 @@
-import React from 'react';
+import React from "react";
 import { RecoveryButton } from "@/components/login/components/styles/constpassword";
-import { RecoveryType } from './useRecovery';
-import { 
-  LockReset, 
-  RestartAlt, 
-  SyncAlt 
-} from "@mui/icons-material";
+import { RecoveryType } from "./useRecovery";
+import { LockReset, RestartAlt, SyncAlt } from "@mui/icons-material";
 
 interface RecoveryTypeButtonProps {
   type: RecoveryType;
@@ -13,24 +9,24 @@ interface RecoveryTypeButtonProps {
   onClick: (type: RecoveryType) => void;
 }
 
-export const RecoveryTypeButton: React.FC<RecoveryTypeButtonProps> = ({ 
-  type, 
-  currentType, 
-  onClick 
+export const RecoveryTypeButton: React.FC<RecoveryTypeButtonProps> = ({
+  type,
+  currentType,
+  onClick,
 }) => {
   const buttonConfig = {
-    "password": {
+    password: {
       icon: <LockReset />,
-      label: "Recuperar Contraseña"
+      label: "Recuperar Contraseña",
     },
-    "user": {
+    user: {
       icon: <RestartAlt />,
-      label: "Recuperar Usuario"
+      label: "Recuperar Usuario",
     },
-    "both": {
+    both: {
       icon: <SyncAlt />,
-      label: "Recuperar Ambos"
-    }
+      label: "Recuperar Ambos",
+    },
   };
 
   const { icon, label } = buttonConfig[type];

@@ -51,10 +51,10 @@ export const BackButton = styled(Box)(({ theme }) => ({
 export const LoginWrapper = styled(Box)(({ theme }) => ({
   minHeight: "100vh",
   backgroundColor: theme.palette.background.default,
-  backgroundImage: "url('/assets/img/background.webp')", // Ruta a la imagen
-  backgroundSize: "cover", // Ajusta la imagen para cubrir todo el contenedor
-  backgroundPosition: "center", // Centra la imagen
-  backgroundRepeat: "no-repeat", // Evita que la imagen se repita
+  backgroundImage: "url('/assets/img/background.webp')",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  backgroundRepeat: "no-repeat",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -109,10 +109,10 @@ export const LoginContainer = styled(Container)(({ theme }) => ({
 export const LoginTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "48px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500,
   marginBottom: "8px",
   textAlign: "center",
-  fontFamily: "'Galano Grotesque', sans-serif", // Cambiada a Galano Grotesque
+  fontFamily: "'Galano Grotesque', sans-serif",
   textShadow: `0 0 10px ${theme.palette.primary.light}`,
 
   [theme.breakpoints.down("md")]: {
@@ -130,7 +130,7 @@ export const LoginSubtitle = styled(Typography)(({ theme }) => ({
   marginBottom: "32px",
   textAlign: "center",
   opacity: 0.8,
-  fontFamily: "'Stage Grotesque', sans-serif", // Cambiada a Stage Grotesque
+  fontFamily: "'Stage Grotesque', sans-serif",
 
   [theme.breakpoints.down("sm")]: {
     fontSize: "14px",
@@ -154,8 +154,8 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
     },
 
     "&:-webkit-autofill, &:-webkit-autofill:hover, &:-webkit-autofill:focus": {
-      WebkitTextFillColor: theme.palette.common.white, // camelCase
-      WebkitBoxShadow: `0 0 0px 1000px ${theme.palette.secondary.main} inset`, // camelCase
+      WebkitTextFillColor: theme.palette.common.white,
+      WebkitBoxShadow: `0 0 0px 1000px ${theme.palette.secondary.main} inset`,
       transition: "background-color 5000s ease-in-out 0s",
     },
 
@@ -205,8 +205,8 @@ export const LoginButton = styled(Button)(({ theme }) => ({
   color: theme.palette.text.secondary,
   padding: "12px",
   fontSize: "16px",
-  fontWeight: 500, // Cambiado a 500
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+  fontWeight: 500,
+  fontFamily: "'Stage Grotesque', sans-serif",
   marginTop: "16px",
   height: "56px",
   width: "100%",
@@ -254,7 +254,7 @@ export const ActionLinks = styled(Box)(({ theme }) => ({
     transition: "all 0.2s",
     fontSize: "14px",
     textAlign: "center",
-    fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+    fontFamily: "'Stage Grotesque', sans-serif",
     flex: 1,
 
     "&:hover": {

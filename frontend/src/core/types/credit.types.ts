@@ -1,15 +1,14 @@
 import { ApiResponse } from "./auth.types";
 
-// Enums
 export enum InstitutionType {
   BANK = "bank",
   COOPERATIVE = "cooperative",
 }
 
 export enum DocumentType {
-  ID = 'id',
-  PAYROLL = 'payroll',
-  SERVICES = 'services'
+  ID = "id",
+  PAYROLL = "payroll",
+  SERVICES = "services",
 }
 
 export enum FileType {
@@ -31,7 +30,7 @@ export interface Credit {
     type: string;
     logo: string;
     minRate: number;
-    email?: string; 
+    email?: string;
   };
 }
 
@@ -91,7 +90,7 @@ export interface UserCredit {
   };
   monthlyPayment: number;
   totalPayment: number;
-  documents?: CreditDocument[]; // Agregamos esta línea
+  documents?: CreditDocument[];
 }
 
 export interface SearchHistory {
@@ -118,7 +117,6 @@ export interface CreditContextValue {
   selectedInstitutionId: string;
 }
 
-// Interfaces relacionadas con instituciones
 export interface ProductLoan {
   minAmount: number;
   maxAmount: number;
@@ -186,7 +184,6 @@ export interface InstitutionSearchResponse
     filters: InstitutionFilterDto;
   }> {}
 
-// Interfaces relacionadas con documentos
 export interface DocumentMetadata {
   originalName: string;
   mimeType: string;
@@ -221,7 +218,6 @@ export interface VerifyDocumentDto {
 
 export interface DocumentResponseDto extends ApiResponse<CreditDocument> {}
 
-// Hooks y métodos relacionados con créditos
 export interface CreditHookReturn {
   loading: boolean;
   error: string | null;

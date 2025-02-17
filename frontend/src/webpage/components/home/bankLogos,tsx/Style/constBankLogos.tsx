@@ -1,7 +1,6 @@
 import { Box, Typography, styled } from "@mui/material";
 import { keyframes } from "@mui/system";
 
-
 export const scroll = keyframes`
   0% { transform: translateX(0); }
   100% { transform: translateX(calc(-250px * 6)); }
@@ -17,7 +16,6 @@ export const scrollSmall = keyframes`
   100% { transform: translateX(calc(-120px * 6)); }
 `;
 
-// Contenedor principal
 export const CarouselContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   padding: "80px 0",
@@ -41,14 +39,13 @@ export const CarouselContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-
 export const Title = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "56px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500,
   textAlign: "center",
   marginBottom: "60px",
-  fontFamily: "'Galano Grotesque', sans-serif", // Cambiado a Galano Grotesque
+  fontFamily: "'Galano Grotesque', sans-serif",
   padding: "0 20px",
   transition: "font-size 0.3s ease",
   [theme.breakpoints.down("lg")]: {
@@ -63,8 +60,7 @@ export const Title = styled(Typography)(({ theme }) => ({
     fontSize: "32px",
     marginBottom: "30px",
   },
- }));
-
+}));
 
 export const MarqueeContainer = styled(Box)(({ theme }) => ({
   width: "100%",

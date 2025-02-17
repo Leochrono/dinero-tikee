@@ -1,4 +1,15 @@
-import { IsString, IsEmail, MinLength, IsNotEmpty, IsOptional, IsBoolean, IsDate, IsUUID, ValidateNested, IsEnum } from 'class-validator';
+import {
+  IsString,
+  IsEmail,
+  MinLength,
+  IsNotEmpty,
+  IsOptional,
+  IsBoolean,
+  IsDate,
+  IsUUID,
+  ValidateNested,
+  IsEnum,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreditResponseDto } from 'src/application/credit/dto/credit.dto';
 

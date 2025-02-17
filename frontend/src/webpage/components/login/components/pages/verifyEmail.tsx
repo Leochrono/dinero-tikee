@@ -50,10 +50,10 @@ const VerifyEmail: React.FC = () => {
 
           <EmailDisplay email={email} />
 
-          <VerificationTimer 
-            timeLeft={timeLeft} 
-            isExpired={isExpired} 
-            formatTime={formatTime} 
+          <VerificationTimer
+            timeLeft={timeLeft}
+            isExpired={isExpired}
+            formatTime={formatTime}
           />
 
           <StyledTextField
@@ -100,7 +100,7 @@ const VerifyEmail: React.FC = () => {
             )}
           </VerifyButton>
 
-          <ResendCodeButton 
+          <ResendCodeButton
             isResending={isResending}
             resendCooldown={resendCooldown}
             handleResendCode={handleResendCode}

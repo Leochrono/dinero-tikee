@@ -19,14 +19,11 @@ export interface CreditResponse {
   createdAt: Date;
   institutionId?: string;
   user?: {
-    // Define la estructura del objeto `user` aquí
     id: string;
-    name: string; 
-    // otras propiedades...
+    name: string;
   };
 }
 
-// Interfaces para opciones y detalles de crédito
 export interface CreditOption {
   bankLogo: string;
   monthlyPayment: number;
@@ -98,7 +95,6 @@ export interface CreditDocument {
   };
 }
 
-// Interfaces para respuestas API y errores
 export interface ApiResponse<T> {
   success: boolean;
   data: T;
@@ -116,7 +112,6 @@ export interface FormErrors {
   termsAccepted?: string;
 }
 
-// Types para estados y pasos
 export type CreditStep = "form" | "results" | "details" | "success";
 
 export type CreditStatus =
@@ -127,7 +122,6 @@ export type CreditStatus =
   | "APPROVED"
   | "REJECTED";
 
-// Interfaces para props de componentes
 export interface CreditFormProps {
   onSubmit: (data: CreditFormData) => void;
   initialData: CreditFormData;
@@ -151,7 +145,6 @@ export interface CreditSuccessProps {
   onNewSearch: () => void;
 }
 
-// Tipo para el contexto compartido
 export interface CreditContextType {
   formData: CreditFormData;
   initialData: CreditFormData;
@@ -169,4 +162,3 @@ export interface ValidFields {
   document: boolean;
   location: boolean;
 }
-

@@ -1,16 +1,16 @@
 import { Box, Typography, Button, styled } from "@mui/material";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const NAVBAR_HEIGHT = '64px';
+const NAVBAR_HEIGHT = "64px";
 
 export const UserContainer = styled(Box)(({ theme }) => ({
   minHeight: `calc(100vh - ${NAVBAR_HEIGHT})`,
   backgroundColor: theme.palette.background.default,
   padding: "100px 200px",
   marginTop: NAVBAR_HEIGHT,
-  width: '100%',
-  boxSizing: 'border-box',
-  overflowX: 'hidden',
+  width: "100%",
+  boxSizing: "border-box",
+  overflowX: "hidden",
 
   [theme.breakpoints.down("lg")]: {
     padding: "20px 60px",
@@ -30,7 +30,7 @@ export const Header = styled(Box)(({ theme }) => ({
   width: "100%",
   gap: "16px",
 
-  "& > *:nth-of-type(2)": { // PageTitle
+  "& > *:nth-of-type(2)": {
     flex: 1,
   },
 
@@ -69,32 +69,32 @@ export const BackButton = styled(Box)(({ theme }) => ({
 export const PageTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "32px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500,
   textAlign: "center",
-  fontFamily: "'Galano Grotesque', sans-serif", // Añadida fuente Galano Grotesque
- 
+  fontFamily: "'Galano Grotesque', sans-serif", 
+
   [theme.breakpoints.down("md")]: {
     fontSize: "28px",
   },
   [theme.breakpoints.down("sm")]: {
     fontSize: "24px",
   },
- }));
+}));
 
- export const WelcomeSection = styled(Typography)(({ theme }) => ({
+export const WelcomeSection = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "64px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500, 
   marginTop: "40px",
   marginBottom: "48px",
-  fontFamily: "'Galano Grotesque', sans-serif", // Añadida fuente Galano Grotesque
- 
+  fontFamily: "'Galano Grotesque', sans-serif", 
+
   "& .highlight": {
     display: "block",
     fontSize: "72px",
     marginTop: "8px",
   },
- 
+
   [theme.breakpoints.down("lg")]: {
     fontSize: "56px",
     "& .highlight": {
@@ -117,16 +117,16 @@ export const PageTitle = styled(Typography)(({ theme }) => ({
       fontSize: "42px",
     },
   },
- }));
+}));
 
- export const SectionTitle = styled(Typography)(({ theme }) => ({
+export const SectionTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.light,
   fontSize: "48px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500, 
   marginBottom: "24px",
   wordBreak: "break-word",
-  fontFamily: "'Galano Grotesque', sans-serif", // Añadida fuente Galano Grotesque
- 
+  fontFamily: "'Galano Grotesque', sans-serif", 
+
   [theme.breakpoints.down("lg")]: {
     fontSize: "42px",
   },
@@ -137,7 +137,7 @@ export const PageTitle = styled(Typography)(({ theme }) => ({
     fontSize: "28px",
     marginBottom: "16px",
   },
- }));
+}));
 
 export const CreditCard = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.main,
@@ -176,7 +176,7 @@ export const BankLogo = styled(Box)(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
   padding: "16px",
-  
+
   "& img": {
     width: "100%",
     height: "100%",
@@ -274,14 +274,14 @@ export const ActionButton = styled(Button)(({ theme }) => ({
   padding: "12px 32px",
   borderRadius: "50px",
   fontSize: "16px",
-  fontWeight: 500, // Cambiado a 500
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+  fontWeight: 500, 
+  fontFamily: "'Stage Grotesque', sans-serif", 
   alignSelf: "flex-start",
- 
+
   "&:hover": {
     backgroundColor: theme.palette.primary.main,
   },
- 
+
   [theme.breakpoints.down("md")]: {
     alignSelf: "center",
     padding: "10px 24px",
@@ -291,7 +291,7 @@ export const ActionButton = styled(Button)(({ theme }) => ({
     width: "100%",
     padding: "8px 20px",
   },
- }));
+}));
 
 export const HistoryGrid = styled(Box)(({ theme }) => ({
   display: "grid",
@@ -328,8 +328,8 @@ export const HistoryDate = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "18px",
   marginBottom: "24px",
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
- 
+  fontFamily: "'Stage Grotesque', sans-serif", 
+
   [theme.breakpoints.down("md")]: {
     fontSize: "16px",
     marginBottom: "20px",
@@ -338,7 +338,7 @@ export const HistoryDate = styled(Typography)(({ theme }) => ({
     fontSize: "14px",
     marginBottom: "16px",
   },
- }));
+}));
 
 export const HistoryDetails = styled(Box)(({ theme }) => ({
   display: "grid",

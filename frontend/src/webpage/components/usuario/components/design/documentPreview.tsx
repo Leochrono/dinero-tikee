@@ -10,11 +10,11 @@ const DocumentPreview = ({ doc }: DocumentPreviewProps) => {
       <iframe
         src={doc.fileUrl}
         style={{
-          width: '100%',
-          height: '400px',
-          border: 'none',
-          borderRadius: '4px',
-          marginTop: '8px'
+          width: "100%",
+          height: "400px",
+          border: "none",
+          borderRadius: "4px",
+          marginTop: "8px",
         }}
         title={doc.fileName}
       />
@@ -25,11 +25,11 @@ const DocumentPreview = ({ doc }: DocumentPreviewProps) => {
         src={doc.fileUrl}
         alt={doc.fileName}
         style={{
-          maxWidth: '100%',
-          maxHeight: '400px',
-          objectFit: 'contain',
-          borderRadius: '4px',
-          marginTop: '8px'
+          maxWidth: "100%",
+          maxHeight: "400px",
+          objectFit: "contain",
+          borderRadius: "4px",
+          marginTop: "8px",
         }}
       />
     );

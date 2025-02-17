@@ -7,22 +7,14 @@ import { join } from 'path';
 import * as express from 'express';
 import { createLogger, format, transports } from 'winston';
 
-
 const winstonLogger = createLogger({
-  level: 'error', 
-  format: format.combine(
-    format.timestamp(), 
-    format.json(), 
-  ),
+  level: 'error',
+  format: format.combine(format.timestamp(), format.json()),
   transports: [
-    
     new transports.File({ filename: 'logs/error.log', level: 'error' }),
-    
+
     new transports.Console({
-      format: format.combine(
-        format.colorize(), 
-        format.simple(), 
-      ),
+      format: format.combine(format.colorize(), format.simple()),
     }),
   ],
 });
@@ -32,21 +24,18 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);
 
-  
   const jwtSecret = configService.get<string>('JWT_SECRET');
   if (!jwtSecret) {
-    
     winstonLogger.error('La variable JWT_SECRET no está definida.');
 
-    
-    logger.error('Error crítico: La aplicación no puede iniciarse debido a una configuración faltante.');
-    process.exit(1); 
+    logger.error(
+      'Error crítico: La aplicación no puede iniciarse debido a una configuración faltante.',
+    );
+    process.exit(1);
   }
 
-  
   app.use('/uploads', express.static(join(__dirname, '..', 'uploads')));
 
-  
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -54,7 +43,6 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-
 
   app.enableCors({
     origin: ['http://localhost:5173'],
@@ -78,7 +66,9 @@ async function bootstrap() {
   await app.listen(port);
 
   logger.log(`🚀 La aplicación está corriendo en: ${await app.getUrl()}`);
-  logger.log(`📁 Archivos estáticos disponibles en: ${await app.getUrl()}/uploads`);
+  logger.log(
+    `📁 Archivos estáticos disponibles en: ${await app.getUrl()}/uploads`,
+  );
   logger.log(`🌐 URL del frontend: ${configService.get('FRONTEND_URL')}`);
 }
 

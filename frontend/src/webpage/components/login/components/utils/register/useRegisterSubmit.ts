@@ -8,7 +8,7 @@ import { validations } from "@/src/utils/validations";
 import { RegisterFormData, FormErrors } from "@/src/core/types/registerTypes";
 
 export const useRegisterSubmit = (
-  formData: RegisterFormData, 
+  formData: RegisterFormData,
   setErrors: React.Dispatch<React.SetStateAction<FormErrors>>
 ) => {
   const navigate = useNavigate();
@@ -62,15 +62,22 @@ export const useRegisterSubmit = (
         password: formData.password,
       };
 
-      sessionStorage.setItem("registrationData", JSON.stringify(registrationData));
-
-      const verificationResponse = await verificationService.sendVerificationCode(
-        registrationData.email,
-        `${registrationData.nombres} ${registrationData.apellidos}`
+      sessionStorage.setItem(
+        "registrationData",
+        JSON.stringify(registrationData)
       );
 
+      const verificationResponse =
+        await verificationService.sendVerificationCode(
+          registrationData.email,
+          `${registrationData.nombres} ${registrationData.apellidos}`
+        );
+
       if (!verificationResponse.success) {
-        throw new Error(verificationResponse.message || "Error al enviar código de verificación");
+        throw new Error(
+          verificationResponse.message ||
+            "Error al enviar código de verificación"
+        );
       }
 
       navigate(routesWebpage.verificarEmail, {
@@ -81,14 +88,14 @@ export const useRegisterSubmit = (
           remainingAttempts: verificationResponse.data?.remainingAttempts ?? 5,
         },
       });
-
     } catch (error: any) {
       console.error("Error en registro:", error);
-      
-      const errorMessage = error.response?.data?.message || 
-                          error.message || 
-                          "Error en el proceso de registro";
-      
+
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Error en el proceso de registro";
+
       toast.error(errorMessage);
       setErrors({});
     } finally {

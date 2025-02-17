@@ -1,13 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MulterModule } from '@nestjs/platform-express';
-import { memoryStorage } from 'multer';  // Cambiado de diskStorage a memoryStorage
-import { extname, join } from 'path';
+import { memoryStorage } from 'multer';
+import { join } from 'path';
 import * as path from 'path';
-import * as crypto from 'crypto';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Request } from 'express';
-import { mkdirSync } from 'fs';
 
 // Entidades
 import { CreditEntity } from '../../domain/entities/credit.entity';
@@ -23,7 +21,6 @@ import { CreditDocumentService } from './services/credit-document.service';
 import { CreditController } from '../../interface/controllers/credit.controller';
 import { CreditDocumentController } from '../../interface/controllers/credit-document.controller';
 
-// Interfaz para tipar el request
 interface RequestWithParams extends Request {
   params: {
     creditId?: string;
@@ -40,54 +37,50 @@ interface RequestWithParams extends Request {
       CreditEntity,
       CreditDocumentEntity,
       UserEntity,
-      InstitutionEntity
+      InstitutionEntity,
     ]),
     MulterModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         storage: memoryStorage(),
         fileFilter: (req, file, callback) => {
-          // Validar tipo MIME
           const allowedMimes = ['image/jpeg', 'image/png', 'application/pdf'];
           if (!allowedMimes.includes(file.mimetype)) {
-            return callback(new Error(
-              'Tipo de archivo no permitido. Solo se permiten JPG, PNG y PDF'
-            ), false);
+            return callback(
+              new Error(
+                'Tipo de archivo no permitido. Solo se permiten JPG, PNG y PDF',
+              ),
+              false,
+            );
           }
 
-          // Validar extensión
           const ext = path.extname(file.originalname).toLowerCase();
           if (!['.jpg', '.jpeg', '.png', '.pdf'].includes(ext)) {
-            return callback(new Error(
-              'Extensión de archivo no permitida'
-            ), false);
+            return callback(
+              new Error('Extensión de archivo no permitida'),
+              false,
+            );
           }
 
           callback(null, true);
         },
         limits: {
-          fileSize: 5 * 1024 * 1024, // 5MB
-          files: 1 // Permitir solo un archivo por solicitud
-        }
+          fileSize: 5 * 1024 * 1024,
+          files: 1,
+        },
       }),
       inject: [ConfigService],
     }),
   ],
-  controllers: [
-    CreditController,
-    CreditDocumentController
-  ],
+  controllers: [CreditController, CreditDocumentController],
   providers: [
     CreditService,
     CreditDocumentService,
     {
       provide: 'UPLOAD_PATH',
-      useValue: join(process.cwd(), 'uploads', 'credits')
-    }
+      useValue: join(process.cwd(), 'uploads', 'credits'),
+    },
   ],
-  exports: [
-    CreditService,
-    CreditDocumentService
-  ]
+  exports: [CreditService, CreditDocumentService],
 })
 export class CreditModule {}

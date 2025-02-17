@@ -1,9 +1,9 @@
-import { 
-  Entity, 
-  Column, 
-  PrimaryGeneratedColumn, 
-  ManyToOne, 
-  CreateDateColumn 
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
 
@@ -12,7 +12,7 @@ export class AccountLockEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => UserEntity, user => user.accountLocks)
+  @ManyToOne(() => UserEntity, (user) => user.accountLocks)
   user: UserEntity;
 
   @Column({
@@ -23,8 +23,8 @@ export class AccountLockEntity {
       'suspicious_activity',
       'security_policy',
       'administrative',
-      'user_requested'
-    ]
+      'user_requested',
+    ],
   })
   reason: string;
 

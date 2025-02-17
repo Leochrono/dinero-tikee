@@ -1,7 +1,7 @@
 import { RecoveryType, RecoverFormData } from "./useRecovery";
 
 export const validateFields = (
-  recoveryType: RecoveryType | "", 
+  recoveryType: RecoveryType | "",
   formData: RecoverFormData
 ): boolean => {
   switch (recoveryType) {

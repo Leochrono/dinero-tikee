@@ -5,15 +5,15 @@ import { UserEntity } from '../../domain/entities/user.entity';
 import { VerificationLogEntity } from '../../domain/entities/verification-log.entity';
 import { VerificationService } from './services/verification.service';
 import { VerificationController } from '../../interface/controllers/verification.controller';
-import { MailerModule } from '../../infrastructure/mailer/mailer.module'; 
+import { MailerModule } from '../../infrastructure/mailer/mailer.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserEntity, VerificationLogEntity]),
-    MailerModule 
+    MailerModule,
   ],
   controllers: [VerificationController],
   providers: [VerificationService],
-  exports: [VerificationService]
+  exports: [VerificationService],
 })
 export class VerificationModule {}

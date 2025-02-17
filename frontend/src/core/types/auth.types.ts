@@ -1,7 +1,6 @@
 import { routesWebpage } from "@/components/contants/routes";
 import { User } from "./user.types";
 
-// Base Response (compartido con otros archivos)
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;
@@ -9,9 +8,12 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
-// Interfaces relacionadas con autenticación básica
 export interface AuthMethods {
-  login: (email: string, password: string, redirect?: boolean) => Promise<boolean>;
+  login: (
+    email: string,
+    password: string,
+    redirect?: boolean
+  ) => Promise<boolean>;
   logout: () => void;
   checkAuth: () => Promise<boolean>;
   setError: (error: string | null) => void;
@@ -32,7 +34,7 @@ export type PublicRoute =
 
 export interface AuthData {
   accessToken: string;
-  user: User  ;
+  user: User;
 }
 
 export interface Tokens {
@@ -57,7 +59,11 @@ export interface AuthContextType {
   user: User | null;
   loading: boolean;
   checkAuth: () => Promise<boolean>;
-  login: (email: string, password: string, redirect?: boolean) => Promise<boolean>;
+  login: (
+    email: string,
+    password: string,
+    redirect?: boolean
+  ) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -71,7 +77,6 @@ export interface AuthState {
   isEmailVerified?: boolean;
 }
 
-// Interfaces relacionadas con respuestas específicas de autenticación
 export interface LoginResponseDto extends ApiResponse<AuthResponse> {
   requirePasswordChange?: boolean;
   passwordExpired?: boolean;

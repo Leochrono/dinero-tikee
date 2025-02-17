@@ -9,9 +9,9 @@ import {
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import { useLoginModal } from "@/src/core/hooks/api/useLoginModal";
-import { useGlobalAuth } from "@/src/core/context/authContext"; 
+import { useGlobalAuth } from "@/src/core/context/authContext";
 import {
   LoginContainer,
   LoginTitle,
@@ -20,9 +20,9 @@ import {
   LoginButton,
   ActionLinks,
 } from "../styles/constlogin";
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 import { routesWebpage } from "@/components/contants/routes";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 interface LoginModalProps {
   open: boolean;
@@ -31,40 +31,41 @@ interface LoginModalProps {
 }
 
 const CloseButton = styled(IconButton)(({ theme }) => ({
-  position: 'absolute',
-  right: '10px',
-  top: '10px',
+  position: "absolute",
+  right: "10px",
+  top: "10px",
   color: theme.palette.common.white,
 }));
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialog-paper': {
-    backgroundColor: 'transparent',
-    boxShadow: 'none',
-    width: '100%',
-    maxWidth: '450px',
-    margin: '20px',
-  }
+  "& .MuiDialog-paper": {
+    backgroundColor: "transparent",
+    boxShadow: "none",
+    width: "100%",
+    maxWidth: "450px",
+    margin: "20px",
+  },
 }));
 
 const ModalLoginContainer = styled(LoginContainer)({
   margin: 0,
-  width: '100%',
-  maxHeight: '90vh',
-  overflow: 'auto',
-  padding: '40px 30px',
+  width: "100%",
+  maxHeight: "90vh",
+  overflow: "auto",
+  padding: "40px 30px",
 });
 
 const MessageTypography = styled(Typography)({
-  color: 'white',
-  textAlign: 'center',
-  marginBottom: '20px',
-  fontSize: '14px',
+  color: "white",
+  textAlign: "center",
+  marginBottom: "20px",
+  fontSize: "14px",
 });
 
 const LoginModal = ({ open, onClose, onLoginSuccess }: LoginModalProps) => {
-  const globalAuth = useGlobalAuth(); // Get global auth context
-  const { login, loading, error, setError, navigateToPublic } = useLoginModal(onLoginSuccess);
+  const globalAuth = useGlobalAuth();
+  const { login, loading, error, setError, navigateToPublic } =
+    useLoginModal(onLoginSuccess);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -100,39 +101,40 @@ const LoginModal = ({ open, onClose, onLoginSuccess }: LoginModalProps) => {
     if (!formData.email || !formData.password) {
       return;
     }
-  
+
     try {
-      // Use global login method to ensure context update
-      const success = await globalAuth.login(formData.email, formData.password, false);
-      
+      const success = await globalAuth.login(
+        formData.email,
+        formData.password,
+        false
+      );
+
       if (success) {
-        // Recargar la página después del inicio de sesión exitoso
         window.location.reload();
-        
         handleClose();
-        toast.success('¡Bienvenido!', {
+        toast.success("¡Bienvenido!", {
           autoClose: 3000,
-          position: 'top-right'
+          position: "top-right",
         });
       } else {
-        setFormData(prev => ({
+        setFormData((prev) => ({
           ...prev,
           password: "",
         }));
-        toast.error('Usuario o contraseña incorrectos', {
+        toast.error("Usuario o contraseña incorrectos", {
           autoClose: 4000,
-          position: 'top-right'
+          position: "top-right",
         });
       }
     } catch (err) {
       console.error("Error en inicio de sesión:", err);
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         password: "",
       }));
-      toast.error('Hubo un error al intentar iniciar sesión', {
+      toast.error("Hubo un error al intentar iniciar sesión", {
         autoClose: 4000,
-        position: 'top-right'
+        position: "top-right",
       });
     }
   };
@@ -144,12 +146,7 @@ const LoginModal = ({ open, onClose, onLoginSuccess }: LoginModalProps) => {
   };
 
   return (
-    <StyledDialog
-      open={open}
-      onClose={handleClose}
-      maxWidth="sm"
-      fullWidth
-    >
+    <StyledDialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
       <DialogContent>
         <ModalLoginContainer>
           <CloseButton onClick={handleClose}>
@@ -162,7 +159,8 @@ const LoginModal = ({ open, onClose, onLoginSuccess }: LoginModalProps) => {
             </LoginSubtitle>
 
             <MessageTypography>
-              Debes iniciar sesión para poder continuar con la solicitud de crédito
+              Debes iniciar sesión para poder continuar con la solicitud de
+              crédito
             </MessageTypography>
 
             {error && (
@@ -209,7 +207,11 @@ const LoginModal = ({ open, onClose, onLoginSuccess }: LoginModalProps) => {
                       onClick={handleTogglePassword}
                       edge="end"
                       sx={{ color: "white" }}
-                      aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                      aria-label={
+                        showPassword
+                          ? "Ocultar contraseña"
+                          : "Mostrar contraseña"
+                      }
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>

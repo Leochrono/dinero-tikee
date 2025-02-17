@@ -10,7 +10,7 @@ import { UserService } from '../user/services/user.service';
 import { AuthController } from '../../interface/controllers/auth.controller';
 import { PasswordModule } from '../password/password.module';
 import { CreditModule } from '../credit/credit.module';
-import { MailerModule } from '../../infrastructure/mailer/mailer.module'; 
+import { MailerModule } from '../../infrastructure/mailer/mailer.module';
 
 @Module({
   imports: [

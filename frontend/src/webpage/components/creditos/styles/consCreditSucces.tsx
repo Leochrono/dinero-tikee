@@ -22,19 +22,19 @@ export const CheckIcon = styled(CheckCircleIcon)(({ theme }) => ({
 export const Title = styled("h1")(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "48px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500,
   marginBottom: "32px",
-  fontFamily: "'Galano Grotesque', sans-serif", // Añadida fuente Galano Grotesque
- }));
+  fontFamily: "'Galano Grotesque', sans-serif",
+}));
 
- export const Message = styled("p")(({ theme }) => ({
+export const Message = styled("p")(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "24px",
   marginBottom: "16px",
-  fontFamily: "'Stage Grotesque', sans-serif", // Cambiada a Stage Grotesque
- }));
+  fontFamily: "'Stage Grotesque', sans-serif",
+}));
 
- export const SearchButton = styled(Button)(({ theme }) => ({
+export const SearchButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
   color: theme.palette.text.secondary,
   borderRadius: "50px",
@@ -42,12 +42,12 @@ export const Title = styled("h1")(({ theme }) => ({
   fontSize: "18px",
   marginTop: "48px",
   textTransform: "uppercase",
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
-  fontWeight: 500, // Cambiado a 500
+  fontFamily: "'Stage Grotesque', sans-serif",
+  fontWeight: 500,
   "&:hover": {
     backgroundColor: theme.palette.primary.main,
   },
- }));
+}));
 
 export interface CreditSuccessProps {
   onNewSearch: () => void;

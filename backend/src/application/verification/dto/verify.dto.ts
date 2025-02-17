@@ -1,4 +1,10 @@
-import { IsString, IsEmail, IsNotEmpty, Length, IsOptional } from 'class-validator';
+import {
+  IsString,
+  IsEmail,
+  IsNotEmpty,
+  Length,
+  IsOptional,
+} from 'class-validator';
 
 // Nuevo DTO para el envío inicial
 export class SendVerificationCodeDto {

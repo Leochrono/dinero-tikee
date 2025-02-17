@@ -1,11 +1,11 @@
-import { 
+import {
   StepsContainer,
   StepsTitle,
   StepsSubtitle,
   StepsGrid,
   StepItem,
   StepWrapper,
-  StepDescription
+  StepDescription,
 } from "./style/consStyle";
 import SearchIcon from "@mui/icons-material/Search";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";

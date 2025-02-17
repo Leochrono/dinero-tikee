@@ -30,7 +30,6 @@ export const userService = {
   },
 
   getCredits: async (): Promise<ApiResponse<Credit[]>> => {
-    // Cambiado de CreditContextType a Credit
     try {
       const response = await axiosInstance.get<ApiResponse<Credit[]>>(
         "/credits/user-credits"
@@ -130,11 +129,18 @@ export const userService = {
 
   getCredit: async (creditId: string): Promise<ApiResponse<UserCredit>> => {
     try {
-      const response = await axiosInstance.get<ApiResponse<UserCredit>>(`/credits/${creditId}/details`); // Cambiado a /details
+      const response = await axiosInstance.get<ApiResponse<UserCredit>>(
+        `/credits/${creditId}/details`
+      );
       return response.data;
     } catch (error: any) {
-      console.error(`[userService] Error al obtener detalles del crédito ${creditId}:`, error);
-      throw new Error(error.response?.data?.error || 'Error al obtener detalles del crédito');
+      console.error(
+        `[userService] Error al obtener detalles del crédito ${creditId}:`,
+        error
+      );
+      throw new Error(
+        error.response?.data?.error || "Error al obtener detalles del crédito"
+      );
     }
   },
 };

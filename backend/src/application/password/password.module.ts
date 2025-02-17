@@ -24,14 +24,11 @@ import { JwtStrategy } from '../../infrastructure/auth/jwt.strategy';
         },
       }),
     }),
-    TypeOrmModule.forFeature([
-      PasswordHistoryEntity,
-      UserEntity
-    ]),
-    MailerModule
+    TypeOrmModule.forFeature([PasswordHistoryEntity, UserEntity]),
+    MailerModule,
   ],
   controllers: [PasswordController],
   providers: [PasswordService, JwtStrategy],
-  exports: [PasswordService]
+  exports: [PasswordService],
 })
 export class PasswordModule {}

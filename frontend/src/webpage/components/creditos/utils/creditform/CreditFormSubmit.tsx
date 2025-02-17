@@ -1,5 +1,5 @@
 import React from "react";
-import { SubmitButton } from "../styles/creditFormConst";
+import { SubmitButton } from "../../styles/creditFormConst";
 import { LoadingResults } from "@/webpage/components/shared/loadingResults";
 
 interface CreditFormSubmitProps {

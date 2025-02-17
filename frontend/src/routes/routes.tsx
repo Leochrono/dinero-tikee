@@ -10,14 +10,14 @@ import VerifyEmail from '@/components/login/components/pages/verifyEmail';
 import UnlockAccount from '@/components/login/components/pages/unlockAccount';
 import Usuario from '@/webpage/components/usuario/usuario';
 import CreditContainer from '@/components/creditos/container/CreditContainer';
-import CreditForm from '@/webpage/components/creditos/creditForm';
-import CreditResults from '@/webpage/components/creditos/creditResults';
-import CreditDetails from '@/webpage/components/creditos/creditDetails';
-import CreditSuccess from '@/webpage/components/creditos/creditSucces';
+import CreditForm from '@/components/creditos/pages/creditForm';
+import CreditResults from '@/components/creditos/pages/creditResults';
+import CreditDetails from '@/components/creditos/pages/creditDetails';
+import CreditSuccess from '@/components/creditos/pages/creditSucces';
 import PrivateRoute from './privateRoute';
 import { FullWidthLayout } from '@/webpage/layouts/full-width-layout/FullWidthLayout';
 import Blog from '@/webpage/pages/blog/blog';
-import { CreditFormData } from '@/webpage/components/creditos/utils/types';
+import { CreditFormData } from '@/src/core/types/types';
 
 type CreditContextType = {
  formData: CreditFormData;

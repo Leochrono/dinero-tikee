@@ -3,7 +3,7 @@ import { ArrowBack } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { routesWebpage } from "@/webpage/components/contants/routes";
 import { Box, CircularProgress } from "@mui/material";
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 import {
   BackButton,
   RecoverWrapper,
@@ -23,7 +23,10 @@ const ChangePassword = () => {
   const location = useLocation();
   const { changePassword, loading } = usePassword();
   const { showPassword, togglePasswordVisibility } = usePasswordVisibility();
-  const { showPassword: showNewPassword, togglePasswordVisibility: toggleNewPasswordVisibility } = usePasswordVisibility();
+  const {
+    showPassword: showNewPassword,
+    togglePasswordVisibility: toggleNewPasswordVisibility,
+  } = usePasswordVisibility();
   const [formData, setFormData] = useState({
     currentPassword: "",
     newPassword: "",
@@ -33,9 +36,9 @@ const ChangePassword = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
 
     const newErrors = { ...errors };
@@ -43,7 +46,7 @@ const ChangePassword = () => {
     if (name === "newPassword") {
       const passwordErrors = validatePassword(value);
       if (passwordErrors.length > 0) {
-        newErrors.newPassword = passwordErrors.join('. ');
+        newErrors.newPassword = passwordErrors.join(". ");
       } else {
         delete newErrors.newPassword;
       }
@@ -74,8 +77,12 @@ const ChangePassword = () => {
     if (Object.keys(errors).length > 0) return;
 
     try {
-      const reason = isRecoveryFlow ? 'recovery' : (tempCode ? 'temporary_change' : 'user_request');
-      
+      const reason = isRecoveryFlow
+        ? "recovery"
+        : tempCode
+        ? "temporary_change"
+        : "user_request";
+
       const success = await changePassword(
         tempCode || formData.currentPassword,
         formData.newPassword,
@@ -84,12 +91,13 @@ const ChangePassword = () => {
 
       if (!success) return;
 
-      toast.success('Contraseña actualizada exitosamente');
+      toast.success("Contraseña actualizada exitosamente");
       navigate(routesWebpage.login);
     } catch (error: any) {
-      const errorMessage = error?.response?.data?.error || 'Error al cambiar la contraseña';
+      const errorMessage =
+        error?.response?.data?.error || "Error al cambiar la contraseña";
       setErrors({
-        currentPassword: errorMessage
+        currentPassword: errorMessage,
       });
       toast.error(errorMessage);
     }
@@ -148,7 +156,14 @@ const ChangePassword = () => {
             disabled={loading || Object.keys(errors).length > 0}
           >
             {loading ? (
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1, justifyContent: "center" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  justifyContent: "center",
+                }}
+              >
                 <CircularProgress size={20} sx={{ color: "white" }} />
                 <span>ACTUALIZANDO...</span>
               </Box>

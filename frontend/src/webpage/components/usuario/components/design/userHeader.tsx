@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { IconButton, useTheme } from "@mui/material";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { useTheme } from "@mui/material";
 import { useGlobalAuth } from "@/src/core/context/authContext";
 import { Header, BackButton } from "../../styles/constUsuario";
-import { routesWebpage } from '@/components/contants/routes';
+import { routesWebpage } from "@/components/contants/routes";
 
 const UserHeader = () => {
   const navigate = useNavigate();

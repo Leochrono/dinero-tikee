@@ -1,13 +1,24 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
-import { useAuth } from '../hooks/api/useAuth';
-import { User } from '../types/user.types';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+} from "react";
+import { useAuth } from "../hooks/api/useAuth";
+import { User } from "../types/user.types";
 
 interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
   loading: boolean;
   checkAuth: () => Promise<boolean>;
-  login: (email: string, password: string, redirect?: boolean) => Promise<boolean>;
+  login: (
+    email: string,
+    password: string,
+    redirect?: boolean
+  ) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -18,14 +29,16 @@ interface AuthState {
   user: User | null;
 }
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const auth = useAuth();
   const [initialized, setInitialized] = useState(false);
   const [authState, setAuthState] = useState<AuthState>({
     isAuthenticated: false,
-    user: null
+    user: null,
   });
-  
+
   const isInitialCheck = useRef(true);
 
   // Verificación inicial de autenticación
@@ -37,11 +50,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           if (isAuthenticated && auth.user) {
             setAuthState({
               isAuthenticated: true,
-              user: auth.user
+              user: auth.user,
             });
           }
         } catch (error) {
-          console.error('Auth check error:', error);
+          console.error("Auth check error:", error);
         } finally {
           setInitialized(true);
           isInitialCheck.current = false;
@@ -55,10 +68,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Monitor de inactividad
   useEffect(() => {
     const checkInactivity = () => {
-      const lastActivity = localStorage.getItem('lastActivity');
+      const lastActivity = localStorage.getItem("lastActivity");
       if (lastActivity && authState.isAuthenticated) {
         const timeSinceLastActivity = Date.now() - parseInt(lastActivity);
-        if (timeSinceLastActivity > 5 * 60 * 1000) { // 5 minutos
+        if (timeSinceLastActivity > 5 * 60 * 1000) {
+          // 5 minutos
           handleLogout();
         }
       }
@@ -76,29 +90,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (isAuthenticated && user) {
         setAuthState({
           isAuthenticated: true,
-          user: user
+          user: user,
         });
       } else {
         setAuthState({
           isAuthenticated: false,
-          user: null
+          user: null,
         });
       }
     }
   }, [isAuthenticated, user, initialized]);
 
-  const handleLogin = async (email: string, password: string, redirect: boolean = true) => {
+  const handleLogin = async (
+    email: string,
+    password: string,
+    redirect: boolean = true
+  ) => {
     try {
       const success = await auth.login(email, password, redirect);
       if (success) {
         setAuthState({
           isAuthenticated: true,
-          user: auth.user
+          user: auth.user,
         });
       }
       return success;
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
       return false;
     }
   };
@@ -107,7 +125,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     auth.logout();
     setAuthState({
       isAuthenticated: false,
-      user: null
+      user: null,
     });
   }, [auth]);
 
@@ -121,20 +139,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     loading: auth.loading,
     checkAuth: auth.checkAuth,
     login: handleLogin,
-    logout: handleLogout
+    logout: handleLogout,
   };
 
   return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };
 
 export const useGlobalAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useGlobalAuth must be used within an AuthProvider');
+    throw new Error("useGlobalAuth must be used within an AuthProvider");
   }
   return context;
 };

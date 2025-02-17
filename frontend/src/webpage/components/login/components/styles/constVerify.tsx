@@ -26,9 +26,8 @@ export const TimerText = styled(Typography)(({ theme }) => ({
   textAlign: "center",
   marginBottom: "16px",
   fontWeight: 500,
-  fontFamily: "'Stage Grotesque', sans-serif", // Cambiada a Stage Grotesque
- }));
- 
+  fontFamily: "'Stage Grotesque', sans-serif",
+}));
 
 export const VerifyWrapper = styled(Box)(({ theme }) => ({
   minHeight: "100vh",
@@ -64,21 +63,21 @@ export const VerifyContainer = styled(Container)(({ theme }) => ({
 export const VerifyTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "48px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500,
   marginBottom: "8px",
   textAlign: "center",
-  fontFamily: "'Galano Grotesque', sans-serif", // Cambiada a Galano Grotesque
+  fontFamily: "'Galano Grotesque', sans-serif",
   textShadow: `0 0 10px ${theme.palette.primary.light}`,
- }));
+}));
 
- export const VerifySubtitle = styled(Typography)(({ theme }) => ({
+export const VerifySubtitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "16px",
   marginBottom: "32px",
   textAlign: "center",
   opacity: 0.8,
-  fontFamily: "'Stage Grotesque', sans-serif", // Cambiada a Stage Grotesque
- }));
+  fontFamily: "'Stage Grotesque', sans-serif",
+}));
 
 export const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "20px",
@@ -127,8 +126,8 @@ export const VerifyButton = styled(Button)(({ theme }) => ({
   color: theme.palette.text.secondary,
   padding: "12px",
   fontSize: "16px",
-  fontWeight: 500, // Cambiado a 500
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+  fontWeight: 500,
+  fontFamily: "'Stage Grotesque', sans-serif",
   marginTop: "32px",
   height: "56px",
   position: "relative",
@@ -151,7 +150,7 @@ export const VerifyButton = styled(Button)(({ theme }) => ({
       left: "100%",
     },
   },
- }));
+}));
 
 export interface VerifyFormData {
   email: string;

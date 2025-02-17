@@ -98,9 +98,9 @@ export const BlogImage = styled(Box)(({ theme }) => ({
 export const BlogTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "24px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500, 
   lineHeight: 1.2,
-  fontFamily: "'Galano Grotesque', sans-serif", // Añadida fuente Galano Grotesque
+  fontFamily: "'Galano Grotesque', sans-serif", 
   transition: "color 0.3s ease",
   [theme.breakpoints.down("md")]: {
     fontSize: "22px",
@@ -116,8 +116,8 @@ export const ReadButton = styled(Button)(({ theme }) => ({
   padding: "8px 24px",
   borderRadius: "50px",
   fontSize: "14px",
-  fontWeight: 500, // Cambiado a 500
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+  fontWeight: 500, 
+  fontFamily: "'Stage Grotesque', sans-serif",
   width: "fit-content",
   transition: "all 0.3s ease",
   "&:hover": {

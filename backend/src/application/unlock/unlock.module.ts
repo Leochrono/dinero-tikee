@@ -9,10 +9,10 @@ import { MailerModule } from 'src/infrastructure/mailer/mailer.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([AccountLockEntity, UserEntity]),
-    MailerModule
+    MailerModule,
   ],
   controllers: [UnlockController],
   providers: [UnlockService],
-  exports: [UnlockService]
- })
- export class UnlockModule {}
+  exports: [UnlockService],
+})
+export class UnlockModule {}

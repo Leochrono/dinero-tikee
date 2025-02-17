@@ -1,4 +1,4 @@
-export type InstitutionType = 'bank' | 'cooperative';
+export type InstitutionType = "bank" | "cooperative";
 
 export interface PersonalLoanProduct {
   minAmount: number;
@@ -10,7 +10,7 @@ export interface PersonalLoanProduct {
   requirements: string[];
   features: string[];
   description: string;
-  locations: string[]; 
+  locations: string[];
 }
 
 export interface Products {
@@ -35,12 +35,12 @@ export interface InstitutionFilters {
   type?: InstitutionType;
   amount?: number;
   term?: number;
-  rateFilter?: 'min' | 'max';
-  location?: string;  
+  rateFilter?: "min" | "max";
+  location?: string;
 }
 
 export interface BestRatesParams {
   amount: number;
   term: number;
-  rateFilter?: 'min' | 'max';
+  rateFilter?: "min" | "max";
 }

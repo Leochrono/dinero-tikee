@@ -1,7 +1,6 @@
 import { Box, Typography, Button, styled } from "@mui/material";
 import { keyframes } from "@mui/system";
 
-// Animaciones
 export const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -27,7 +26,7 @@ export const BannerContainer = styled(Box)(({ theme }) => ({
   width: "100%",
   height: "600px",
   overflow: "hidden",
-  
+
   "&::after": {
     content: '""',
     position: "absolute",
@@ -56,7 +55,7 @@ export const BackgroundImage = styled("img")(({ theme }) => ({
   objectFit: "cover",
   filter: "brightness(0.7)",
   transition: "all 0.5s ease-in-out",
-  transform: "scale(1.01)", // Pequeño scale inicial
+  transform: "scale(1.01)",
 
   "&:hover": {
     transform: "scale(1.05)",
@@ -77,7 +76,7 @@ export const ContentOverlay = styled(Box)(({ theme }) => ({
   animation: `${fadeIn} 1s ease-out`,
   maxWidth: "600px",
   padding: "20px",
-  
+
   "&::before": {
     content: '""',
     position: "absolute",
@@ -85,7 +84,7 @@ export const ContentOverlay = styled(Box)(({ theme }) => ({
     left: -20,
     right: -20,
     bottom: -20,
-    background: "rgba(0,27,48,0.2)", // Cambiado al color del theme
+    background: "rgba(0,27,48,0.2)",
     borderRadius: "20px",
     filter: "blur(10px)",
     zIndex: -1,
@@ -112,13 +111,13 @@ export const ContentOverlay = styled(Box)(({ theme }) => ({
 export const Title = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "64px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500,
   lineHeight: 1.1,
   marginBottom: "32px",
   textShadow: "2px 2px 4px rgba(0,0,0,0.3)",
   letterSpacing: "-0.5px",
-  fontFamily: "'Galano Grotesque', sans-serif", // Añadida la fuente Galano Grotesque
-  
+  fontFamily: "'Galano Grotesque', sans-serif",
+
   "& span": {
     color: theme.palette.primary.light,
     position: "relative",
@@ -160,8 +159,8 @@ export const ReadMoreButton = styled(Button)(({ theme }) => ({
   boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
   position: "relative",
   overflow: "hidden",
-  fontFamily: "'Stage Grotesque', sans-serif", 
-  
+  fontFamily: "'Stage Grotesque', sans-serif",
+
   "&::after": {
     content: '""',
     position: "absolute",
@@ -169,7 +168,8 @@ export const ReadMoreButton = styled(Button)(({ theme }) => ({
     left: "-100%",
     width: "100%",
     height: "100%",
-    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+    background:
+      "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
     transition: "0.5s",
   },
 
@@ -177,7 +177,7 @@ export const ReadMoreButton = styled(Button)(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
     transform: "translateY(-2px) scale(1.02)",
     boxShadow: "0 6px 12px rgba(0,0,0,0.2)",
-    
+
     "&::after": {
       left: "100%",
     },

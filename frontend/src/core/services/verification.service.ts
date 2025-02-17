@@ -1,48 +1,63 @@
-import axiosInstance from '../config/axios.config';
-import { ResendVerificationResponse, VerificationResponse } from '../types/user.types';
-
+import axiosInstance from "../config/axios.config";
+import {
+  ResendVerificationResponse,
+  VerificationResponse,
+} from "../types/user.types";
 
 export const verificationService = {
-  sendVerificationCode: async (email: string, nombres?: string): Promise<VerificationResponse> => {
+  sendVerificationCode: async (
+    email: string,
+    nombres?: string
+  ): Promise<VerificationResponse> => {
     try {
       const response = await axiosInstance.post<VerificationResponse>(
-        '/verification/send',
-        { 
+        "/verification/send",
+        {
           email,
-          nombres
+          nombres,
         }
       );
       return response.data;
     } catch (error: any) {
-      throw new Error(error.response?.data?.message || 'Error al enviar código de verificación');
+      throw new Error(
+        error.response?.data?.message ||
+          "Error al enviar código de verificación"
+      );
     }
   },
 
-
-verifyCode: async (email: string, code: string): Promise<VerificationResponse> => {
-  try {
-    const response = await axiosInstance.post<VerificationResponse>(
-      '/verification/verify',  // Cambiado de /auth/verify-email
-      {
-        email,
-        verificationCode: code
-      }
-    );
-    return response.data;
-  } catch (error: any) {
-    throw new Error(error.response?.data?.message || 'Error al verificar código');
-  }
-},
+  verifyCode: async (
+    email: string,
+    code: string
+  ): Promise<VerificationResponse> => {
+    try {
+      const response = await axiosInstance.post<VerificationResponse>(
+        "/verification/verify",
+        {
+          email,
+          verificationCode: code,
+        }
+      );
+      return response.data;
+    } catch (error: any) {
+      throw new Error(
+        error.response?.data?.message || "Error al verificar código"
+      );
+    }
+  },
 
   resendCode: async (email: string): Promise<ResendVerificationResponse> => {
     try {
       const response = await axiosInstance.post<ResendVerificationResponse>(
-        '/verification/resend',
+        "/verification/resend",
         { email }
       );
       return response.data;
     } catch (error: any) {
-      throw new Error(error.response?.data?.message || 'Error al reenviar código de verificación');
+      throw new Error(
+        error.response?.data?.message ||
+          "Error al reenviar código de verificación"
+      );
     }
   },
 
@@ -53,7 +68,9 @@ verifyCode: async (email: string, code: string): Promise<VerificationResponse> =
       );
       return response.data;
     } catch (error: any) {
-      throw new Error(error.response?.data?.message || 'Error al verificar estado');
+      throw new Error(
+        error.response?.data?.message || "Error al verificar estado"
+      );
     }
-  }
+  },
 };

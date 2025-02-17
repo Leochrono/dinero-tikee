@@ -53,7 +53,7 @@ export class PasswordController {
       user.id,
       data.currentPassword,
       data.newPassword,
-      { ipAddress, userAgent, isRecovery: false }
+      { ipAddress, userAgent, isRecovery: false },
     );
 
     if (!result.success) {
@@ -85,7 +85,7 @@ export class PasswordController {
       user.id,
       data.tempCode,
       data.newPassword,
-      { ipAddress, userAgent, isRecovery: true }
+      { ipAddress, userAgent, isRecovery: true },
     );
 
     if (!result.success) {

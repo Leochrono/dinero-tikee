@@ -1,25 +1,22 @@
-import React from 'react';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/src/core/hooks/api/useAuth';
-import { useCredit } from '@/src/core/hooks/api/use-credit';
-import GreenLine from '@/components/greenline/greenline';
-import Products from '@/components/home/products/products';
-import BankLogos from '@/components/home/bankLogos,tsx/bankLogos';
-import Footer from '@/components/footer/footer';
-import { routesWebpage } from '@/components/contants/routes';
+import React from "react";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "@/src/core/hooks/api/useAuth";
+import { useCredit } from "@/src/core/hooks/api/use-credit";
+import GreenLine from "@/components/greenline/greenline";
+import Products from "@/components/home/products/products";
+import BankLogos from "@/components/home/bankLogos,tsx/bankLogos";
+import Footer from "@/components/footer/footer";
+import { routesWebpage } from "@/components/contants/routes";
 
 const CreditContainer: React.FC = () => {
   const { user } = useAuth();
   const { contextValue } = useCredit(user?.email, user?.cedula);
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Mejorar el manejo de navegación
   const enhancedContextValue = {
     ...contextValue,
     onSelect: (institutionId: string) => {
-      // Guardar el ID de la institución en localStorage
-      localStorage.setItem('selectedInstitutionId', institutionId);
+      localStorage.setItem("selectedInstitutionId", institutionId);
       navigate(routesWebpage.creditoDetails);
     },
     onBack: () => {
@@ -33,16 +30,14 @@ const CreditContainer: React.FC = () => {
       }
     },
     onApply: () => {
-      // Asegurarse de que la navegación a la página de éxito funcione
       navigate(routesWebpage.creditoSuccess);
     },
     onNewSearch: () => {
-      // Limpiar localStorage y navegar al formulario
-      localStorage.removeItem('currentCreditId');
-      localStorage.removeItem('selectedInstitutionId');
-      localStorage.removeItem('creditFormData');
+      localStorage.removeItem("currentCreditId");
+      localStorage.removeItem("selectedInstitutionId");
+      localStorage.removeItem("creditFormData");
       navigate(routesWebpage.creditoForm);
-    }
+    },
   };
 
   return (

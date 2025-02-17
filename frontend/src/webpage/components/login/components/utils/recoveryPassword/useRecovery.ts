@@ -41,61 +41,72 @@ export const useRecovery = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading) return;
-   
+
     try {
       switch (recoveryType) {
         case "password":
           const passwordResponse = await recoverPassword(formData.email);
           if (passwordResponse) {
-            toast.success("Se ha enviado una contraseña temporal a tu correo electrónico. Úsala para iniciar sesión y establecer una nueva contraseña.", {
-              duration: 6000
-            });
+            toast.success(
+              "Se ha enviado una contraseña temporal a tu correo electrónico. Úsala para iniciar sesión y establecer una nueva contraseña.",
+              {
+                duration: 6000,
+              }
+            );
             navigate(routesWebpage.login);
           }
           break;
-   
+
         case "user":
           const userResponse = await recoverUser(formData.cedula);
           if (userResponse) {
-            toast.success("Se ha enviado la información a tu correo registrado");
+            toast.success(
+              "Se ha enviado la información a tu correo registrado"
+            );
             navigate(routesWebpage.login);
           }
           break;
-   
+
         case "both":
           const [recoverPwdRes, recoverUserRes] = await Promise.all([
             recoverPassword(formData.email),
-            recoverUser(formData.cedula)
+            recoverUser(formData.cedula),
           ]);
-          
+
           if (recoverPwdRes && recoverUserRes) {
-            toast.success("Se ha enviado la información a tu correo registrado");
+            toast.success(
+              "Se ha enviado la información a tu correo registrado"
+            );
             navigate(routesWebpage.login);
           }
           break;
-   
+
         default:
           toast.error("Selecciona un tipo de recuperación");
           return;
       }
     } catch (error: any) {
-      const errorMessage = error.response?.data?.error || 
-                          error.message || 
-                          "Ocurrió un error. Por favor intenta nuevamente";
-      
+      const errorMessage =
+        error.response?.data?.error ||
+        error.message ||
+        "Ocurrió un error. Por favor intenta nuevamente";
+
       if (error.response?.status === 429) {
-        toast.error("Demasiados intentos. Por favor espera unos minutos antes de intentar nuevamente.", {
-          duration: 8000
-        });
+        toast.error(
+          "Demasiados intentos. Por favor espera unos minutos antes de intentar nuevamente.",
+          {
+            duration: 8000,
+          }
+        );
       } else {
         toast.error(errorMessage);
       }

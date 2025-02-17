@@ -1,7 +1,6 @@
 import { styled } from "@mui/material/styles";
 import { Box, Container, IconButton, Link } from "@mui/material";
 
-
 export const StyledGreenLine = styled(Box)(({ theme }) => ({
   margin: "0 auto",
   width: "83%",
@@ -17,7 +16,6 @@ export const StyledGreenLine = styled(Box)(({ theme }) => ({
   },
 }));
 
-
 export const StyledFooter = styled("footer")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   position: "relative",
@@ -25,7 +23,6 @@ export const StyledFooter = styled("footer")(({ theme }) => ({
   width: "100%",
   boxShadow: "0 -4px 6px rgba(0, 0, 0, 0.1)",
 }));
-
 
 export const FooterMainContent = styled(Container)(({ theme }) => ({
   display: "flex",
@@ -46,7 +43,6 @@ export const FooterMainContent = styled(Container)(({ theme }) => ({
     padding: "20px 16px",
   },
 }));
-
 
 export const FooterBottomContent = styled(Container)(({ theme }) => ({
   display: "flex",
@@ -69,7 +65,6 @@ export const FooterBottomContent = styled(Container)(({ theme }) => ({
   },
 }));
 
-
 export const NavigationLinks = styled("nav")(({ theme }) => ({
   display: "flex",
   gap: "60px",
@@ -86,13 +81,12 @@ export const NavigationLinks = styled("nav")(({ theme }) => ({
   },
 }));
 
-
 export const StyledLink = styled(Link)(({ theme }) => ({
   color: theme.palette.common.white,
   textDecoration: "none",
   fontSize: "24px",
-  fontWeight: 500, // Cambiado a 500
-  fontFamily: "'Galano Grotesque', sans-serif", // Añadida la fuente Galano Grotesque
+  fontWeight: 500, 
+  fontFamily: "'Galano Grotesque', sans-serif",
   transition: "all 0.3s ease",
   position: "relative",
   "&:hover": {
@@ -119,17 +113,15 @@ export const StyledLink = styled(Link)(({ theme }) => ({
   },
 }));
 
-
 export const PoweredByText = styled("span")(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "20px",
   fontWeight: 400,
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida la fuente Stage Grotesque
+  fontFamily: "'Stage Grotesque', sans-serif", 
   [theme.breakpoints.down("sm")]: {
     fontSize: "16px",
   },
 }));
-
 
 export const SocialContainer = styled("div")(({ theme }) => ({
   display: "flex",
@@ -141,12 +133,11 @@ export const SocialContainer = styled("div")(({ theme }) => ({
   },
 }));
 
-
 export const DomainText = styled("span")(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "20px",
   fontWeight: 400,
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida la fuente Stage Grotesque
+  fontFamily: "'Stage Grotesque', sans-serif", 
   marginRight: "30px",
   [theme.breakpoints.down("md")]: {
     marginRight: 0,
@@ -155,18 +146,16 @@ export const DomainText = styled("span")(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     fontSize: "16px",
   },
- }));
+}));
 
-
- export const SocialIcons = styled("div")(({ theme }) => ({
+export const SocialIcons = styled("div")(({ theme }) => ({
   display: "flex",
   gap: "20px",
   alignItems: "center",
   "& svg": {
     color: theme.palette.primary.light,
-  }
- }));
-
+  },
+}));
 
 export const LogoContainer = styled(Box)({
   transition: "transform 0.3s ease",

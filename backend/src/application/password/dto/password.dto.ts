@@ -1,4 +1,10 @@
-import { IsString, IsNotEmpty, MinLength, MaxLength, Matches } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  MinLength,
+  MaxLength,
+  Matches,
+} from 'class-validator';
 
 export class ChangePasswordDto {
   @IsNotEmpty({ message: 'La contraseña actual es requerida' })
@@ -8,11 +14,21 @@ export class ChangePasswordDto {
   @IsNotEmpty({ message: 'La nueva contraseña es requerida' })
   @IsString()
   @MinLength(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
-  @MaxLength(128, { message: 'La contraseña no puede exceder los 128 caracteres' })
-  @Matches(/[A-Z]/, { message: 'La contraseña debe contener al menos una letra mayúscula' })
-  @Matches(/[a-z]/, { message: 'La contraseña debe contener al menos una letra minúscula' })
-  @Matches(/[0-9]/, { message: 'La contraseña debe contener al menos un número' })
-  @Matches(/[!@#$%^&*(),.?":{}|<>]/, { message: 'La contraseña debe contener al menos un carácter especial' })
+  @MaxLength(128, {
+    message: 'La contraseña no puede exceder los 128 caracteres',
+  })
+  @Matches(/[A-Z]/, {
+    message: 'La contraseña debe contener al menos una letra mayúscula',
+  })
+  @Matches(/[a-z]/, {
+    message: 'La contraseña debe contener al menos una letra minúscula',
+  })
+  @Matches(/[0-9]/, {
+    message: 'La contraseña debe contener al menos un número',
+  })
+  @Matches(/[!@#$%^&*(),.?":{}|<>]/, {
+    message: 'La contraseña debe contener al menos un carácter especial',
+  })
   newPassword: string;
 
   @IsNotEmpty({ message: 'La confirmación de contraseña es requerida' })
@@ -28,11 +44,21 @@ export class ResetPasswordDto {
   @IsNotEmpty({ message: 'La nueva contraseña es requerida' })
   @IsString()
   @MinLength(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
-  @MaxLength(128, { message: 'La contraseña no puede exceder los 128 caracteres' })
-  @Matches(/[A-Z]/, { message: 'La contraseña debe contener al menos una letra mayúscula' })
-  @Matches(/[a-z]/, { message: 'La contraseña debe contener al menos una letra minúscula' })
-  @Matches(/[0-9]/, { message: 'La contraseña debe contener al menos un número' })
-  @Matches(/[!@#$%^&*(),.?":{}|<>]/, { message: 'La contraseña debe contener al menos un carácter especial' })
+  @MaxLength(128, {
+    message: 'La contraseña no puede exceder los 128 caracteres',
+  })
+  @Matches(/[A-Z]/, {
+    message: 'La contraseña debe contener al menos una letra mayúscula',
+  })
+  @Matches(/[a-z]/, {
+    message: 'La contraseña debe contener al menos una letra minúscula',
+  })
+  @Matches(/[0-9]/, {
+    message: 'La contraseña debe contener al menos un número',
+  })
+  @Matches(/[!@#$%^&*(),.?":{}|<>]/, {
+    message: 'La contraseña debe contener al menos un carácter especial',
+  })
   newPassword: string;
 
   @IsNotEmpty({ message: 'La confirmación de contraseña es requerida' })

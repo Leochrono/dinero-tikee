@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowBack } from "@mui/icons-material";
 import { Box, CircularProgress } from "@mui/material";
 
 import { routesWebpage } from "@/webpage/components/contants/routes";
-import { 
+import {
   BackButton,
   RecoverWrapper,
   RecoverContainer,
@@ -14,9 +14,9 @@ import {
   RecoverButton,
 } from "@/components/login/components/styles/constpassword";
 
-import { useRecovery } from '../utils/recoveryPassword/useRecovery';
-import { validateFields } from '../utils/recoveryPassword/validateFields';
-import { RecoveryTypeButton } from '../utils/recoveryPassword/recoveryTypeButton';
+import { useRecovery } from "../utils/recoveryPassword/useRecovery";
+import { validateFields } from "../utils/recoveryPassword/validateFields";
+import { RecoveryTypeButton } from "../utils/recoveryPassword/recoveryTypeButton";
 
 const RecoveryPassword: React.FC = () => {
   const navigate = useNavigate();
@@ -43,19 +43,19 @@ const RecoveryPassword: React.FC = () => {
           </RecoverSubtitle>
 
           <Box sx={{ mb: 3 }}>
-            <RecoveryTypeButton 
+            <RecoveryTypeButton
               type="password"
               currentType={recoveryType}
               onClick={handleTypeSelection}
             />
-            
-            <RecoveryTypeButton 
+
+            <RecoveryTypeButton
               type="user"
               currentType={recoveryType}
               onClick={handleTypeSelection}
             />
-            
-            <RecoveryTypeButton 
+
+            <RecoveryTypeButton
               type="both"
               currentType={recoveryType}
               onClick={handleTypeSelection}
@@ -103,7 +103,14 @@ const RecoveryPassword: React.FC = () => {
             disabled={loading || !validateFields(recoveryType, formData)}
           >
             {loading ? (
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1, justifyContent: "center" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  justifyContent: "center",
+                }}
+              >
                 <CircularProgress size={20} sx={{ color: "white" }} />
                 <span>ENVIANDO...</span>
               </Box>

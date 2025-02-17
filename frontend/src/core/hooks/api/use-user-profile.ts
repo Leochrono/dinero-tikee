@@ -44,7 +44,7 @@ export const useUserProfile = () => {
         success: false,
         error:
           error instanceof Error ? error.message : "Error al obtener perfil",
-        data: undefined, // Cambiado de null a undefined
+        data: undefined,
       };
     } finally {
       updateState({ loading: false });
@@ -57,8 +57,6 @@ export const useUserProfile = () => {
     try {
       updateState({ loading: true, error: null });
       const response = await userService.getCredits();
-
-      // Si la respuesta es un array directamente
       const credits = Array.isArray(response) ? response : response.data || [];
 
       if (credits.length > 0) {
@@ -66,8 +64,6 @@ export const useUserProfile = () => {
           credits.map(async (credit) => {
             try {
               const detailsResponse = await userService.getCredit(credit.id);
-
-              // Si la respuesta tiene datos y documentos
               if (
                 detailsResponse.success &&
                 detailsResponse.data &&
@@ -257,14 +253,11 @@ export const useUserProfile = () => {
   }, [getUserProfile, getUserCredits, getSearchHistory]);
 
   return {
-    // Estado
     loading: state.loading,
     error: state.error,
     profile: state.profile,
     credits: state.credits,
     searchHistory: state.searchHistory,
-
-    // Métodos principales
     getUserProfile,
     getUserCredits,
     getSearchHistory,
@@ -275,8 +268,6 @@ export const useUserProfile = () => {
     verifyEmail,
     unlockAccount,
     refresh,
-
-    // Utilidades
     setError: (error: string | null) => updateState({ error }),
   };
 };

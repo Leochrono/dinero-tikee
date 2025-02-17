@@ -25,7 +25,7 @@ export class SecurityLogService {
     private securityLogRepository: Repository<SecurityLogEntity>,
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
-    private emailService: EmailService
+    private emailService: EmailService,
   ) {}
 
   async logSecurityEvent(data: {
@@ -39,7 +39,7 @@ export class SecurityLogService {
     try {
       // Obtener información de geolocalización
       const locationInfo = await this.getLocationInfo(data.ipAddress);
-      
+
       // Obtener información del dispositivo
       const deviceInfo = this.parseUserAgent(data.userAgent);
 
@@ -49,7 +49,7 @@ export class SecurityLogService {
         eventType: data.eventType,
         ipAddress: data.ipAddress,
         location: locationInfo,
-        deviceInfo
+        deviceInfo,
       });
 
       const securityLog = this.securityLogRepository.create({
@@ -63,8 +63,8 @@ export class SecurityLogService {
         details: data.details,
         metadata: {
           ...data.metadata,
-          riskScore: riskLevel.score
-        }
+          riskScore: riskLevel.score,
+        },
       });
 
       await this.securityLogRepository.save(securityLog);
@@ -76,37 +76,49 @@ export class SecurityLogService {
 
       return securityLog;
     } catch (error) {
-      this.logger.error(`Error al registrar evento de seguridad: ${error.message}`);
+      this.logger.error(
+        `Error al registrar evento de seguridad: ${error.message}`,
+      );
       throw error;
     }
   }
 
   private async getLocationInfo(ipAddress: string) {
     try {
-      const response = await axios.get<IpApiResponse>(`https://ipapi.co/${ipAddress}/json/`);
+      const response = await axios.get<IpApiResponse>(
+        `https://ipapi.co/${ipAddress}/json/`,
+      );
       return {
         country: response.data.country_name,
         city: response.data.city,
         latitude: response.data.latitude,
         longitude: response.data.longitude,
-        accuracyRadius: 100
+        accuracyRadius: 100,
       };
     } catch (error) {
-      this.logger.warn(`No se pudo obtener información de localización: ${error.message}`);
+      this.logger.warn(
+        `No se pudo obtener información de localización: ${error.message}`,
+      );
       return null;
     }
   }
 
   private parseUserAgent(userAgent: string) {
     if (!userAgent) return null;
-    
-    const browserMatch = userAgent.match(/(chrome|safari|firefox|edge|ie)\/([\d.]+)/i);
-    const osMatch = userAgent.match(/(windows|mac|linux|android|ios)\s*([\d.]+)?/i);
-    
+
+    const browserMatch = userAgent.match(
+      /(chrome|safari|firefox|edge|ie)\/([\d.]+)/i,
+    );
+    const osMatch = userAgent.match(
+      /(windows|mac|linux|android|ios)\s*([\d.]+)?/i,
+    );
+
     return {
       browser: browserMatch ? browserMatch[1] : 'unknown',
       os: osMatch ? osMatch[1] : 'unknown',
-      deviceType: userAgent.toLowerCase().includes('mobile') ? 'mobile' : 'desktop'
+      deviceType: userAgent.toLowerCase().includes('mobile')
+        ? 'mobile'
+        : 'desktop',
     };
   }
 
@@ -118,13 +130,15 @@ export class SecurityLogService {
     deviceInfo: any;
   }) {
     let riskScore = 0;
-    const user = await this.userRepository.findOne({ where: { id: data.userId } });
-    
+    const user = await this.userRepository.findOne({
+      where: { id: data.userId },
+    });
+
     // Obtener últimos logs del usuario
     const recentLogs = await this.securityLogRepository.find({
       where: { user: { id: data.userId } },
       order: { timestamp: 'DESC' },
-      take: 10
+      take: 10,
     });
 
     // Verificar cambio de ubicación
@@ -135,24 +149,25 @@ export class SecurityLogService {
           lastLog.location.latitude,
           lastLog.location.longitude,
           data.location.latitude,
-          data.location.longitude
+          data.location.longitude,
         );
-        
+
         // Si la distancia es mayor a 500km, aumentar el riesgo
         if (distance > 500) riskScore += 30;
       }
     }
 
     // Verificar eventos fallidos recientes
-    const recentFailedEvents = recentLogs.filter(log => 
-      log.eventType === 'LOGIN_FAILED' && 
-      new Date().getTime() - new Date(log.timestamp).getTime() < 3600000
+    const recentFailedEvents = recentLogs.filter(
+      (log) =>
+        log.eventType === 'LOGIN_FAILED' &&
+        new Date().getTime() - new Date(log.timestamp).getTime() < 3600000,
     );
     riskScore += recentFailedEvents.length * 10;
 
     // Verificar si el dispositivo es conocido
-    const isKnownDevice = user.trustedDevices?.some(device => 
-      device.deviceType === data.deviceInfo?.deviceType
+    const isKnownDevice = user.trustedDevices?.some(
+      (device) => device.deviceType === data.deviceInfo?.deviceType,
     );
     if (!isKnownDevice) riskScore += 20;
 
@@ -165,23 +180,33 @@ export class SecurityLogService {
     return { level, score: riskScore };
   }
 
-  private calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  private calculateDistance(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
+  ): number {
     const R = 6371; // Radio de la Tierra en km
     const dLat = this.deg2rad(lat2 - lat1);
     const dLon = this.deg2rad(lon2 - lon1);
     const a =
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
-      Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.deg2rad(lat1)) *
+        Math.cos(this.deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
   }
 
   private deg2rad(deg: number): number {
-    return deg * (Math.PI/180);
+    return deg * (Math.PI / 180);
   }
 
-  private async handleHighRiskEvent(userId: string, securityLog: SecurityLogEntity) {
+  private async handleHighRiskEvent(
+    userId: string,
+    securityLog: SecurityLogEntity,
+  ) {
     const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user) return;
 
@@ -191,7 +216,7 @@ export class SecurityLogService {
       ipAddress: securityLog.ipAddress,
       location: `${securityLog.location?.city}, ${securityLog.location?.country}`,
       timestamp: new Date(),
-      userAgent: securityLog.userAgent
+      userAgent: securityLog.userAgent,
     });
 
     // Mantener solo las últimas 5 ubicaciones
@@ -207,7 +232,7 @@ export class SecurityLogService {
       await this.userRepository.update(userId, {
         isLocked: true,
         lockExpirationDate,
-        lastKnownLocations
+        lastKnownLocations,
       });
 
       // Enviar notificación de bloqueo
@@ -217,13 +242,13 @@ export class SecurityLogService {
         {
           reason: 'Actividad sospechosa detectada',
           duration: '24 horas',
-          unlockCode: null // Si decides implementar desbloqueo manual
-        }
+          unlockCode: null, // Si decides implementar desbloqueo manual
+        },
       );
     } else {
       // Solo actualizar ubicaciones y enviar alerta
       await this.userRepository.update(userId, { lastKnownLocations });
-      
+
       // Enviar alerta de actividad sospechosa
       await this.emailService.sendSuspiciousLoginAlert(
         user.email,
@@ -232,8 +257,9 @@ export class SecurityLogService {
           date: new Date(),
           ipAddress: securityLog.ipAddress,
           location: `${securityLog.location?.city}, ${securityLog.location?.country}`,
-          deviceInfo: securityLog.deviceInfo?.deviceType || 'Dispositivo desconocido'
-        }
+          deviceInfo:
+            securityLog.deviceInfo?.deviceType || 'Dispositivo desconocido',
+        },
       );
     }
   }
@@ -243,7 +269,7 @@ export class SecurityLogService {
       where: { user: { id: userId } },
       order: { timestamp: 'DESC' },
       skip: (page - 1) * limit,
-      take: limit
+      take: limit,
     });
 
     return {
@@ -252,8 +278,8 @@ export class SecurityLogService {
         total,
         page,
         limit,
-        pages: Math.ceil(total / limit)
-      }
+        pages: Math.ceil(total / limit),
+      },
     };
   }
 }

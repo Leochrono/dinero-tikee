@@ -22,10 +22,10 @@ export const DetailContainer = styled(Box)(({ theme }) => ({
 export const ArticleTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "42px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500, 
   marginBottom: "24px",
   lineHeight: 1.3,
-  fontFamily: "'Galano Grotesque', sans-serif", // Añadida fuente Galano Grotesque
+  fontFamily: "'Galano Grotesque', sans-serif", 
   [theme.breakpoints.down("md")]: {
     fontSize: "28px",
     marginBottom: "20px",
@@ -34,23 +34,23 @@ export const ArticleTitle = styled(Typography)(({ theme }) => ({
     fontSize: "24px",
     marginBottom: "16px",
   },
- }));
+}));
 
- export const ArticleParagraph = styled(Typography)(({ theme }) => ({
+export const ArticleParagraph = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "16px",
   lineHeight: 1.6,
   marginBottom: "20px",
   opacity: 0.9,
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+  fontFamily: "'Stage Grotesque', sans-serif", 
   [theme.breakpoints.down("sm")]: {
     fontSize: "15px",
     lineHeight: 1.5,
     marginBottom: "16px",
   },
- }));
+}));
 
-export const HighlightText = styled('span')(({ theme }) => ({
+export const HighlightText = styled("span")(({ theme }) => ({
   color: theme.palette.primary.light,
   fontWeight: 500,
 }));
@@ -58,11 +58,11 @@ export const HighlightText = styled('span')(({ theme }) => ({
 export const SubTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.light,
   fontSize: "24px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500, 
   marginTop: "32px",
   marginBottom: "16px",
   lineHeight: 1.3,
-  fontFamily: "'Galano Grotesque', sans-serif", // Añadida fuente Galano Grotesque
+  fontFamily: "'Galano Grotesque', sans-serif", 
   [theme.breakpoints.down("md")]: {
     fontSize: "22px",
     marginTop: "28px",
@@ -73,4 +73,4 @@ export const SubTitle = styled(Typography)(({ theme }) => ({
     marginTop: "24px",
     marginBottom: "12px",
   },
- }));
+}));

@@ -77,20 +77,24 @@ export class CreditController {
     @Body('institutionId') institutionId?: string,
   ): Promise<ApiCreditResponse> {
     try {
-      const updatedCredit = await this.creditService.updateStatus(id, status, institutionId);
+      const updatedCredit = await this.creditService.updateStatus(
+        id,
+        status,
+        institutionId,
+      );
       return {
         success: true,
         data: updatedCredit,
-        message: 'Crédito actualizado exitosamente'
+        message: 'Crédito actualizado exitosamente',
       };
     } catch (error) {
       return {
         success: false,
-        error: error.message || 'Error al actualizar el crédito'
+        error: error.message || 'Error al actualizar el crédito',
       };
     }
   }
-  
+
   @UseGuards(JwtAuthGuard)
   @Get(':id/details')
   async getCreditDetails(@Param('id') id: string, @Request() req) {

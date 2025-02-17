@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { CreditFormData, FormErrors } from "@/components/creditos/utils/types";
+import { CreditFormData, FormErrors } from "@/src/core/types/types";
 import { userService } from "@/src/core/services/user.service";
-import { validateDocument } from "@/components/creditos/utils/validations";
+import { validateDocument } from "@/src/core/types/validations";
 
 export const useCreditFormLogic = (initialData?: CreditFormData) => {
   const defaultInitialData: CreditFormData = {
@@ -20,7 +20,6 @@ export const useCreditFormLogic = (initialData?: CreditFormData) => {
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Efecto para buscar el correo cuando se ingresa una cédula válida
   useEffect(() => {
     let isSubscribed = true;
 
@@ -52,7 +51,6 @@ export const useCreditFormLogic = (initialData?: CreditFormData) => {
     };
   }, [formData.document]);
 
-  // Validación del formulario
   const validateForm = () => {
     const errors: FormErrors = {};
     if (!formData.document) errors.document = "Campo requerido";

@@ -67,14 +67,14 @@ export const FilterGroup = styled(Box)(({ theme }) => ({
 export const FilterLabel = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "14px",
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+  fontFamily: "'Stage Grotesque', sans-serif",
   [theme.breakpoints.down("md")]: {
     fontSize: "16px",
   },
   [theme.breakpoints.down("sm")]: {
     fontSize: "12px",
   },
- }));
+}));
 
 export const CreditCard = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.main,
@@ -174,35 +174,35 @@ export const Label = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "14px",
   opacity: 0.8,
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+  fontFamily: "'Stage Grotesque', sans-serif",
   [theme.breakpoints.down("md")]: {
     fontSize: "16px",
   },
   [theme.breakpoints.down("sm")]: {
     fontSize: "12px",
   },
- }));
+}));
 
- export const Value = styled(Typography)(({ theme }) => ({
+export const Value = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.light,
   fontSize: "24px",
-  fontWeight: 500, // Cambiado a 500
-  fontFamily: "'Galano Grotesque', sans-serif", // Añadida fuente Galano Grotesque
+  fontWeight: 500,
+  fontFamily: "'Galano Grotesque', sans-serif",
   [theme.breakpoints.down("md")]: {
     fontSize: "28px",
   },
   [theme.breakpoints.down("sm")]: {
     fontSize: "20px",
   },
- }));
+}));
 
- export const ActionButton = styled(Button)(({ theme }) => ({
+export const ActionButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
   color: theme.palette.text.secondary,
   borderRadius: "50px",
   padding: "8px 24px",
-  fontWeight: 500, // Cambiado a 500
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+  fontWeight: 500,
+  fontFamily: "'Stage Grotesque', sans-serif",
   fontSize: "16px",
   "&:hover": {
     backgroundColor: theme.palette.primary.main,
@@ -220,7 +220,7 @@ export const Label = styled(Typography)(({ theme }) => ({
     width: "100%",
     fontSize: "14px",
   },
- }));
+}));
 
 export const SmallText = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
@@ -229,7 +229,7 @@ export const SmallText = styled(Typography)(({ theme }) => ({
   maxWidth: "200px",
   marginBottom: "16px",
   textAlign: "right",
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+  fontFamily: "'Stage Grotesque', sans-serif",
   [theme.breakpoints.down("md")]: {
     textAlign: "center",
     margin: "8px auto",
@@ -237,16 +237,16 @@ export const SmallText = styled(Typography)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     fontSize: "10px",
   },
- }));
+}));
 
- export const BackButton = styled(Button)(({ theme }) => ({
+export const BackButton = styled(Button)(({ theme }) => ({
   backgroundColor: "transparent",
   color: theme.palette.common.white,
   borderRadius: "50px",
   padding: "8px 24px",
   border: `1px solid ${theme.palette.primary.light}`,
-  fontWeight: 500, // Cambiado a 500
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+  fontWeight: 500,
+  fontFamily: "'Stage Grotesque', sans-serif",
   fontSize: "16px",
   marginBottom: "32px",
   transition: "all 0.3s ease-in-out",
@@ -262,15 +262,15 @@ export const SmallText = styled(Typography)(({ theme }) => ({
     maxWidth: "100%",
     fontSize: "14px",
   },
- }));
+}));
 
 export const AvailableOptions = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   textAlign: "center",
   marginBottom: "20px",
   fontSize: "20px",
-  fontWeight: 500, // Cambiado a 500
-  fontFamily: "'Galano Grotesque', sans-serif", // Añadida fuente Galano Grotesque
+  fontWeight: 500,
+  fontFamily: "'Galano Grotesque', sans-serif",
   animation: `${fadeIn} 0.5s ease-out`,
   [theme.breakpoints.down("md")]: {
     fontSize: "16px",
@@ -278,4 +278,4 @@ export const AvailableOptions = styled(Typography)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     fontSize: "14px",
   },
- }));
+}));

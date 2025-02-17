@@ -26,14 +26,14 @@ export const useRegisterForm = () => {
     const { name, value } = e.target;
     const validatedValue = validateField(name, value, formData);
 
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: validatedValue
+      [name]: validatedValue,
     }));
   };
 
-  const togglePasswordVisibility = (field: 'password' | 'confirmPassword') => {
-    if (field === 'password') {
+  const togglePasswordVisibility = (field: "password" | "confirmPassword") => {
+    if (field === "password") {
       setShowPassword(!showPassword);
     } else {
       setShowConfirmPassword(!showConfirmPassword);

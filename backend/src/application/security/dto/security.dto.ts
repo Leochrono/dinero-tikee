@@ -1,4 +1,12 @@
-import { IsOptional, IsNumber, Min, Max, IsString, IsDateString, IsEnum } from 'class-validator';
+import {
+  IsOptional,
+  IsNumber,
+  Min,
+  Max,
+  IsString,
+  IsDateString,
+  IsEnum,
+} from 'class-validator';
 
 export class GetSecurityEventsDto {
   @IsOptional()
@@ -29,7 +37,7 @@ export enum SecurityEventSeverity {
   LOW = 'low',
   MEDIUM = 'medium',
   HIGH = 'high',
-  CRITICAL = 'critical'
+  CRITICAL = 'critical',
 }
 
 export class LogSecurityEventDto {
@@ -50,4 +58,3 @@ export class LogSecurityEventDto {
   @IsEnum(SecurityEventSeverity)
   severity: SecurityEventSeverity;
 }
-

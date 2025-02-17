@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Typography, TypographyProps } from "@mui/material";
 import { TimerText } from "@/components/login/components/styles/constVerify";
 
@@ -8,10 +8,10 @@ interface TimerProps {
   formatTime: (seconds: number) => string;
 }
 
-export const VerificationTimer: React.FC<TimerProps> = ({ 
-  timeLeft, 
-  isExpired, 
-  formatTime 
+export const VerificationTimer: React.FC<TimerProps> = ({
+  timeLeft,
+  isExpired,
+  formatTime,
 }) => {
   return (
     <TimerText

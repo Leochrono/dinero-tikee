@@ -1,6 +1,5 @@
 import { AppBar, Toolbar, Box, styled } from "@mui/material";
 
-// Estilos para el AppBar
 export const StyledAppBar = styled(AppBar)(({ theme }) => ({
   background: "transparent",
   boxShadow: "none",
@@ -13,7 +12,7 @@ export const StyledAppBar = styled(AppBar)(({ theme }) => ({
     left: "150px",
     right: "150px",
     height: "2px",
-    backgroundColor: theme.palette.custom.green.neon, // Cambiado al verde neón personalizado
+    backgroundColor: theme.palette.custom.green.neon,
     [theme.breakpoints.down("lg")]: {
       left: "100px",
       right: "100px",
@@ -27,13 +26,12 @@ export const StyledAppBar = styled(AppBar)(({ theme }) => ({
     position: "fixed",
     bottom: 0,
     top: "auto",
-    backgroundColor: theme.palette.custom.blue.background, // Usando el color de fondo personalizado
+    backgroundColor: theme.palette.custom.blue.background,
     width: "100%",
     zIndex: 1300,
   },
 }));
 
-// Estilos para el Toolbar
 export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   height: "90px",
   display: "flex",
@@ -53,7 +51,6 @@ export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   },
 }));
 
-// Estilos para el contenedor del logo
 export const LogoContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -62,7 +59,6 @@ export const LogoContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-// Estilos para el contenedor de los enlaces de navegación
 export const NavLinksContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",

@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { UserEntity } from './user.entity';
 import { InstitutionEntity } from './institution.entity';
 import { CreditDocumentEntity } from './credit-document.entity'; // Importa CreditDocumentEntity

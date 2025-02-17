@@ -18,7 +18,6 @@ export const useVerifyEmail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { register } = useUserProfile();
-
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<VerifyFormData>({
     email: location.state?.email || "",
@@ -31,7 +30,6 @@ export const useVerifyEmail = () => {
   const [resendCooldown, setResendCooldown] = useState<number>(0);
   const [isResending, setIsResending] = useState(false);
 
-  // Lógica de tiempo y expiración
   useEffect(() => {
     if (!location.state?.email) {
       navigate(routesWebpage.registro);
@@ -52,7 +50,6 @@ export const useVerifyEmail = () => {
     return () => clearInterval(timer);
   }, [location.state?.email, navigate]);
 
-  // Temporizador de reenvío
   useEffect(() => {
     if (resendCooldown > 0) {
       const cooldownTimer = setInterval(() => {
@@ -62,14 +59,12 @@ export const useVerifyEmail = () => {
     }
   }, [resendCooldown]);
 
-  // Formatear tiempo
   const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
-  // Reenviar código
   const handleResendCode = async () => {
     if (resendCooldown > 0) return;
 
@@ -94,7 +89,6 @@ export const useVerifyEmail = () => {
     }
   };
 
-  // Cambios en el formulario
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     let formattedValue = value;
@@ -106,8 +100,6 @@ export const useVerifyEmail = () => {
     setFormData((prev) => ({ ...prev, [name]: formattedValue }));
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   };
-
-  // Enviar verificación
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -152,7 +144,6 @@ export const useVerifyEmail = () => {
     }
   };
 
-  // Volver atrás
   const handleBack = () => {
     const confirmBack = window.confirm(
       "¿Estás seguro que deseas volver? Perderás el progreso actual."

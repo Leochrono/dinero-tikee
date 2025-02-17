@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Box, CircularProgress } from "@mui/material";
 import { RegisterButton } from "@/components/login/components/styles/constregistro";
 import { FormErrors } from "@/src/core/types/registerTypes";
@@ -10,9 +10,9 @@ interface RegisterSubmitButtonProps {
 
 export const RegisterSubmitButton: React.FC<RegisterSubmitButtonProps> = ({
   isLoading,
-  errors
+  errors,
 }) => {
-  const hasErrors = Object.values(errors).some(error => error !== undefined);
+  const hasErrors = Object.values(errors).some((error) => error !== undefined);
 
   return (
     <RegisterButton
@@ -20,10 +20,7 @@ export const RegisterSubmitButton: React.FC<RegisterSubmitButtonProps> = ({
       variant="contained"
       fullWidth
       disableElevation
-      disabled={
-        isLoading ||
-        hasErrors
-      }
+      disabled={isLoading || hasErrors}
     >
       {isLoading ? (
         <Box
@@ -34,11 +31,7 @@ export const RegisterSubmitButton: React.FC<RegisterSubmitButtonProps> = ({
             gap: 1,
           }}
         >
-          <CircularProgress
-            size={20}
-            color="inherit"
-            sx={{ color: "white" }}
-          />
+          <CircularProgress size={20} color="inherit" sx={{ color: "white" }} />
           <span>REGISTRANDO...</span>
         </Box>
       ) : (

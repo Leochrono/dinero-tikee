@@ -1,7 +1,11 @@
 import React from "react";
-import { StyledTextField } from "../styles/creditFormConst";
+import { StyledTextField } from "../../styles/creditFormConst";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import { CreditFormData, FormErrors, ValidFields } from "../utils/types";
+import {
+  CreditFormData,
+  FormErrors,
+  ValidFields,
+} from "../../../../../core/types/types";
 
 interface CreditFormFieldsProps {
   formData: CreditFormData;

@@ -9,17 +9,22 @@ interface CreditBasicInfoProps {
   status: string;
 }
 
-const CreditBasicInfo = ({ monthlyPayment, totalPayment, minRate, status }: CreditBasicInfoProps) => {
+const CreditBasicInfo = ({
+  monthlyPayment,
+  totalPayment,
+  minRate,
+  status,
+}: CreditBasicInfoProps) => {
   const getStatusText = useCallback((status: string): string => {
     const statusMap: Record<string, string> = {
-      'DOCUMENTS_SUBMITTED': 'Documentos Enviados',
-      'INSTITUTION_SELECTED': 'Institución Seleccionada',
-      'UNDER_REVIEW': 'En Revisión',
-      'APPROVED': 'Aprobado',
-      'REJECTED': 'Rechazado',
-      'PENDING': 'Pendiente'
+      DOCUMENTS_SUBMITTED: "Documentos Enviados",
+      INSTITUTION_SELECTED: "Institución Seleccionada",
+      UNDER_REVIEW: "En Revisión",
+      APPROVED: "Aprobado",
+      REJECTED: "Rechazado",
+      PENDING: "Pendiente",
     };
-    return statusMap[status] || 'Pendiente';
+    return statusMap[status] || "Pendiente";
   }, []);
 
   return (
@@ -33,9 +38,7 @@ const CreditBasicInfo = ({ monthlyPayment, totalPayment, minRate, status }: Cred
         </InfoItem>
         <InfoItem>
           <Typography className="label">Tasa de interés</Typography>
-          <Typography className="value">
-            {minRate}%
-          </Typography>
+          <Typography className="value">{minRate}%</Typography>
         </InfoItem>
       </InfoRow>
       <InfoRow>
@@ -47,9 +50,7 @@ const CreditBasicInfo = ({ monthlyPayment, totalPayment, minRate, status }: Cred
         </InfoItem>
         <InfoItem>
           <Typography className="label">Estado</Typography>
-          <Typography className="value">
-            {getStatusText(status)}
-          </Typography>
+          <Typography className="value">{getStatusText(status)}</Typography>
         </InfoItem>
       </InfoRow>
     </>

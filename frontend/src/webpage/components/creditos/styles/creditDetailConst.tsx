@@ -5,8 +5,8 @@ export const DetailsContainer = styled(Box)(({ theme }) => ({
   maxWidth: "800px",
   margin: "0 auto",
   padding: "40px 20px",
-  width: '100%',
-  boxSizing: 'border-box',
+  width: "100%",
+  boxSizing: "border-box",
 
   [theme.breakpoints.down("lg")]: {
     padding: "32px 20px",
@@ -108,23 +108,23 @@ export const LabelText = styled(Typography)(({ theme }) => ({
   fontSize: "14px",
   opacity: 0.8,
   marginBottom: "4px",
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
- 
+  fontFamily: "'Stage Grotesque', sans-serif",
+
   [theme.breakpoints.down("lg")]: {
     fontSize: "13px",
   },
   [theme.breakpoints.down("md")]: {
     fontSize: "12px",
   },
- }));
+}));
 
- export const Value = styled(Typography)(({ theme }) => ({
+export const Value = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.light,
   fontSize: "24px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500,
   lineHeight: 1.2,
-  fontFamily: "'Galano Grotesque', sans-serif", // Añadida fuente Galano Grotesque
- 
+  fontFamily: "'Galano Grotesque', sans-serif",
+
   [theme.breakpoints.down("lg")]: {
     fontSize: "22px",
   },
@@ -134,7 +134,7 @@ export const LabelText = styled(Typography)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     fontSize: "18px",
   },
- }));
+}));
 
 export const RequirementContainer = styled(Box)(({ theme }) => ({
   marginBottom: "16px",
@@ -153,14 +153,14 @@ export const RequirementButton = styled(Button)(({ theme }) => ({
   padding: "12px 24px",
   justifyContent: "space-between",
   width: "100%",
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
-  fontWeight: 500, // Cambiado a 500
+  fontFamily: "'Stage Grotesque', sans-serif",
+  fontWeight: 500,
   transition: "all 0.3s ease",
- 
+
   "&:hover": {
     backgroundColor: "rgba(99, 255, 72, 0.1)",
   },
- 
+
   [theme.breakpoints.down("lg")]: {
     padding: "10px 20px",
   },
@@ -172,25 +172,25 @@ export const RequirementButton = styled(Button)(({ theme }) => ({
     padding: "8px 12px",
     fontSize: "13px",
   },
- }));
+}));
 
- export const ApplyButton = styled(Button)(({ theme }) => ({
+export const ApplyButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
   color: theme.palette.text.secondary,
   borderRadius: "50px",
   padding: "12px 48px",
   fontSize: "18px",
-  fontWeight: 500, // Cambiado a 500
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+  fontWeight: 500,
+  fontFamily: "'Stage Grotesque', sans-serif",
   margin: "24px auto",
   display: "block",
   transition: "all 0.3s ease",
- 
+
   "&:hover": {
     backgroundColor: theme.palette.primary.main,
     transform: "scale(1.02)",
   },
- 
+
   [theme.breakpoints.down("lg")]: {
     padding: "12px 40px",
     fontSize: "17px",
@@ -206,7 +206,7 @@ export const RequirementButton = styled(Button)(({ theme }) => ({
     fontSize: "15px",
     maxWidth: "250px",
   },
- }));
+}));
 
 export const FilePreview = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -246,16 +246,16 @@ export const FileInfo = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.light,
   fontSize: "14px",
   fontWeight: 500,
-  fontFamily: "'Stage Grotesque', sans-serif", // Añadida fuente Stage Grotesque
+  fontFamily: "'Stage Grotesque', sans-serif",
   wordBreak: "break-word",
- 
+
   [theme.breakpoints.down("md")]: {
     fontSize: "13px",
   },
   [theme.breakpoints.down("sm")]: {
     fontSize: "12px",
   },
- }));
+}));
 
 export const DeleteButton = styled(Button)(({ theme }) => ({
   color: theme.palette.primary.light,
@@ -314,7 +314,7 @@ export const ProgressBar = styled(LinearProgress)(({ theme }) => ({
   height: "4px",
   backgroundColor: "rgba(99, 255, 72, 0.1)",
   borderRadius: "2px",
-  
+
   "& .MuiLinearProgress-bar": {
     backgroundColor: theme.palette.primary.light,
   },

@@ -1,4 +1,10 @@
-import { Box, CircularProgress, Typography, styled, keyframes } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Typography,
+  styled,
+  keyframes,
+} from "@mui/material";
 
 const fadeIn = keyframes`
  from {
@@ -34,7 +40,9 @@ interface LoadingResultsProps {
   text?: string;
 }
 
-export const LoadingResults = ({ text = "Autenticando..." }: LoadingResultsProps) => {
+export const LoadingResults = ({
+  text = "Autenticando...",
+}: LoadingResultsProps) => {
   return (
     <LoadingContainer>
       <StyledCircularProgress />

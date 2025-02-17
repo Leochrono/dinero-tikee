@@ -21,12 +21,12 @@ export const BlogContainer = styled(Box)(({ theme }) => ({
 export const BlogTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "48px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500,
   textAlign: "center",
   marginBottom: "48px",
-  fontFamily: "'Galano Grotesque', sans-serif", // Cambiado a Galano Grotesque
+  fontFamily: "'Galano Grotesque', sans-serif",
   transition: "all 0.3s ease",
- 
+
   [theme.breakpoints.down("lg")]: {
     fontSize: "42px",
     marginBottom: "40px",
@@ -39,7 +39,7 @@ export const BlogTitle = styled(Typography)(({ theme }) => ({
     fontSize: "28px",
     marginBottom: "24px",
   },
- }));
+}));
 
 export const BlogGrid = styled(Box)(({ theme }) => ({
   display: "grid",
@@ -146,7 +146,7 @@ export const BlogImage = styled("img")(({ theme }) => ({
   height: "100%",
   objectFit: "cover",
   transition: "transform 0.5s ease",
-  
+
   "&:hover": {
     transform: "scale(1.1)",
   },
@@ -157,7 +157,7 @@ export const ContentContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   gap: "20px",
-  minWidth: 0, // Para evitar overflow en flexbox
+  minWidth: 0,
 
   [theme.breakpoints.down("md")]: {
     gap: "16px",
@@ -170,14 +170,14 @@ export const ContentContainer = styled(Box)(({ theme }) => ({
 export const BlogPostTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.common.white,
   fontSize: "32px",
-  fontWeight: 500, // Cambiado a 500
+  fontWeight: 500,
   lineHeight: 1.3,
   display: "-webkit-box",
   WebkitLineClamp: 3,
   WebkitBoxOrient: "vertical",
   overflow: "hidden",
   transition: "color 0.3s ease",
-  fontFamily: "'Galano Grotesque', sans-serif", // Añadida la fuente Galano Grotesque
+  fontFamily: "'Galano Grotesque', sans-serif",
   [theme.breakpoints.down("lg")]: {
     fontSize: "28px",
   },
@@ -188,20 +188,20 @@ export const BlogPostTitle = styled(Typography)(({ theme }) => ({
     fontSize: "20px",
     WebkitLineClamp: 2,
   },
- }));
+}));
 
- export const ReadButton = styled(Button)(({ theme }) => ({
+export const ReadButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
   color: theme.palette.text.secondary,
   borderRadius: "50px",
   padding: "10px 32px",
   alignSelf: "flex-start",
   fontSize: "16px",
-  fontWeight: 500, // Ajustado a 500
+  fontWeight: 500,
   transition: "all 0.3s ease",
   position: "relative",
   overflow: "hidden",
-  fontFamily: "'Stage Grotesque', sans-serif", // Cambiada a Stage Grotesque
+  fontFamily: "'Stage Grotesque', sans-serif",
   "&::after": {
     content: '""',
     position: "absolute",
@@ -209,7 +209,8 @@ export const BlogPostTitle = styled(Typography)(({ theme }) => ({
     left: "-100%",
     width: "100%",
     height: "100%",
-    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+    background:
+      "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
     transition: "0.5s",
   },
   "&:hover": {
@@ -229,4 +230,4 @@ export const BlogPostTitle = styled(Typography)(({ theme }) => ({
     alignSelf: "stretch",
     textAlign: "center",
   },
- }));
+}));

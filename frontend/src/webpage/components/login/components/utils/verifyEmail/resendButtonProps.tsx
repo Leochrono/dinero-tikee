@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Box, CircularProgress } from "@mui/material";
 import { VerifyButton } from "@/components/login/components/styles/constVerify";
 
@@ -8,10 +8,10 @@ interface ResendButtonProps {
   handleResendCode: () => void;
 }
 
-export const ResendCodeButton: React.FC<ResendButtonProps> = ({ 
-  isResending, 
-  resendCooldown, 
-  handleResendCode 
+export const ResendCodeButton: React.FC<ResendButtonProps> = ({
+  isResending,
+  resendCooldown,
+  handleResendCode,
 }) => {
   return (
     <VerifyButton

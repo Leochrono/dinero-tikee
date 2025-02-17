@@ -49,10 +49,10 @@ export class VerificationService {
   }
 
   async sendVerificationEmail(
-    email: string, 
+    email: string,
     nombres: string,
     ipAddress?: string,
-    userAgent?: string
+    userAgent?: string,
   ): Promise<VerifyEmailResponse> {
     try {
       // Verificar que el email no esté ya registrado
@@ -103,12 +103,13 @@ export class VerificationService {
       });
 
       // Guardar registro de verificación
-      const savedLog = await this.verificationLogRepository.save(verificationLog);
+      const savedLog =
+        await this.verificationLogRepository.save(verificationLog);
 
       // Enviar email con código de verificación
       await this.mailerRepository.sendVerifyEmail({
         id: savedLog.id,
-        nombres: nombres, 
+        nombres: nombres,
         email: email,
         tokenOrPassword: verificationCode,
         date: new Date(),
@@ -120,10 +121,12 @@ export class VerificationService {
         success: true,
         message: 'Código de verificación enviado',
         expiresAt: expirationTime,
-        remainingAttempts: this.MAX_ATTEMPTS
+        remainingAttempts: this.MAX_ATTEMPTS,
       };
     } catch (error) {
-      this.logger.error(`Error enviando código de verificación: ${error.message}`);
+      this.logger.error(
+        `Error enviando código de verificación: ${error.message}`,
+      );
       throw error;
     }
   }
@@ -195,13 +198,15 @@ export class VerificationService {
     }
   }
 
-  async resendVerificationCode(dto: ResendVerificationCodeDto): Promise<VerifyEmailResponse> {
+  async resendVerificationCode(
+    dto: ResendVerificationCodeDto,
+  ): Promise<VerifyEmailResponse> {
     try {
       return await this.sendVerificationEmail(
         dto.email,
-        dto.nombres || dto.email.split('@')[0], 
-        undefined, 
-        undefined  
+        dto.nombres || dto.email.split('@')[0],
+        undefined,
+        undefined,
       );
     } catch (error) {
       this.logger.error(`Error reenviando código: ${error.message}`);
