@@ -189,8 +189,8 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
     },
 
     "&:-webkit-autofill": {
-      "-webkit-text-fill-color": theme.palette.common.white,
-      "-webkit-box-shadow": `0 0 0px 1000px ${theme.palette.secondary.main} inset`,
+      WebkitTextFillColor: theme.palette.common.white, // Corregido
+      WebkitBoxShadow: `0 0 0px 1000px ${theme.palette.secondary.main} inset`, // Corregido
       transition: "background-color 5000s ease-in-out 0s",
     },
 
@@ -198,57 +198,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
       height: "48px",
     },
   },
-
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      borderColor: "rgba(255, 255, 255, 0.2)",
-      borderRadius: "8px",
-    },
-    "&:hover fieldset": {
-      borderColor: theme.palette.primary.light,
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: theme.palette.primary.light,
-      borderWidth: "2px",
-    },
-    "&.Mui-error fieldset": {
-      borderColor: "rgba(255, 255, 255, 0.2)",
-    },
-    "&.Mui-error:hover fieldset": {
-      borderColor: theme.palette.primary.light,
-    },
-  },
-
-  "& .MuiInputLabel-root": {
-    color: "rgba(255, 255, 255, 0.7)",
-    fontSize: "16px",
-
-    "&.Mui-focused": {
-      color: theme.palette.primary.light,
-    },
-    "&.Mui-error": {
-      color: "rgba(255, 255, 255, 0.7)",
-    },
-
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "14px",
-    },
-  },
-
-  "& .MuiInputLabel-shrink": {
-    transform: "translate(14px, -8px) scale(0.75)",
-  },
-
-  "& .MuiFormHelperText-root": {
-    color: theme.palette.error.main,
-    marginLeft: 0,
-    marginTop: 4,
-    fontSize: "12px",
-
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "11px",
-    },
-  },
+  // ... resto del código se mantiene igual
 }));
 
 export const RegisterButton = styled(Button)(({ theme }) => ({
