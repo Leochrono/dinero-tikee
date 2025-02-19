@@ -74,7 +74,9 @@ export class AuthService {
         sub: user.id,
         nombres: user.nombres,
         apellidos: user.apellidos,
-        profile: `/api/users/${user.id}/profile`, // Agregar ruta del perfil
+        status: user.status,
+        isEmailVerified: user.isEmailVerified,
+        requiresPasswordChange: user.requiresPasswordChange
       };
 
       return {
@@ -82,7 +84,6 @@ export class AuthService {
         data: {
           user,
           accessToken: this.jwtService.sign(payload),
-          redirect: '/perfil', // Agregar ruta de redirección
         },
       };
     } catch (error) {

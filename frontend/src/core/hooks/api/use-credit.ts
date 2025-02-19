@@ -98,6 +98,26 @@ export const useCredit = (
     [isAuthenticated]
   );
 
+  const getDocuments = useCallback(async (creditId: string) => {
+    if (!isAuthenticated) {
+      throw new Error("USER_NOT_AUTHENTICATED");
+    }
+    try {
+      setLoading(true);
+      const response = await creditService.getDocuments(creditId);
+      if (!response?.success) {
+        throw new Error("Error al obtener documentos");
+      }
+      return response;
+    } catch (error: any) {
+      console.error("Error getting documents:", error);
+      toast.error(error.message || "Error al obtener documentos");
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, [isAuthenticated]);
+
   const uploadDocument = useCallback(
     async (
       creditId: string,
@@ -377,6 +397,7 @@ export const useCredit = (
     searchCredits,
     getDetails,
     updateCredit,
+    getDocuments, // Agregamos esta línea
     setError,
     contextValue: {
       formData: currentFormData || {

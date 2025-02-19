@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowBack } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { routesWebpage } from "@/webpage/components/contants/routes";
@@ -27,8 +27,21 @@ const ChangePassword = () => {
     showPassword: showNewPassword,
     togglePasswordVisibility: toggleNewPasswordVisibility,
   } = usePasswordVisibility();
+
+  // Verificar que tengamos los datos necesarios
+  useEffect(() => {
+    const isRecoveryFlow = location.state?.isRecoveryFlow;
+    const tempCode = location.state?.tempCode;
+    const email = location.state?.email;
+
+    if (isRecoveryFlow && (!tempCode || !email)) {
+      console.log("Missing recovery data, redirecting to login");
+      navigate(routesWebpage.login);
+    }
+  }, [location.state, navigate]);
+
   const [formData, setFormData] = useState({
-    currentPassword: "",
+    currentPassword: location.state?.tempCode || "",
     newPassword: "",
     confirmPassword: "",
   });
@@ -71,37 +84,42 @@ const ChangePassword = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const tempCode = location.state?.tempCode;
-    const isRecoveryFlow = location.state?.isRecoveryFlow;
-
-    if (Object.keys(errors).length > 0) return;
+    
+    if (Object.keys(errors).length > 0) {
+      toast.error("Por favor, corrige los errores antes de continuar");
+      return;
+    }
 
     try {
-      const reason = isRecoveryFlow
-        ? "recovery"
-        : tempCode
-        ? "temporary_change"
-        : "user_request";
+      const isRecoveryFlow = location.state?.isRecoveryFlow;
+      const tempCode = location.state?.tempCode;
+      const email = location.state?.email;
+
+      if (isRecoveryFlow && !tempCode) {
+        toast.error("Código temporal no encontrado");
+        return;
+      }
 
       const success = await changePassword(
         tempCode || formData.currentPassword,
         formData.newPassword,
-        reason
+        isRecoveryFlow ? "recovery" : "user_request"
       );
 
-      if (!success) return;
-
-      toast.success("Contraseña actualizada exitosamente");
-      navigate(routesWebpage.login);
+      if (success) {
+        toast.success("Contraseña actualizada exitosamente");
+        navigate(routesWebpage.login, { replace: true });
+      }
     } catch (error: any) {
-      const errorMessage =
-        error?.response?.data?.error || "Error al cambiar la contraseña";
+      const errorMessage = error?.response?.data?.error || "Error al cambiar la contraseña";
       setErrors({
         currentPassword: errorMessage,
       });
       toast.error(errorMessage);
     }
   };
+
+  const isRecoveryFlow = location.state?.isRecoveryFlow;
 
   return (
     <RecoverWrapper>
@@ -112,19 +130,23 @@ const ChangePassword = () => {
         <form onSubmit={handleSubmit}>
           <RecoverTitle>Cambiar Contraseña</RecoverTitle>
           <RecoverSubtitle>
-            Por seguridad, necesitas cambiar tu contraseña temporal
+            {isRecoveryFlow 
+              ? "Ingresa tu nueva contraseña para recuperar tu cuenta"
+              : "Por seguridad, necesitas cambiar tu contraseña temporal"}
           </RecoverSubtitle>
 
-          <PasswordField
-            label="Contraseña actual"
-            name="currentPassword"
-            value={formData.currentPassword}
-            onChange={handleChange}
-            error={!!errors.currentPassword}
-            helperText={errors.currentPassword}
-            showPassword={showPassword}
-            togglePasswordVisibility={togglePasswordVisibility}
-          />
+          {!isRecoveryFlow && (
+            <PasswordField
+              label="Contraseña actual"
+              name="currentPassword"
+              value={formData.currentPassword}
+              onChange={handleChange}
+              error={!!errors.currentPassword}
+              helperText={errors.currentPassword}
+              showPassword={showPassword}
+              togglePasswordVisibility={togglePasswordVisibility}
+            />
+          )}
 
           <PasswordField
             label="Nueva contraseña"
@@ -156,14 +178,7 @@ const ChangePassword = () => {
             disabled={loading || Object.keys(errors).length > 0}
           >
             {loading ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                  justifyContent: "center",
-                }}
-              >
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1, justifyContent: "center" }}>
                 <CircularProgress size={20} sx={{ color: "white" }} />
                 <span>ACTUALIZANDO...</span>
               </Box>

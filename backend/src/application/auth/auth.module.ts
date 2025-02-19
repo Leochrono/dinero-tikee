@@ -11,6 +11,8 @@ import { AuthController } from '../../interface/controllers/auth.controller';
 import { PasswordModule } from '../password/password.module';
 import { CreditModule } from '../credit/credit.module';
 import { MailerModule } from '../../infrastructure/mailer/mailer.module';
+import { JWT_SECRET } from "../../config.json";
+
 
 @Module({
   imports: [
@@ -19,16 +21,15 @@ import { MailerModule } from '../../infrastructure/mailer/mailer.module';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
+      useFactory: async () => ({
+        secret: JWT_SECRET,
         signOptions: {
-          expiresIn: configService.get<string>('JWT_EXPIRATION', '24h'),
+          expiresIn: '24h',
         },
       }),
     }),
     TypeOrmModule.forFeature([UserEntity]),
     PasswordModule,
-    CreditModule,
     MailerModule,
   ],
   controllers: [AuthController],

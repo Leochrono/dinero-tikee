@@ -75,6 +75,8 @@ export class UserService {
           'nombres',
           'apellidos',
           'status',
+          'isEmailVerified',
+          'requiresPasswordChange',
           'lastSuccessfulLogin',
           'failedLoginAttempts',
           'isLocked',

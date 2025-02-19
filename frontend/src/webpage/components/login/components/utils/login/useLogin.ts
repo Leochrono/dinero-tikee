@@ -81,48 +81,39 @@ export const useLogin = () => {
     if (!formData.email || !formData.password) return;
 
     try {
-      if (
-        formData.password.length === 6 &&
-        /^[0-9A-Z]+$/.test(formData.password)
-      ) {
-        const response = await validateRecoveryCode(
-          formData.email,
-          formData.password
-        );
-
-        if (response?.success) {
-          navigate(routesWebpage.cambiarPassword, {
-            state: {
-              email: formData.email,
-              tempCode: formData.password,
-              isRecoveryFlow: true,
-            },
-            replace: true,
-          });
-          return;
+        // Si es un código temporal (6 caracteres alfanuméricos)
+        if (formData.password.length === 6 && /^[0-9A-Z]+$/.test(formData.password)) {
+            console.log("Código temporal detectado");
+            navigate(routesWebpage.cambiarPassword, {
+                state: {
+                    email: formData.email,
+                    tempCode: formData.password,
+                    isRecoveryFlow: true
+                },
+                replace: true
+            });
+            return;
         }
 
-        setError("Código temporal inválido");
-        setFormData((prev) => ({ ...prev, password: "" }));
-        return;
-      }
-
-      const loginSuccess = await login(formData.email, formData.password);
-
-      if (loginSuccess) {
-        const authCheck = await checkAuth();
-
-        if (authCheck) {
-          console.log("User is authenticated, waiting for state update...");
+        const loginSuccess = await login(formData.email, formData.password);
+        if (loginSuccess) {
+            const authCheck = await checkAuth();
+            if (authCheck) {
+                console.log("User is authenticated");
+            }
+        } else {
+            setFormData((prev) => ({ ...prev, password: "" }));
         }
-      } else {
+    } catch (err: any) { // Tipamos el error
+        console.error("Error during login:", err);
+        if (err instanceof Error) {
+            setError(err.message);
+        } else {
+            setError('Ha ocurrido un error durante el inicio de sesión');
+        }
         setFormData((prev) => ({ ...prev, password: "" }));
-      }
-    } catch (err) {
-      console.error("Error:", err);
-      setFormData((prev) => ({ ...prev, password: "" }));
     }
-  };
+};
 
   const navigateToRecovery = useCallback(() => {
     navigateToPublic(routesWebpage.recuperarPassword);

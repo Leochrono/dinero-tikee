@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { Collapse, Typography } from "@mui/material";
+import { toast } from "react-hot-toast";
+import { useCredit } from "@/src/core/hooks/api/use-credit";
 import {
   CreditCard,
   CreditInfo,
   ActionButton,
 } from "../../styles/constUsuario";
-import { UserCredit } from "@/src/core/types/credit.types";
+import { UserCredit, CreditDocument } from "@/src/core/types/credit.types";
 import CreditHeader from "./creditHeader";
 import CreditBasicInfo from "./creditBasicInfo";
+import CreditDocuments from "./creditDocuments";
 
 const statusColors = {
   DOCUMENTS_SUBMITTED: "#2196F3", // Azul
@@ -29,6 +32,30 @@ interface CreditCardProfileProps {
 
 const CreditCardProfile = ({ credit }: CreditCardProfileProps) => {
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const { getDocuments } = useCredit();
+  const [documents, setDocuments] = useState<CreditDocument[]>([]);
+  const [loadingDocs, setLoadingDocs] = useState(false);
+
+  const handleViewDocuments = async (creditId: string) => {
+    if (expandedId === creditId) {
+      setExpandedId(null);
+      return;
+    }
+
+    try {
+      setLoadingDocs(true);
+      const response = await getDocuments(creditId);
+      if (response.success) {
+        setDocuments(response.data || []);
+      }
+      setExpandedId(creditId);
+    } catch (error) {
+      console.error('Error loading documents:', error);
+      toast.error('Error al cargar los documentos');
+    } finally {
+      setLoadingDocs(false);
+    }
+  };
 
   return (
     <CreditCard>
@@ -36,7 +63,6 @@ const CreditCardProfile = ({ credit }: CreditCardProfileProps) => {
         <>
           <CreditHeader institution={credit.institution} />
           <CreditInfo>
-            {/* Status Badge movido dentro de la tarjeta */}
             <div
               style={{
                 display: "flex",
@@ -81,9 +107,7 @@ const CreditCardProfile = ({ credit }: CreditCardProfileProps) => {
             />
 
             <ActionButton
-              onClick={() =>
-                setExpandedId(expandedId === credit.id ? null : credit.id)
-              }
+              onClick={() => handleViewDocuments(credit.id)}
               sx={{
                 transition: "all 0.3s ease",
                 "&:hover": {
@@ -91,8 +115,10 @@ const CreditCardProfile = ({ credit }: CreditCardProfileProps) => {
                   boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
                 },
               }}
+              disabled={loadingDocs}
             >
-              {expandedId === credit.id ? "OCULTAR DETALLES" : "VER DETALLES"}
+              {loadingDocs ? "CARGANDO..." : 
+                expandedId === credit.id ? "OCULTAR DETALLES" : "VER DETALLES"}
             </ActionButton>
 
             <Collapse in={expandedId === credit.id}>
@@ -132,6 +158,13 @@ const CreditCardProfile = ({ credit }: CreditCardProfileProps) => {
                     </Typography>
                   </div>
                 </div>
+
+                {/* Sección de documentos */}
+                {documents.length > 0 && (
+                  <div style={{ marginTop: "24px" }}>
+                    <CreditDocuments documents={documents} />
+                  </div>
+                )}
               </div>
             </Collapse>
           </CreditInfo>

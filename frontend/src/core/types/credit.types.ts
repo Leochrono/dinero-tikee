@@ -101,6 +101,13 @@ export interface SearchHistory {
   createdAt: Date;
 }
 
+export interface SearchParams {
+  amount: number;
+  term: number;
+  income: number;
+  type?: "bank" | "cooperative";
+}
+
 export interface CreditContextValue {
   formData: {
     email: string;
@@ -223,35 +230,14 @@ export interface CreditHookReturn {
   error: string | null;
   creditId: string;
   status: string;
-  createCredit: (
-    creditData: CreateCreditDTO
-  ) => Promise<ApiResponse<CreditResponse>>;
-  uploadDocument: (
-    creditId: string,
-    documentType: DocumentType,
-    file: File,
-    onProgress?: (progress: number) => void
-  ) => Promise<DocumentResponseDto>;
-  uploadCreditFiles: (
-    creditId: string,
-    formData: FormData,
-    onProgress?: (progress: number) => void
-  ) => Promise<ApiResponse<any>>;
-  updateStatus: (
-    creditId: string,
-    status: string
-  ) => Promise<ApiResponse<CreditResponse>>;
-  searchCredits: (params: {
-    amount: number;
-    term: number;
-    income: number;
-    type?: "bank" | "cooperative";
-  }) => Promise<ApiResponse<CreditResponse[]>>;
+  createCredit: (creditData: CreateCreditDTO) => Promise<ApiResponse<CreditResponse>>;
+  uploadDocument: (creditId: string, documentType: DocumentType, file: File, onProgress?: (progress: number) => void) => Promise<DocumentResponseDto>;
+  uploadCreditFiles: (creditId: string, formData: FormData, onProgress?: (progress: number) => void) => Promise<ApiResponse<DocumentResponseDto>>;
+  updateStatus: (creditId: string, status: string) => Promise<ApiResponse<CreditResponse>>;
+  searchCredits: (params: SearchParams) => Promise<ApiResponse<CreditResponse[]>>;
   getDetails: (creditId: string) => Promise<ApiResponse<CreditResponse>>;
-  updateCredit: (
-    creditId: string,
-    updateData: { institutionId?: string; status?: string }
-  ) => Promise<ApiResponse<CreditResponse>>;
-  setError: React.Dispatch<React.SetStateAction<string | null>>;
+  updateCredit: (creditId: string, updateData: { institutionId?: string; status?: string }) => Promise<ApiResponse<CreditResponse>>;
+  getDocuments: (creditId: string) => Promise<ApiResponse<CreditDocument[]>>; // Agregamos esta línea
+  setError: (error: string | null) => void;
   contextValue: CreditContextValue;
 }

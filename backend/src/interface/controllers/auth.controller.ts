@@ -24,35 +24,23 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
-  @HttpCode(HttpStatus.OK)
-  @RateLimit(5, 300, 900)
-  async login(
-    @Body() loginDto: { email: string; password: string },
-    @Ip() ipAddress: string,
-    @Headers('user-agent') userAgent: string,
-  ) {
-    try {
-      const response = await this.authService.login(
-        loginDto,
-        ipAddress,
-        userAgent,
-      );
-      return {
-        ...response,
-        data: {
-          ...response.data,
-          profile: {
-            id: response.data.user.id,
-            email: response.data.user.email,
-            nombres: response.data.user.nombres,
-            apellidos: response.data.user.apellidos,
-          },
-        },
-      };
-    } catch (error) {
-      throw new BadRequestException(error.message);
-    }
+@HttpCode(HttpStatus.OK)
+async login(
+  @Body() loginDto: { email: string; password: string },
+  @Ip() ipAddress: string,
+  @Headers('user-agent') userAgent: string,
+) {
+  try {
+    const response = await this.authService.login(
+      loginDto,
+      ipAddress,
+      userAgent,
+    );
+    return response;
+  } catch (error) {
+    throw new BadRequestException(error.message);
   }
+}
 
   @Get('profile')
   @UseGuards(JwtAuthGuard)

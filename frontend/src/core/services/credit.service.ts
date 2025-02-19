@@ -107,6 +107,7 @@ export const creditService = {
     }
   },
 
+
   updateStatus: async (
     creditId: string,
     status: string
@@ -240,26 +241,12 @@ export const creditService = {
     }
   },
 
-  getDocuments: async (
-    creditId: string
-  ): Promise<ApiResponse<CreditDocument[]>> => {
+  getDocuments: async (creditId: string): Promise<ApiResponse<CreditDocument[]>> => {
     try {
-      if (!creditId) {
-        throw new Error("ID de crédito requerido");
-      }
-
-      const response = await axiosInstance.get(
-        `/credits/${creditId}/documents`
-      );
-
-      if (!response?.data?.success) {
-        throw new Error(response?.data?.error || "Error al obtener documentos");
-      }
-
+      const response = await axiosInstance.get(`/credits/${creditId}/documents`);
       return response.data;
     } catch (error: any) {
-      console.error("Error en getDocuments:", error);
-      throw new Error(handleError(error));
+      throw new Error(error.response?.data?.message || "Error al obtener documentos");
     }
   },
 

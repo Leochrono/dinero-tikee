@@ -42,12 +42,26 @@ export interface Tokens {
   refreshToken?: string;
 }
 
+// En src/core/types/auth.types.ts
+
 export interface AuthResponse {
   user: User;
   accessToken: string;
   requirePasswordChange?: boolean;
   passwordExpired?: boolean;
   isEmailVerified?: boolean;
+  tempCode?: string;           // Añadido
+  email?: string;             // Añadido
+}
+
+export interface LoginResponseDto extends ApiResponse<AuthResponse> {
+  requirePasswordChange?: boolean;
+  passwordExpired?: boolean;
+  isLocked?: boolean;
+  lockDuration?: string;
+  remainingAttempts?: number;
+  tempCode?: string;          // Añadido
+  email?: string;            // Añadido
 }
 
 export interface AuthHookState extends AuthState {
@@ -83,6 +97,8 @@ export interface LoginResponseDto extends ApiResponse<AuthResponse> {
   isLocked?: boolean;
   lockDuration?: string;
   remainingAttempts?: number;
+  tempCode?: string;          // Añadido
+  email?: string;            // Añadido
 }
 
 export interface RegisterResponseDto extends ApiResponse<AuthResponse> {

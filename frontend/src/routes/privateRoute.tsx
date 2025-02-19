@@ -17,10 +17,15 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [initialCheckDone, setInitialCheckDone] = useState(false);
+
+  // Verificación de estado de recuperación
   const isRecoveryFlow = location.state?.isRecoveryFlow;
+  const isChangePasswordRoute = location.pathname === routesWebpage.cambiarPassword;
+  const hasTempCode = location.state?.tempCode && location.state?.email;
+
   const verifyAuth = useCallback(async () => {
     if (!initialCheckDone) {
-      const authResult = await checkAuth();
+      await checkAuth();
       setInitialCheckDone(true);
     }
   }, [initialCheckDone, checkAuth]);
@@ -29,16 +34,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
     verifyAuth();
   }, [verifyAuth]);
 
-  useEffect(() => {
-    if (initialCheckDone && !loading) {
-      if (!isAuthenticated) {
-        navigate(routesWebpage.login, {
-          state: { from: location.pathname },
-          replace: true,
-        });
-      }
-    }
-  }, [isAuthenticated, initialCheckDone, loading, navigate, location]);
+  // Loading state
   if (!initialCheckDone || loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -46,34 +42,50 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
       </div>
     );
   }
-  if (isRecoveryFlow && location.pathname === routesWebpage.cambiarPassword) {
+
+  // Manejo de flujo de recuperación de contraseña
+  if (isRecoveryFlow && isChangePasswordRoute && hasTempCode) {
+    console.log("Recovery flow detected:", {
+      email: location.state?.email,
+      tempCode: location.state?.tempCode
+    });
     return <>{typeof children === "function" ? children() : children}</>;
   }
 
+  // Rutas públicas
   const publicRoutes: PublicRoute[] = [
     routesWebpage.login,
     routesWebpage.registro,
     routesWebpage.recuperarPassword,
   ];
   const isPublicRoute = publicRoutes.includes(location.pathname as PublicRoute);
+
   if (isPublicRoute && !isAuthenticated) {
     return <>{typeof children === "function" ? children() : children}</>;
   }
+
   if (isPublicRoute && isAuthenticated) {
     localStorage.setItem("lastActivity", Date.now().toString());
     return <Navigate to={routesWebpage.perfil} replace />;
   }
+
+  // Verificación de autenticación
   if (!isAuthenticated || !user) {
     return (
-      <Navigate to={routesWebpage.login} state={{ from: location }} replace />
+      <Navigate 
+        to={routesWebpage.login} 
+        state={{ from: location.pathname }} 
+        replace 
+      />
     );
   }
-  if (
-    user.requiresPasswordChange &&
-    location.pathname !== routesWebpage.cambiarPassword
-  ) {
+
+  // Manejo de cambio de contraseña requerido
+  if (user.requiresPasswordChange && !isChangePasswordRoute) {
     return <Navigate to={routesWebpage.cambiarPassword} replace />;
   }
+
+  // Actualización de actividad y renderizado normal
   localStorage.setItem("lastActivity", Date.now().toString());
   return <>{typeof children === "function" ? children() : children}</>;
 };

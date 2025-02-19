@@ -3,6 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JWT_SECRET } from "../../config.json";
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   private readonly logger = new Logger(JwtStrategy.name);
@@ -25,15 +26,19 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: any) {
     if (!payload) {
+      this.logger.error('Token inválido: payload vacío');
       throw new UnauthorizedException();
     }
 
     this.logger.debug(`Validando token para usuario: ${payload.email}`);
+    
     return {
       id: payload.sub,
       email: payload.email,
       nombres: payload.nombres,
       apellidos: payload.apellidos,
+      status: payload.status || 'active',
+      isEmailVerified: payload.isEmailVerified || false,
       requiresPasswordChange: payload.requiresPasswordChange || false
     };
   }
