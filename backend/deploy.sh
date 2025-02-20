@@ -16,5 +16,6 @@ echo 'Compilado correctamente'
 docker rm -f "$NAME_CONTAINER"
 
 docker run --restart=always --name "$NAME_CONTAINER" \
+        --env-file /config/.envDinero \
         -dp "$PORT_EXPOSE":3000 "$NAME_IMAGE"
 echo 'Successfull service'
