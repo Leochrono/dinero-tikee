@@ -22,10 +22,12 @@ const SettingsButton = styled(IconButton)(({ theme }) => ({
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
-    width: '400px',
+    width: '100%', // Cambia a 100% para móviles
+    maxWidth: '400px', // Máximo 400px para pantallas más grandes
     backgroundColor: '#1E1E1E',
     borderLeft: '1px solid rgba(255, 255, 255, 0.12)',
     padding: '20px',
+    boxSizing: 'border-box',
   },
 }));
 

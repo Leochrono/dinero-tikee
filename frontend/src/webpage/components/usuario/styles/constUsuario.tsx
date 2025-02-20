@@ -128,22 +128,23 @@ export const WelcomeSection = styled(Typography)(({ theme }) => ({
 
 export const SectionTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.light,
-  fontSize: '32px', // Reducido el tamaño para mejor ajuste
+  fontSize: '48px',
   fontWeight: 500, 
   marginBottom: '24px',
-  width: '100%',
-  textAlign: 'left',
+  whiteSpace: 'nowrap',  // Evita que el texto se divida
+  overflow: 'hidden',    // Oculta el exceso de texto
+  textOverflow: 'ellipsis', // Muestra ... si no cabe
+  width: '100%',          // Asegura que tome todo el ancho disponible
   fontFamily: "'Galano Grotesque', sans-serif",
-  display: 'block', // Asegura que tome todo el espacio necesario
-  
+
   [theme.breakpoints.down('lg')]: {
-    fontSize: '28px',
+    fontSize: '42px',
   },
   [theme.breakpoints.down('md')]: {
-    fontSize: '24px',
+    fontSize: '36px',
   },
   [theme.breakpoints.down('sm')]: {
-    fontSize: '22px',
+    fontSize: '28px',
     marginBottom: '16px',
   },
 }));
@@ -370,48 +371,52 @@ export const HistoryDetails = styled(Box)(({ theme }) => ({
 }));
 
 export const SettingsContainer = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.secondary.main,
-  borderRadius: '16px',
-  padding: '32px',
-  width: '400px',  // Ancho fijo para el drawer
-  minWidth: '350px', // Ancho mínimo para asegurar que el contenido quepa
+  backgroundColor: theme.palette.secondary.main, // Color azul oscuro
+  height: '100vh',
+  width: '300px',
+  position: 'fixed',
+  right: 0,
+  top: 0,
+  padding: '20px',
   boxSizing: 'border-box',
-  
+  boxShadow: '-2px 0 8px rgba(0, 0, 0, 0.15)',
+  zIndex: 1200,
+  overflowY: 'auto',
   [theme.breakpoints.down('sm')]: {
-    padding: '20px',
     width: '100%',
-    minWidth: '300px',
-  },
-}));
-export const StyledTabs = styled(Tabs)(({ theme }) => ({
-  borderBottom: `1px solid ${theme.palette.primary.light}`,
-  marginBottom: '24px',
-  minHeight: '48px',
-  '& .MuiTab-root': {
-    color: theme.palette.common.white,
-    fontSize: '14px',
-    fontWeight: 500,
-    minHeight: '48px',
-    padding: '6px 12px',
-    '&.Mui-selected': {
-      color: theme.palette.primary.light,
-    },
   },
 }));
 
+// Reemplaza StyledTabs por un estilo para los botones verticales
+export const SettingsButton = styled(Button)(({ theme }) => ({
+  width: '100%',
+  justifyContent: 'flex-start',
+  padding: '12px 16px',
+  marginBottom: '8px',
+  color: theme.palette.common.white,
+  textTransform: 'none',
+  borderRadius: '8px',
+  '&:hover': {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  '&.active': {
+    backgroundColor: theme.palette.primary.main,
+  },
+}));
 
 export const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: '16px',
   '& .MuiOutlinedInput-root': {
     color: theme.palette.common.white,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     '& fieldset': {
-      borderColor: theme.palette.primary.light,
+      borderColor: 'rgba(255, 255, 255, 0.23)',
     },
     '&:hover fieldset': {
-      borderColor: theme.palette.primary.main,
+      borderColor: theme.palette.primary.light,
     },
     '&.Mui-focused fieldset': {
-      borderColor: theme.palette.primary.main,
+      borderColor: theme.palette.primary.light,
     },
   },
   '& .MuiInputLabel-root': {
@@ -429,15 +434,16 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
 }));
 
 export const SettingsForm = styled('form')(({ theme }) => ({
-  backgroundColor: 'rgba(255, 255, 255, 0.05)',
+  padding: '16px',
+  marginTop: '16px',
   borderRadius: '8px',
-  padding: '20px',
-  marginBottom: '16px',
+  backgroundColor: 'transparent',
   width: '100%',
 }));
 
 export const StyledFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
   color: theme.palette.common.white,
+  marginBottom: '12px',
   '& .MuiSwitch-root': {
     '& .MuiSwitch-switchBase.Mui-checked': {
       color: theme.palette.primary.light,
@@ -449,9 +455,10 @@ export const StyledFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
 }));
 
 export const SubtitleText = styled(Typography)(({ theme }) => ({
-  color: theme.palette.primary.light,
-  fontSize: '13px',
+  color: theme.palette.common.white,
+  fontSize: '14px',
   marginBottom: '20px',
-  opacity: 0.8,
-  lineHeight: 1.4,
+  opacity: 0.7,
 }));
+
+// Nuevo estilo para el título de la sección
