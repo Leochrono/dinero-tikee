@@ -86,12 +86,7 @@ const Products: React.FC<ProductsProps> = ({ onProductSelect }) => {
                 {product.products.personalLoan.maxTerm} meses
               </ProductDetails>
             </ProductInfo>
-            <ActionButton
-              onClick={() => handleProductClick(product.id)}
-              aria-label={`Solicitar préstamo en ${product.name}`}
-            >
-              ¡LO QUIERO!
-            </ActionButton>
+            
           </ProductCard>
         ))}
       </ProductsGrid>

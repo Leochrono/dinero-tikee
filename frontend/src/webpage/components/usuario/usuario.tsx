@@ -13,7 +13,7 @@ import CreditCardProfile from "./components/design/creditCardProfile";
 import CreditDetailsProfile from "./components/design/creditDetailsProfile";
 import CreditDocuments from "./components/design/creditDocuments";
 import DocumentPreview from "./components/design/documentPreview";
-import SidebarMenu from "./components/design/SidebarMenu";
+import SidebarMenu from "./components/design/sidebarMenu";
 
 const Usuario = () => {
   const { userProfile, userCredits, loadingData, dataError, loadUserData } = userData();

@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import Navbar from '@/webpage/components/navbar/navbar';
 import { UserContainer } from '@/webpage/components/usuario/styles/constUsuario';
-import SidebarMenu from '@/webpage/components/usuario/components/design/SidebarMenu';
+import SidebarMenu from './sidebarMenu';
 
 const AcercaDe = () => {
   return (
