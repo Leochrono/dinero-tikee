@@ -25,25 +25,25 @@ const BlogPosts: React.FC = () => {
   const posts: BlogPost[] = [
     {
       id: "1",
-      image: "/assets/img/unpaid-loans.jpg",
+      image: "/assets/img/estrategias.webp",
       title: "Estrategias Financieras para Préstamos Impagos",
       slug: "prestamos-impagos",
     },
     {
       id: "2",
-      image: "/assets/img/budget-planning.jpg",
+      image: "/assets/img/presupuesto.webp",
       title: "Metas y Presupuesto: Guía Financiera Práctica",
       slug: "metas-presupuesto",
     },
     {
       id: "3",
-      image: "/assets/img/creative-finances.jpg",
+      image: "/assets/img/finanzas.webp",
       title: "Finanzas Creativas en Época Festiva",
       slug: "finanzas-creativas",
     },
     {
       id: "4",
-      image: "/assets/img/mutual-funds.jpg",
+      image: "/assets/img/fondos.webp",
       title: "Fondos Mutuos: Guía Completa de Inversión",
       slug: "fondos-mutuos",
     },

@@ -36,7 +36,7 @@ const BankLogos: React.FC = () => {
       alt: "Cooperativa JEP",
     },
     {
-      src: "https://images.seeklogo.com/logo-png/40/1/banco-guayaquil-2020-fondo-magenta-logo-png_seeklogo-408168.png",
+      src: "/static/1f7d8003e7b7de4c0244b5d4116dd882/63159/logo_bg_white.png",
       alt: "Banco de Guayaquil",
     },
   ];
