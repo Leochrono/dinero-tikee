@@ -142,10 +142,6 @@ const routes: RouteObject[] = [
     element: <UnlockAccount />,
   },
   {
-    path: routesWebpage.desbloquearCuentaToken,
-    element: <UnlockAccount />,
-  },
-  {
     path: routesWebpage.cambiarPassword,
     element: (
       <PrivateRoute>

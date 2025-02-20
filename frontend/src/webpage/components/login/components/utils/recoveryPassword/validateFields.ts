@@ -7,10 +7,8 @@ export const validateFields = (
   switch (recoveryType) {
     case "password":
       return !!formData.email;
-    case "user":
-      return !!formData.cedula;
-    case "both":
-      return !!formData.email && !!formData.cedula;
+    case "unlock":
+      return !!formData.email && !!formData.cedula && /^\d{10}$/.test(formData.cedula);
     default:
       return false;
   }

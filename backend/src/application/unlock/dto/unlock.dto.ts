@@ -4,18 +4,29 @@ import {
   IsEmail,
   IsOptional,
   IsUUID,
+  Matches
 } from 'class-validator';
 
 export class RequestUnlockDto {
   @IsEmail({}, { message: 'El email debe ser válido' })
   @IsNotEmpty({ message: 'El email es requerido' })
   email: string;
+
+  @IsString({ message: 'La cédula debe ser una cadena de texto' })
+  @IsNotEmpty({ message: 'La cédula es requerida' })
+  @Matches(/^\d{10}$/, { message: 'La cédula debe tener 10 dígitos numéricos' })
+  cedula: string;
 }
 
 export class ValidateUnlockCodeDto {
   @IsEmail({}, { message: 'El email debe ser válido' })
   @IsNotEmpty({ message: 'El email es requerido' })
   email: string;
+
+  @IsString({ message: 'La cédula debe ser una cadena de texto' })
+  @IsNotEmpty({ message: 'La cédula es requerida' })
+  @Matches(/^\d{10}$/, { message: 'La cédula debe tener 10 dígitos numéricos' })
+  cedula: string;
 
   @IsString()
   @IsNotEmpty({ message: 'El código de desbloqueo es requerido' })

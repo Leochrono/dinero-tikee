@@ -1,102 +1,149 @@
 import {
   IsString,
   IsNotEmpty,
-  MinLength,
-  MaxLength,
-  Matches,
+  IsEmail,
+  IsOptional,
+  IsUUID,
+  IsBoolean,
+  IsNumber,
+  IsDate,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 
-export class ChangePasswordDto {
-  @IsNotEmpty({ message: 'La contraseña actual es requerida' })
-  @IsString()
-  currentPassword: string;
-
-  @IsNotEmpty({ message: 'La nueva contraseña es requerida' })
-  @IsString()
-  @MinLength(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
-  @MaxLength(128, {
-    message: 'La contraseña no puede exceder los 128 caracteres',
-  })
-  @Matches(/[A-Z]/, {
-    message: 'La contraseña debe contener al menos una letra mayúscula',
-  })
-  @Matches(/[a-z]/, {
-    message: 'La contraseña debe contener al menos una letra minúscula',
-  })
-  @Matches(/[0-9]/, {
-    message: 'La contraseña debe contener al menos un número',
-  })
-  @Matches(/[!@#$%^&*(),.?":{}|<>]/, {
-    message: 'La contraseña debe contener al menos un carácter especial',
-  })
-  newPassword: string;
-
-  @IsNotEmpty({ message: 'La confirmación de contraseña es requerida' })
-  @IsString()
-  passwordConfirmation: string;
+export class RequestUnlockDto {
+  @IsEmail({}, { message: 'El email debe ser válido' })
+  @IsNotEmpty({ message: 'El email es requerido' })
+  email: string;
 }
 
-export class ResetPasswordDto {
-  @IsNotEmpty({ message: 'El token de reset es requerido' })
-  @IsString()
-  resetToken: string;
+export class ValidateUnlockCodeDto {
+  @IsEmail({}, { message: 'El email debe ser válido' })
+  @IsNotEmpty({ message: 'El email es requerido' })
+  email: string;
 
-  @IsNotEmpty({ message: 'La nueva contraseña es requerida' })
   @IsString()
-  @MinLength(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
-  @MaxLength(128, {
-    message: 'La contraseña no puede exceder los 128 caracteres',
-  })
-  @Matches(/[A-Z]/, {
-    message: 'La contraseña debe contener al menos una letra mayúscula',
-  })
-  @Matches(/[a-z]/, {
-    message: 'La contraseña debe contener al menos una letra minúscula',
-  })
-  @Matches(/[0-9]/, {
-    message: 'La contraseña debe contener al menos un número',
-  })
-  @Matches(/[!@#$%^&*(),.?":{}|<>]/, {
-    message: 'La contraseña debe contener al menos un carácter especial',
-  })
-  newPassword: string;
-
-  @IsNotEmpty({ message: 'La confirmación de contraseña es requerida' })
-  @IsString()
-  passwordConfirmation: string;
-}
-
-export class UnlockAccountDto {
   @IsNotEmpty({ message: 'El código de desbloqueo es requerido' })
-  @IsString()
   unlockCode: string;
 }
 
-export class PasswordHistoryResponseDto {
-  id: string;
-  changedAt: Date;
-  changedBy: string;
-  reason: string;
-  isTemporary: boolean;
-  ipAddress?: string;
+export class UnlockResponseDto {
+  @IsBoolean()
+  success: boolean;
+
+  @IsString()
+  message: string;
+
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
+  expiresAt?: Date;
+
+  @IsOptional()
+  @IsNumber()
+  remainingAttempts?: number;
+
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
+  cooldownUntil?: Date;
 }
 
-export class SecurityEventResponseDto {
-  id: string;
-  eventType: string;
-  status: string;
-  timestamp: Date;
-  ipAddress: string;
-  details?: string;
-  severity?: string;
-}
+export class UnlockHistoryDto {
+  @IsUUID()
+  userId: string;
 
-export class AccountLockResponseDto {
-  id: string;
-  reason: string;
+  @IsString()
+  unlockCode: string;
+
+  @IsNumber()
+  attempts: number;
+
+  @IsBoolean()
+  isValid: boolean;
+
+  @IsDate()
+  @Type(() => Date)
   createdAt: Date;
+
+  @IsDate()
+  @Type(() => Date)
   expiresAt: Date;
-  isActive: boolean;
-  unlockedAt?: Date;
-  unlockedBy?: string;
+
+  @IsOptional()
+  @IsString()
+  ipAddress?: string;
+
+  @IsOptional()
+  @IsString()
+  userAgent?: string;
+
+  @IsOptional()
+  @IsString()
+  reason?: string;
+}
+
+export class GenerateUnlockCodeDto {
+  @IsUUID()
+  @IsNotEmpty()
+  userId: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  reason: string;
+
+  @IsString()
+  @IsNotEmpty()
+  duration: string;
+
+  @IsString()
+  @IsOptional()
+  ipAddress?: string;
+
+  @IsString()
+  @IsOptional()
+  userAgent?: string;
+}
+
+export class AccountLockStatusDto {
+  @IsBoolean()
+  isLocked: boolean;
+
+  @IsOptional()
+  @IsString()
+  reason?: string;
+
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
+  expiresAt?: Date;
+
+  @IsOptional()
+  @IsNumber()
+  attempts?: number;
+
+  @IsOptional()
+  @IsNumber()
+  maxAttempts?: number;
+
+  @IsOptional()
+  @IsNumber()
+  remainingAttempts?: number;
+}
+
+export class ForceUnlockDto {
+  @IsUUID()
+  @IsNotEmpty()
+  userId: string;
+
+  @IsUUID()
+  @IsNotEmpty()
+  adminId: string;
+
+  @IsOptional()
+  @IsString()
+  reason?: string;
 }

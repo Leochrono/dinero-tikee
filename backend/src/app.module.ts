@@ -13,6 +13,7 @@ import { VerificationModule } from './application/verification/verification.modu
 import { IHttpService } from './infrastructure/Common/Http/IHttpService';
 import { HttpService } from './infrastructure/Common/Http/HttpService';
 import { MailerModule } from './infrastructure/mailer/mailer.module';
+import { UnlockModule } from './application/unlock/unlock.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { MailerModule } from './infrastructure/mailer/mailer.module';
     CreditModule,
     InstitutionModule,
     VerificationModule,
+    UnlockModule,
     MailerModule,
   ],
   providers: [{ provide: IHttpService, useClass: HttpService }],

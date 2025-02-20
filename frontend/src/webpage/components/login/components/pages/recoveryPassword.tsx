@@ -50,49 +50,49 @@ const RecoveryPassword: React.FC = () => {
             />
 
             <RecoveryTypeButton
-              type="user"
-              currentType={recoveryType}
-              onClick={handleTypeSelection}
-            />
-
-            <RecoveryTypeButton
-              type="both"
+              type="unlock"
               currentType={recoveryType}
               onClick={handleTypeSelection}
             />
           </Box>
 
-          {(recoveryType === "password" || recoveryType === "both") && (
-            <StyledTextField
-              fullWidth
-              label="Correo electrónico"
-              variant="outlined"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              error={Boolean(errors.email)}
-              helperText={errors.email}
-              autoComplete="email"
-            />
-          )}
+          {(recoveryType === "password" || recoveryType === "unlock") && (
+            <>
+              <StyledTextField
+                fullWidth
+                label="Correo electrónico"
+                variant="outlined"
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                error={Boolean(errors.email)}
+                helperText={errors.email}
+                autoComplete="email"
+              />
 
-          {(recoveryType === "user" || recoveryType === "both") && (
-            <StyledTextField
-              fullWidth
-              label="Cédula"
-              variant="outlined"
-              type="text"
-              name="cedula"
-              value={formData.cedula}
-              onChange={handleChange}
-              required
-              error={Boolean(errors.cedula)}
-              helperText={errors.cedula}
-              inputProps={{ maxLength: 10 }}
-              autoComplete="off"
-            />
+              {recoveryType === "unlock" && (
+                <StyledTextField
+                  fullWidth
+                  label="Cédula"
+                  variant="outlined"
+                  type="text"
+                  name="cedula"
+                  value={formData.cedula}
+                  onChange={handleChange}
+                  required
+                  error={Boolean(errors.cedula)}
+                  helperText={errors.cedula}
+                  inputProps={{
+                    maxLength: 10,
+                    pattern: "\\d*",
+                    inputMode: "numeric"
+                  }}
+                  sx={{ mt: 2 }}
+                />
+              )}
+            </>
           )}
 
           <RecoverButton
@@ -101,6 +101,7 @@ const RecoveryPassword: React.FC = () => {
             fullWidth
             disableElevation
             disabled={loading || !validateFields(recoveryType, formData)}
+            sx={{ mt: 3 }}
           >
             {loading ? (
               <Box

@@ -4,9 +4,9 @@ import { toast } from "react-hot-toast";
 import { routesWebpage } from "@/webpage/components/contants/routes";
 import { useAuth } from "@/src/core/hooks/api/useAuth";
 import { usePassword } from "@/src/core/hooks/api/use-password";
-import { useUserProfile } from "@/src/core/hooks/api/use-user-profile";
+import { useUnlock } from "@/src/core/hooks/api/useUnlock";
 
-export type RecoveryType = "password" | "user" | "both";
+export type RecoveryType = "password" | "unlock"; 
 
 export interface RecoverFormData {
   email: string;
@@ -22,7 +22,7 @@ export const useRecovery = () => {
   const navigate = useNavigate();
   const { loading: authLoading } = useAuth();
   const { recoverPassword, loading: passwordLoading } = usePassword();
-  const { recoverUser, loading: userLoading } = useUserProfile();
+  const { requestUnlock, loading: unlockLoading } = useUnlock();
 
   const [recoveryType, setRecoveryType] = useState<RecoveryType | "">("");
   const [formData, setFormData] = useState<RecoverFormData>({
@@ -31,7 +31,7 @@ export const useRecovery = () => {
   });
   const [errors, setErrors] = useState<FormErrors>({});
 
-  const loading = authLoading || passwordLoading || userLoading;
+  const loading = authLoading || passwordLoading || unlockLoading;
 
   const handleTypeSelection = (type: RecoveryType) => {
     setRecoveryType(type);
@@ -47,9 +47,33 @@ export const useRecovery = () => {
     }));
   };
 
+  const validateForm = () => {
+    const newErrors: FormErrors = {};
+
+    if (!formData.email.trim()) {
+      newErrors.email = "El correo electrónico es requerido";
+    }
+
+    if (recoveryType === "unlock") {
+      if (!formData.cedula.trim()) {
+        newErrors.cedula = "La cédula es requerida";
+      } else if (!/^\d{10}$/.test(formData.cedula)) {
+        newErrors.cedula = "La cédula debe tener 10 dígitos numéricos";
+      }
+    }
+
+    return newErrors;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading) return;
+
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
 
     try {
       switch (recoveryType) {
@@ -66,27 +90,24 @@ export const useRecovery = () => {
           }
           break;
 
-        case "user":
-          const userResponse = await recoverUser(formData.cedula);
-          if (userResponse) {
+        case "unlock":
+          const unlockResponse = await requestUnlock({
+            email: formData.email,
+            cedula: formData.cedula
+          });
+          if (unlockResponse.success) {
             toast.success(
-              "Se ha enviado la información a tu correo registrado"
+              "Se ha enviado un código de desbloqueo a tu correo electrónico.",
+              {
+                duration: 4000,
+              }
             );
-            navigate(routesWebpage.login);
-          }
-          break;
-
-        case "both":
-          const [recoverPwdRes, recoverUserRes] = await Promise.all([
-            recoverPassword(formData.email),
-            recoverUser(formData.cedula),
-          ]);
-
-          if (recoverPwdRes && recoverUserRes) {
-            toast.success(
-              "Se ha enviado la información a tu correo registrado"
-            );
-            navigate(routesWebpage.login);
+            navigate(routesWebpage.desbloquearCuenta, {
+              state: { 
+                email: formData.email,
+                cedula: formData.cedula
+              }
+            });
           }
           break;
 

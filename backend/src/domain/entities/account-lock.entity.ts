@@ -4,10 +4,14 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   CreateDateColumn,
+  UpdateDateColumn,
+  Index,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
 
 @Entity('account_locks')
+@Index(['user', 'isActive'])
+@Index(['unlockCode', 'isActive'])
 export class AccountLockEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -24,7 +28,9 @@ export class AccountLockEntity {
       'security_policy',
       'administrative',
       'user_requested',
+      'temporary_lock'
     ],
+    default: 'temporary_lock'
   })
   reason: string;
 
@@ -40,7 +46,11 @@ export class AccountLockEntity {
   @Column({ nullable: true })
   unlockedAt: Date;
 
-  @Column({ nullable: true })
+  @Column({
+    type: 'enum',
+    enum: ['user', 'admin', 'system', 'automatic'],
+    nullable: true
+  })
   unlockedBy: string;
 
   @Column({ nullable: true })
@@ -52,7 +62,7 @@ export class AccountLockEntity {
   @Column({ default: 0 })
   attempts: number;
 
-  @Column()
+  @Column({ nullable: true })
   ipAddress: string;
 
   @Column({ nullable: true })
@@ -71,4 +81,7 @@ export class AccountLockEntity {
 
   @Column({ nullable: true })
   notificationSentAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

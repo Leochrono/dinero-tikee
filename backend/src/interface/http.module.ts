@@ -23,6 +23,7 @@ import { CreditDocumentController } from './controllers/credit-document.controll
 import { AuthController } from './controllers/auth.controller';
 import { PasswordController } from './controllers/password.controller';
 import { SecurityController } from './controllers/security.controller';
+import { UnlockController } from './controllers/unlock.controller';
 
 // Services
 import { UserService } from 'src/application/user/services/user.service';
@@ -33,9 +34,12 @@ import { AuthService } from 'src/application/auth/auth.service';
 import { PasswordService } from 'src/application/password/services/password.service';
 import { SecurityService } from 'src/application/security/services/security.service';
 import { EmailService } from 'src/infrastructure/services/email.service';
+import { UnlockService } from 'src/application/unlock/services/unlock.service';
 
 // Other Modules
 import { MailerModule } from 'src/infrastructure/mailer/mailer.module';
+
+
 
 @Module({
   imports: [
@@ -72,6 +76,7 @@ import { MailerModule } from 'src/infrastructure/mailer/mailer.module';
     AuthController,
     PasswordController,
     SecurityController,
+    UnlockController, // Añadido UnlockController
   ],
   providers: [
     UserService,
@@ -82,6 +87,7 @@ import { MailerModule } from 'src/infrastructure/mailer/mailer.module';
     PasswordService,
     SecurityService,
     EmailService,
+    UnlockService, // Añadido UnlockService
   ],
   exports: [
     UserService,
@@ -93,6 +99,7 @@ import { MailerModule } from 'src/infrastructure/mailer/mailer.module';
     SecurityService,
     JwtModule,
     EmailService,
+    UnlockService, // Añadido a las exportaciones
   ],
 })
 export class HttpModule {}
