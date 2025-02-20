@@ -4,7 +4,6 @@ import ErrorMessage from "../shared/errorMessage";
 import { UserContainer } from "./styles/constUsuario";
 import Navbar from "../navbar/navbar";
 import { userData } from "./utils/userData";
-import UserHeader from "./components/design/userHeader";
 import WelcomeSectionComponent from "./components/design/welcomeSection";
 import CreditsList from "./components/creditsList";
 import NoCreditsMessage from "./components/design/noCreditsMessage";
@@ -14,12 +13,10 @@ import CreditCardProfile from "./components/design/creditCardProfile";
 import CreditDetailsProfile from "./components/design/creditDetailsProfile";
 import CreditDocuments from "./components/design/creditDocuments";
 import DocumentPreview from "./components/design/documentPreview";
-import UserSettingsDrawer from "./components/design/userSettingsDrawer";
-import UserSettings from "./components/design/userSettings";
+import SidebarMenu from "./components/design/SidebarMenu";
 
 const Usuario = () => {
-  const { userProfile, userCredits, loadingData, dataError, loadUserData } =
-    userData();
+  const { userProfile, userCredits, loadingData, dataError, loadUserData } = userData();
 
   useEffect(() => {
     loadUserData();
@@ -36,10 +33,9 @@ const Usuario = () => {
   }
 
   return (
-    <>
+    <SidebarMenu>
       <Navbar />
       <UserContainer>
-        <UserHeader />
         <WelcomeSectionComponent userProfile={userProfile} />
         <CreditsList
           credits={userCredits}
@@ -53,16 +49,8 @@ const Usuario = () => {
             DocumentPreview,
           }}
         />
-        
-        {/* Panel de configuración */}
-        <UserSettingsDrawer>
-          <UserSettings />
-        </UserSettingsDrawer>
       </UserContainer>
-
-      {/* Botón flotante de configuración que abre el drawer
-          Se maneja dentro del UserSettingsDrawer */}
-    </>
+    </SidebarMenu>
   );
 };
 

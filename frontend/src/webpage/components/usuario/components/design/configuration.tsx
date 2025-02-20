@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
-import { Box, Switch } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { toast } from 'react-hot-toast';
-import { useSettingsUser } from "@/src/core/hooks/api/settings-user";
-import { usePassword } from '@/src/core/hooks/api/use-password';
+import Navbar from '@/webpage/components/navbar/navbar';
+import { UserContainer } from '@/webpage/components/usuario/styles/constUsuario';
+import SidebarMenu from '@/webpage/components/usuario/components/design/SidebarMenu';
 import {
-  SettingsContainer,
-  SettingsButton,
-  StyledTextField,
   SettingsForm,
-  StyledFormControlLabel,
-  SubtitleText,
-  ActionButton
+  StyledTextField,
+  ActionButton,
+  SubtitleText
 } from '@/webpage/components/usuario/styles/constUsuario';
+import { usePassword } from '@/src/core/hooks/api/use-password';
+import { useSettingsUser } from "@/src/core/hooks/api/settings-user";
 
-const UserSettings = () => {
-  const [currentSection, setCurrentSection] = useState('password');
+const Configuracion = () => {
   const { changePassword } = usePassword();
-  const { loading, updatePersonalInfo, updateSecuritySettings } = useSettingsUser();
+  const { loading, updatePersonalInfo } = useSettingsUser();
 
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: '',
@@ -27,11 +26,6 @@ const UserSettings = () => {
   const [profileForm, setProfileForm] = useState({
     telefono: '',
     direccion: '',
-  });
-
-  const [securityForm, setSecurityForm] = useState({
-    notifyOnNewLogin: true,
-    notifyOnPasswordChange: true,
   });
 
   const handlePasswordChange = async (e: React.FormEvent) => {
@@ -64,20 +58,35 @@ const UserSettings = () => {
     }
   };
 
-  const handleSecurityUpdate = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await updateSecuritySettings(securityForm);
-      toast.success('Preferencias de seguridad actualizadas');
-    } catch (error: any) {
-      toast.error(error.message || 'Error al actualizar preferencias de seguridad');
-    }
-  };
+  return (
+    <SidebarMenu>
+      <Navbar />
+      <UserContainer>
+        <Typography variant="h4" sx={{ 
+          color: 'white', 
+          mb: 4,
+          fontFamily: "'Galano Grotesque', sans-serif"
+        }}>
+          Configuración
+        </Typography>
 
-  const renderContent = () => {
-    switch (currentSection) {
-      case 'password':
-        return (
+        {/* Sección de Cambio de Contraseña */}
+        <Box sx={{ 
+          backgroundColor: 'secondary.main',
+          borderRadius: 2,
+          p: 3,
+          border: '1px solid',
+          borderColor: 'primary.light',
+          mb: 4
+        }}>
+          <Typography variant="h5" sx={{ 
+            color: 'white',
+            mb: 2,
+            fontFamily: "'Galano Grotesque', sans-serif"
+          }}>
+            Cambiar Contraseña
+          </Typography>
+          
           <SettingsForm onSubmit={handlePasswordChange}>
             <SubtitleText>
               Cambia tu contraseña regularmente para mantener tu cuenta segura
@@ -110,10 +119,24 @@ const UserSettings = () => {
               {loading ? 'Actualizando...' : 'Cambiar Contraseña'}
             </ActionButton>
           </SettingsForm>
-        );
+        </Box>
 
-      case 'personal':
-        return (
+        {/* Sección de Información Personal */}
+        <Box sx={{ 
+          backgroundColor: 'secondary.main',
+          borderRadius: 2,
+          p: 3,
+          border: '1px solid',
+          borderColor: 'primary.light'
+        }}>
+          <Typography variant="h5" sx={{ 
+            color: 'white',
+            mb: 2,
+            fontFamily: "'Galano Grotesque', sans-serif"
+          }}>
+            Información Personal
+          </Typography>
+
           <SettingsForm onSubmit={handleProfileUpdate}>
             <SubtitleText>
               Mantén tu información de contacto actualizada
@@ -138,81 +161,10 @@ const UserSettings = () => {
               {loading ? 'Actualizando...' : 'Actualizar Datos'}
             </ActionButton>
           </SettingsForm>
-        );
-
-      case 'security':
-        return (
-          <SettingsForm onSubmit={handleSecurityUpdate}>
-            <SubtitleText>
-              Configura tus preferencias de notificaciones de seguridad
-            </SubtitleText>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <StyledFormControlLabel
-                control={
-                  <Switch
-                    checked={securityForm.notifyOnNewLogin}
-                    onChange={(e) => setSecurityForm(prev => ({
-                      ...prev,
-                      notifyOnNewLogin: e.target.checked
-                    }))}
-                  />
-                }
-                label="Notificar nuevos inicios de sesión por correo"
-              />
-              <StyledFormControlLabel
-                control={
-                  <Switch
-                    checked={securityForm.notifyOnPasswordChange}
-                    onChange={(e) => setSecurityForm(prev => ({
-                      ...prev,
-                      notifyOnPasswordChange: e.target.checked
-                    }))}
-                  />
-                }
-                label="Notificar cambios de contraseña por correo"
-              />
-              <ActionButton type="submit" disabled={loading}>
-                {loading ? 'Guardando...' : 'Guardar Preferencias'}
-              </ActionButton>
-            </Box>
-          </SettingsForm>
-        );
-
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <SettingsContainer>
-      <Box mb={3}>
-        <SubtitleText>Configuración</SubtitleText>
-      </Box>
-      <Box>
-        <SettingsButton
-          className={currentSection === 'password' ? 'active' : ''}
-          onClick={() => setCurrentSection('password')}
-        >
-          Contraseña
-        </SettingsButton>
-        <SettingsButton
-          className={currentSection === 'personal' ? 'active' : ''}
-          onClick={() => setCurrentSection('personal')}
-        >
-          Datos Personales
-        </SettingsButton>
-        <SettingsButton
-          className={currentSection === 'security' ? 'active' : ''}
-          onClick={() => setCurrentSection('security')}
-        >
-          Seguridad
-        </SettingsButton>
-      </Box>
-      <Box mt={3}>
-        {renderContent()}
-      </Box>
-    </SettingsContainer>
+        </Box>
+      </UserContainer>
+    </SidebarMenu>
   );
 };
 
-export default UserSettings;
+export default Configuracion;

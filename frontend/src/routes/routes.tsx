@@ -14,49 +14,52 @@ import CreditForm from '@/components/creditos/pages/creditForm';
 import CreditResults from '@/components/creditos/pages/creditResults';
 import CreditDetails from '@/components/creditos/pages/creditDetails';
 import CreditSuccess from '@/components/creditos/pages/creditSucces';
+import Configuracion from '@/webpage/components/usuario/components/design/configuration';
+import Contacto from '@/webpage/components/usuario/components/design/contact';
+import AcercaDe from '@/webpage/components/usuario/components/design/acercade';
 import PrivateRoute from './privateRoute';
 import { FullWidthLayout } from '@/webpage/layouts/full-width-layout/FullWidthLayout';
 import Blog from '@/webpage/pages/blog/blog';
 import { CreditFormData } from '@/src/core/types/types';
 
 type CreditContextType = {
- formData: CreditFormData;
- initialData: CreditFormData;
- onSubmit: (data: CreditFormData) => void;
- onSelect: (institutionId: string) => void;
- onBack: () => void;
- onApply: () => void;
- onNewSearch: () => void;
- selectedInstitutionId: string;
- creditId: string;
+  formData: CreditFormData;
+  initialData: CreditFormData;
+  onSubmit: (data: CreditFormData) => void;
+  onSelect: (institutionId: string) => void;
+  onBack: () => void;
+  onApply: () => void;
+  onNewSearch: () => void;
+  selectedInstitutionId: string;
+  creditId: string;
 };
 
 const CreditFormWrapper = () => {
- const { onSubmit, initialData } = useOutletContext<CreditContextType>();
- return <CreditForm onSubmit={onSubmit} initialData={initialData} />;
+  const { onSubmit, initialData } = useOutletContext<CreditContextType>();
+  return <CreditForm onSubmit={onSubmit} initialData={initialData} />;
 };
 
 const CreditResultsWrapper = () => {
- const { formData, onSelect, onBack } = useOutletContext<CreditContextType>();
- return <CreditResults formData={formData} onSelect={onSelect} onBack={onBack} />;
+  const { formData, onSelect, onBack } = useOutletContext<CreditContextType>();
+  return <CreditResults formData={formData} onSelect={onSelect} onBack={onBack} />;
 };
 
 const CreditDetailsWrapper = () => {
- const { formData, onBack, onApply, selectedInstitutionId, creditId } = useOutletContext<CreditContextType>();
- return (
-   <CreditDetails
-     formData={formData}
-     onBack={onBack}
-     onApply={onApply}
-     institutionId={selectedInstitutionId}
-     creditId={creditId}
-   />
- );
+  const { formData, onBack, onApply, selectedInstitutionId, creditId } = useOutletContext<CreditContextType>();
+  return (
+    <CreditDetails
+      formData={formData}
+      onBack={onBack}
+      onApply={onApply}
+      institutionId={selectedInstitutionId}
+      creditId={creditId}
+    />
+  );
 };
 
 const CreditSuccessWrapper = () => {
- const { onNewSearch } = useOutletContext<CreditContextType>();
- return <CreditSuccess onNewSearch={onNewSearch} />;
+  const { onNewSearch } = useOutletContext<CreditContextType>();
+  return <CreditSuccess onNewSearch={onNewSearch} />;
 };
 
 const routes: RouteObject[] = [
@@ -157,6 +160,23 @@ const routes: RouteObject[] = [
       </PrivateRoute>
     ),
   },
+  // Nuevas rutas para el sidebar
+  {
+    path: routesWebpage.configuracion,
+    element: (
+      <PrivateRoute>
+        <Configuracion />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: routesWebpage.contacto,
+    element: <Contacto />,
+  },
+  {
+    path: routesWebpage.acercaDe,
+    element: <AcercaDe />,
+  },
   {
     path: routesWebpage.notFound,
     element: <div>Página no encontrada</div>,
@@ -168,8 +188,8 @@ const routes: RouteObject[] = [
 ];
 
 const Routes: React.FC = () => {
- const element = useRoutes(routes);
- return element;
+  const element = useRoutes(routes);
+  return element;
 };
 
 export default Routes;
