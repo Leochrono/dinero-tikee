@@ -11,22 +11,22 @@ import {
 const NAVBAR_HEIGHT = "64px";
 
 export const UserContainer = styled(Box)(({ theme }) => ({
-  minHeight: `calc(100vh - ${NAVBAR_HEIGHT})`,
   backgroundColor: theme.palette.background.default,
   padding: "100px 200px",
-  marginTop: NAVBAR_HEIGHT,
   width: "100%",
   boxSizing: "border-box",
   overflowX: "hidden",
 
   [theme.breakpoints.down("lg")]: {
-    padding: "20px 60px",
+    padding: "40px 60px",
   },
   [theme.breakpoints.down("md")]: {
-    padding: "20px 40px",
+    padding: "30px 40px",
   },
   [theme.breakpoints.down("sm")]: {
     padding: "20px",
+    marginBottom: '24px', // Espacio adicional al final
+    minHeight: 'auto', // Removemos el minHeight fijo
   },
 }));
 
@@ -159,6 +159,10 @@ export const CreditCard = styled(Box)(({ theme }) => ({
   alignItems: "center",
   gap: "32px",
   flexWrap: "wrap",
+
+  "&:last-child": {
+    marginBottom: theme.breakpoints.down("sm") ? "64px" : "32px", // Más espacio en móvil
+  },
 
   [theme.breakpoints.down("lg")]: {
     padding: "24px",

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   Home as HomeIcon,
@@ -6,7 +6,8 @@ import {
   ContactSupport as ContactIcon,
   Info as InfoIcon,
   ChevronLeft as ChevronLeftIcon,
-  ChevronRight as ChevronRightIcon
+  ChevronRight as ChevronRightIcon,
+  Menu as MenuIcon,
 } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import { routesWebpage } from '@/webpage/components/contants/routes';
@@ -16,10 +17,11 @@ import {
   SidebarLogo,
   SidebarContent,
   SidebarItem,
-  SidebarToggle,
-  MainContent
+  MainContent,
+  MainContentWrapper,
+  MobileMenuButton,
+  SidebarOverlay
 } from '@/webpage/components/usuario/utils/constSidebarMenu';
-import Logo from '@/components/logo/logo';
 
 interface SidebarMenuProps {
   children: React.ReactNode;
@@ -27,6 +29,7 @@ interface SidebarMenuProps {
 
 const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
   const [expanded, setExpanded] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -39,18 +42,64 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
 
   const handleNavigation = (path: string) => {
     navigate(path);
+    if (window.innerWidth <= 600) {
+      setMobileOpen(false);
+    }
   };
 
+  const toggleMobileMenu = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mobileOpen && window.innerWidth <= 600) {
+        const isClickInsideMenu = (event.target as Element).closest('.sidebar');
+        const isClickOnButton = (event.target as Element).closest('.menu-button');
+        if (!isClickInsideMenu && !isClickOnButton) {
+          setMobileOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [mobileOpen]);
+
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-      <SidebarContainer className={!expanded ? 'collapsed' : ''}>
+    <MainContentWrapper>
+      <MobileMenuButton 
+        className={`menu-button ${mobileOpen ? 'menu-open' : ''}`}
+        onClick={toggleMobileMenu}
+      >
+        <MenuIcon />
+      </MobileMenuButton>
+
+      {mobileOpen && (
+        <SidebarOverlay 
+          className={mobileOpen ? 'visible' : ''} 
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
+      <SidebarContainer 
+        className={`sidebar ${!expanded ? 'collapsed' : ''} ${mobileOpen ? 'mobile-visible' : ''}`}
+      >
         <SidebarHeader>
           {expanded && (
-            <Logo />
+            <SidebarLogo>
+              <img src="/logo.png" alt="Logo" />
+              <span className="logo-text">Mi App</span>
+            </SidebarLogo>
           )}
-          <SidebarToggle onClick={() => setExpanded(!expanded)}>
+          <Box 
+            className="toggle-button"
+            onClick={() => setExpanded(!expanded)}
+          >
             {expanded ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </SidebarToggle>
+          </Box>
         </SidebarHeader>
 
         <SidebarContent>
@@ -61,16 +110,16 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
               onClick={() => handleNavigation(path)}
             >
               <Icon className="icon" />
-              {expanded && <span className="label">{label}</span>}
+              {(expanded || mobileOpen) && <span className="label">{label}</span>}
             </SidebarItem>
           ))}
         </SidebarContent>
       </SidebarContainer>
 
-      <MainContent isSidebarExpanded={expanded}>
+      <MainContent className={expanded ? 'expanded' : 'collapsed'}>
         {children}
       </MainContent>
-    </Box>
+    </MainContentWrapper>
   );
 };
 
