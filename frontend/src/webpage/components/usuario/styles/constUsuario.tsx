@@ -1,5 +1,12 @@
-import { Box, Typography, Button, styled } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {
+  Box,
+  Typography,
+  Button,
+  TextField,
+  FormControlLabel,
+  Tabs,
+  styled,
+} from "@mui/material";
 
 const NAVBAR_HEIGHT = "64px";
 
@@ -121,21 +128,23 @@ export const WelcomeSection = styled(Typography)(({ theme }) => ({
 
 export const SectionTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.light,
-  fontSize: "48px",
+  fontSize: '32px', // Reducido el tamaño para mejor ajuste
   fontWeight: 500, 
-  marginBottom: "24px",
-  wordBreak: "break-word",
-  fontFamily: "'Galano Grotesque', sans-serif", 
-
-  [theme.breakpoints.down("lg")]: {
-    fontSize: "42px",
+  marginBottom: '24px',
+  width: '100%',
+  textAlign: 'left',
+  fontFamily: "'Galano Grotesque', sans-serif",
+  display: 'block', // Asegura que tome todo el espacio necesario
+  
+  [theme.breakpoints.down('lg')]: {
+    fontSize: '28px',
   },
-  [theme.breakpoints.down("md")]: {
-    fontSize: "36px",
+  [theme.breakpoints.down('md')]: {
+    fontSize: '24px',
   },
-  [theme.breakpoints.down("sm")]: {
-    fontSize: "28px",
-    marginBottom: "16px",
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '22px',
+    marginBottom: '16px',
   },
 }));
 
@@ -358,4 +367,91 @@ export const HistoryDetails = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("xs")]: {
     gridTemplateColumns: "1fr",
   },
+}));
+
+export const SettingsContainer = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.secondary.main,
+  borderRadius: '16px',
+  padding: '32px',
+  width: '400px',  // Ancho fijo para el drawer
+  minWidth: '350px', // Ancho mínimo para asegurar que el contenido quepa
+  boxSizing: 'border-box',
+  
+  [theme.breakpoints.down('sm')]: {
+    padding: '20px',
+    width: '100%',
+    minWidth: '300px',
+  },
+}));
+export const StyledTabs = styled(Tabs)(({ theme }) => ({
+  borderBottom: `1px solid ${theme.palette.primary.light}`,
+  marginBottom: '24px',
+  minHeight: '48px',
+  '& .MuiTab-root': {
+    color: theme.palette.common.white,
+    fontSize: '14px',
+    fontWeight: 500,
+    minHeight: '48px',
+    padding: '6px 12px',
+    '&.Mui-selected': {
+      color: theme.palette.primary.light,
+    },
+  },
+}));
+
+
+export const StyledTextField = styled(TextField)(({ theme }) => ({
+  marginBottom: '16px',
+  '& .MuiOutlinedInput-root': {
+    color: theme.palette.common.white,
+    '& fieldset': {
+      borderColor: theme.palette.primary.light,
+    },
+    '&:hover fieldset': {
+      borderColor: theme.palette.primary.main,
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: theme.palette.primary.main,
+    },
+  },
+  '& .MuiInputLabel-root': {
+    color: theme.palette.common.white,
+    '&.Mui-focused': {
+      color: theme.palette.primary.light,
+    },
+  },
+  '& .MuiInputBase-input': {
+    '&::placeholder': {
+      color: 'rgba(255, 255, 255, 0.5)',
+      opacity: 1,
+    },
+  },
+}));
+
+export const SettingsForm = styled('form')(({ theme }) => ({
+  backgroundColor: 'rgba(255, 255, 255, 0.05)',
+  borderRadius: '8px',
+  padding: '20px',
+  marginBottom: '16px',
+  width: '100%',
+}));
+
+export const StyledFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
+  color: theme.palette.common.white,
+  '& .MuiSwitch-root': {
+    '& .MuiSwitch-switchBase.Mui-checked': {
+      color: theme.palette.primary.light,
+      '& + .MuiSwitch-track': {
+        backgroundColor: theme.palette.primary.main,
+      },
+    },
+  },
+}));
+
+export const SubtitleText = styled(Typography)(({ theme }) => ({
+  color: theme.palette.primary.light,
+  fontSize: '13px',
+  marginBottom: '20px',
+  opacity: 0.8,
+  lineHeight: 1.4,
 }));

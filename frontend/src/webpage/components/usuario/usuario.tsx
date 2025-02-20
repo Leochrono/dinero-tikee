@@ -14,6 +14,8 @@ import CreditCardProfile from "./components/design/creditCardProfile";
 import CreditDetailsProfile from "./components/design/creditDetailsProfile";
 import CreditDocuments from "./components/design/creditDocuments";
 import DocumentPreview from "./components/design/documentPreview";
+import UserSettingsDrawer from "./components/design/userSettingsDrawer";
+import UserSettings from "./components/design/userSettings";
 
 const Usuario = () => {
   const { userProfile, userCredits, loadingData, dataError, loadUserData } =
@@ -51,7 +53,15 @@ const Usuario = () => {
             DocumentPreview,
           }}
         />
+        
+        {/* Panel de configuración */}
+        <UserSettingsDrawer>
+          <UserSettings />
+        </UserSettingsDrawer>
       </UserContainer>
+
+      {/* Botón flotante de configuración que abre el drawer
+          Se maneja dentro del UserSettingsDrawer */}
     </>
   );
 };
