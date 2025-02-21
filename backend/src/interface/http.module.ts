@@ -33,7 +33,6 @@ import { CreditDocumentService } from 'src/application/credit/services/credit-do
 import { AuthService } from 'src/application/auth/auth.service';
 import { PasswordService } from 'src/application/password/services/password.service';
 import { SecurityService } from 'src/application/security/services/security.service';
-import { EmailService } from 'src/infrastructure/services/email.service';
 import { UnlockService } from 'src/application/unlock/services/unlock.service';
 
 // Other Modules
@@ -86,7 +85,6 @@ import { MailerModule } from 'src/infrastructure/mailer/mailer.module';
     AuthService,
     PasswordService,
     SecurityService,
-    EmailService,
     UnlockService, // Añadido UnlockService
   ],
   exports: [
@@ -98,7 +96,6 @@ import { MailerModule } from 'src/infrastructure/mailer/mailer.module';
     PasswordService,
     SecurityService,
     JwtModule,
-    EmailService,
     UnlockService, // Añadido a las exportaciones
   ],
 })

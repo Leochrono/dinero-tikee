@@ -2,7 +2,6 @@ import { Module } from "@nestjs/common";
 import { TikeeMailerRepository } from "./mailer-tikee";
 import { MailerRepository } from "src/application/Common/interfaces/mailer.repository";
 import { ConfigModule } from "@nestjs/config";
-import { HttpModule } from "@nestjs/axios";
 import { IHttpService } from "../Common/Http/IHttpService";
 import { HttpService } from "../Common/Http/HttpService";
 
