@@ -21,8 +21,15 @@ const winstonLogger = createLogger({
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: ["error", "warn"],
+  });
+
   const configService = app.get(ConfigService);
+
+  app.enableCors();
+  app.use(express.json({ limit: "100mb" }));
+  app.use(express.urlencoded({ extended: false, limit: "100mb" }));
 
   const jwtSecret = configService.get<string>('JWT_SECRET');
   if (!jwtSecret) {
@@ -43,22 +50,6 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-
-  app.enableCors({
-    origin: ['http://localhost:5173'],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-    allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-      'Accept',
-      'Cache-Control',
-      'X-Requested-With',
-      'Access-Control-Allow-Origin',
-      'Access-Control-Allow-Headers',
-    ],
-    exposedHeaders: ['Content-Disposition'],
-  });
 
   app.setGlobalPrefix('api');
 

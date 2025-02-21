@@ -19,7 +19,6 @@ import { UnlockModule } from './application/unlock/unlock.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
       cache: false,
     }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
