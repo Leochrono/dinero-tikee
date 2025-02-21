@@ -27,7 +27,20 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService);
 
-  app.enableCors();
+  app.enableCors({
+    origin: ['http://localhost:5173', 'https://dinero-tikee.vercel.app', 'http://172.212.86.190:8430', 'https://172.212.86.190:8430'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'Accept',
+      'Cache-Control',
+      'X-Requested-With',
+      'Access-Control-Allow-Origin',
+      'Access-Control-Allow-Headers',
+    ],
+  });
   app.use(express.json({ limit: "100mb" }));
   app.use(express.urlencoded({ extended: false, limit: "100mb" }));
 
