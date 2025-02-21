@@ -90,7 +90,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
         <SidebarHeader>
           {expanded && (
             <SidebarLogo>
-              <img src="/logo.png" alt="Logo" />
+              <img src="/assets/logo.png" alt="Logo" />
               <span className="logo-text">Mi App</span>
             </SidebarLogo>
           )}
