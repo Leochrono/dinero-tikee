@@ -204,7 +204,7 @@ const CreditFormSliders = ({
                   marginRight: "0", 
                 },
                 "& .MuiInputAdornment-root": {
-                  marginLeft: "2px", 
+                  marginLeft: "6px", 
                   "& p": {
                     color: "white",
                     fontFamily: "'Galano Grotesque', sans-serif",
