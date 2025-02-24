@@ -7,7 +7,25 @@ import {
   SubTitle,
 } from "../styles/constBlogUnpaid";
 import { BackButton } from "@/components/login/components/styles/constregistro";
-import { Box } from "@mui/material";
+import { Box, styled } from "@mui/material";
+
+// Crear un contenedor personalizado que incluya margen para el botón
+const ContentContainer = styled('div')(({ theme }) => ({
+  width: '100%',
+  paddingTop: '20px', // Espacio para separar del carrusel
+}));
+
+// Botón de regreso estilizado para estar en línea con el texto
+const StyledBackButton = styled(BackButton)(({ theme }) => ({
+  marginBottom: '20px',
+  marginLeft: '15px', // Alineado con el texto
+  display: 'inline-flex',
+  alignItems: 'center',
+  color: '#39ff14', // Verde neón para coincide con tu estilo
+  '&:hover': {
+    color: '#45a049', // Oscurecido al pasar el ratón
+  }
+}));
 
 export interface BlogPost {
   id: string;
@@ -27,19 +45,11 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({
   onBackToList,
 }) => {
   return (
-    <>
+    <ContentContainer>
       <DetailContainer>
-        {/* Contenedor para el botón de retroceso */}
-        <Box sx={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          marginBottom: '20px', 
-          paddingLeft: '15px'
-        }}>
-          <BackButton onClick={onBackToList}>
-            <ArrowBack />
-          </BackButton>
-        </Box>
+        <StyledBackButton onClick={onBackToList}>
+          <ArrowBack />
+        </StyledBackButton>
         
         <ArticleParagraph>
           Dejar de cumplir el <HighlightText>pago de tus deudas</HighlightText>{" "}
@@ -138,7 +148,7 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({
           tu caso y buscará una solución legal que no implique perjudicarte.
         </ArticleParagraph>
       </DetailContainer>
-    </>
+    </ContentContainer>
   );
 };
 
