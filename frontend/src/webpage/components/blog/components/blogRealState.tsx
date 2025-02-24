@@ -27,11 +27,11 @@ const BlogRealEstate: React.FC<BlogDetailsProps> = ({
 }) => {
   return (
     <>
-      <BackButton onClick={onBackToList}>
-        <ArrowBack />
-      </BackButton>
       <DetailContainer>
         <ArticleParagraph>
+        <BackButton onClick={onBackToList}>
+        <ArrowBack />
+      </BackButton>
           Bienes raíces: una industria que va mucho más allá de comprar y vender
           propiedades. Es un ecosistema complejo de inversión, desarrollo y
           oportunidades estratégicas que puede convertirse en una fuente

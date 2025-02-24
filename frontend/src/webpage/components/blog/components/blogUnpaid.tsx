@@ -28,10 +28,10 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({
   return (
     <>
       <DetailContainer>
-      <BackButton onClick={onBackToList}>
+        <ArticleParagraph>
+        <BackButton onClick={onBackToList}>
         <ArrowBack />
       </BackButton>
-        <ArticleParagraph>
           Dejar de cumplir el <HighlightText>pago de tus deudas</HighlightText>{" "}
           podría traerte consecuencias graves. Es importante tener una{" "}
           <HighlightText>educación financiera</HighlightText> para cumplir con
