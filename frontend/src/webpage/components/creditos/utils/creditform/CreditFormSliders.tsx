@@ -44,6 +44,7 @@ const CreditFormSliders = ({
             onChange={handleInputChange("amount")}
             variant="outlined"
             size="small"
+            type="number"
             InputProps={{
               startAdornment: <InputAdornment position="start">$</InputAdornment>,
               sx: {
@@ -68,6 +69,9 @@ const CreditFormSliders = ({
               }
             }}
             inputProps={{
+              min: 2000,
+              max: 30000,
+              step: "any", // Permite cualquier valor, no solo múltiplos de 100
               sx: {
                 "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
                   WebkitAppearance: "none",
@@ -106,6 +110,7 @@ const CreditFormSliders = ({
             onChange={handleInputChange("term")}
             variant="outlined"
             size="small"
+            type="number"
             InputProps={{
               endAdornment: <InputAdornment position="end">meses</InputAdornment>,
               sx: {
@@ -130,6 +135,9 @@ const CreditFormSliders = ({
               }
             }}
             inputProps={{
+              min: 6,
+              max: 64,
+              step: "any", // Permite cualquier valor, no solo múltiplos de 6
               sx: {
                 "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
                   WebkitAppearance: "none",
@@ -168,6 +176,7 @@ const CreditFormSliders = ({
             onChange={handleInputChange("income")}
             variant="outlined"
             size="small"
+            type="number"
             InputProps={{
               startAdornment: <InputAdornment position="start">$</InputAdornment>,
               sx: {
@@ -192,6 +201,9 @@ const CreditFormSliders = ({
               }
             }}
             inputProps={{
+              min: 500,
+              max: 10000,
+              step: "any", // Permite cualquier valor, no solo múltiplos de 100
               sx: {
                 "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
                   WebkitAppearance: "none",

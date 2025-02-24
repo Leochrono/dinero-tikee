@@ -93,34 +93,35 @@ const CreditForm = ({ onSubmit, initialData }: CreditFormProps) => {
 
   // Nueva función para manejar la entrada manual en los sliders
   const handleInputChange = 
-    (field: keyof CreditFormData) =>
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      let value = parseInt(event.target.value, 10);
-      
-      // Si no es un número válido, usar el valor actual
-      if (isNaN(value)) {
-        return;
-      }
-      
-      // Aplicar restricciones según el campo
-      if (field === 'amount') {
-        if (value < 2000) value = 2000;
-        if (value > 30000) value = 30000;
-      } else if (field === 'term') {
-        if (value < 6) value = 6;
-        if (value > 64) value = 64;
-        // Ajustar al paso de 6
-        value = Math.round(value / 6) * 6;
-      } else if (field === 'income') {
-        if (value < 500) value = 500;
-        if (value > 10000) value = 10000;
-      }
+  (field: keyof CreditFormData) =>
+  (event: React.ChangeEvent<HTMLInputElement>) => {
+    let value = parseFloat(event.target.value);
+    
+    // Si no es un número válido, usar 0 o el valor mínimo
+    if (isNaN(value)) {
+      if (field === 'amount') value = 2000;
+      else if (field === 'term') value = 6;
+      else if (field === 'income') value = 500;
+    }
+    
+    // Aplicar límites min/max
+    if (field === 'amount') {
+      if (value < 2000) value = 2000;
+      if (value > 30000) value = 30000;
+    } else if (field === 'term') {
+      if (value < 6) value = 6;
+      if (value > 64) value = 64;
+      // No redondear al paso de 6, permitir cualquier valor intermedio
+    } else if (field === 'income') {
+      if (value < 500) value = 500;
+      if (value > 10000) value = 10000;
+    }
 
-      setFormData(prev => ({
-        ...prev,
-        [field]: value
-      }));
-    };
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
