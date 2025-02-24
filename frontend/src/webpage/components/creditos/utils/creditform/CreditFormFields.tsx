@@ -41,16 +41,6 @@ const CreditFormFields = ({
         InputLabelProps={{
           shrink: true,
         }}
-        sx={{
-          backgroundColor: "common.white",
-          borderRadius: "8px",
-          "& .MuiSelect-select": {
-            color: "common.black",
-          },
-          "& .MuiInputLabel-root": {
-            color: "common.black",
-          }
-        }}
       >
         <option value="" disabled hidden>
           Seleccione su ubicación
@@ -81,24 +71,6 @@ const CreditFormFields = ({
             <CheckCircleOutlineIcon color="success" />
           ),
         }}
-        sx={{
-          backgroundColor: "common.white",
-          borderRadius: "8px",
-          "& .MuiInputBase-input": {
-            color: "common.black",
-          },
-          "& .MuiInputLabel-root": {
-            color: "common.black",
-          },
-          // Eliminar las flechas de incremento/decremento
-          "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-            WebkitAppearance: "none",
-            margin: 0
-          },
-          "& input[type=number]": {
-            MozAppearance: "textfield"
-          }
-        }}
       />
 
       <StyledTextField
@@ -114,16 +86,6 @@ const CreditFormFields = ({
           endAdornment: validFields.email && (
             <CheckCircleOutlineIcon color="success" />
           ),
-        }}
-        sx={{
-          backgroundColor: "common.white",
-          borderRadius: "8px",
-          "& .MuiInputBase-input": {
-            color: "common.black",
-          },
-          "& .MuiInputLabel-root": {
-            color: "common.black",
-          }
         }}
       />
     </>

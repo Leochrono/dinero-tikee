@@ -100,7 +100,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
   position: "relative",
   fontFamily: "'Stage Grotesque', sans-serif",
   "& .MuiOutlinedInput-root": {
-    backgroundColor: theme.palette.common.white, // Fondo blanco
+    backgroundColor: theme.palette.common.white, // Controla el color de fondo
     borderRadius: "50px",
     transition: "all 0.3s ease-in-out",
     "& fieldset": {
@@ -108,7 +108,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
       transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
     },
     "& input, & select": {
-      color: theme.palette.common.black, // Texto negro
+      color: theme.palette.common.black, // Cambiado a negro para el texto
       "&::placeholder": {
         color: theme.palette.text.secondary,
         opacity: 1,
@@ -116,19 +116,19 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
       "&:-webkit-autofill, &:-webkit-autofill:hover, &:-webkit-autofill:focus":
         {
           WebkitBoxShadow: `0 0 0 30px ${theme.palette.common.white} inset !important`,
-          WebkitTextFillColor: `${theme.palette.common.black} !important`, // Texto negro para autofill
+          WebkitTextFillColor: `${theme.palette.common.black} !important`, // Cambiado a negro para autofill
           transition: "background-color 5000s ease-in-out 0s",
         },
     },
     "&.Mui-error": {
       animation: `${shake} 0.5s ease-in-out`,
-      backgroundColor: theme.palette.common.white,
+      backgroundColor: theme.palette.common.white, // Mantener fondo blanco en error
       "& .MuiOutlinedInput-notchedOutline": {
         borderColor: theme.palette.error.main,
       },
     },
     "&.Mui-success": {
-      backgroundColor: theme.palette.common.white,
+      backgroundColor: theme.palette.common.white, // Mantener fondo blanco en éxito
       "& .MuiOutlinedInput-notchedOutline": {
         borderColor: theme.palette.success.main,
       },
@@ -138,11 +138,11 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
     },
   },
   "& .MuiInputLabel-root": {
-    color: theme.palette.common.black, // Etiqueta negra
+    color: theme.palette.common.black, // Cambiado a negro para las etiquetas
     fontFamily: "'Stage Grotesque', sans-serif",
     transition: "all 0.3s ease-in-out",
     "&.Mui-focused": {
-      color: theme.palette.common.black, // Etiqueta enfocada negra
+      color: theme.palette.common.black, // Cambiado a negro cuando está enfocado
     },
     "&.Mui-error": {
       color: theme.palette.error.main,
@@ -155,7 +155,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
     transform: "translate(14px, 16px) scale(1)",
     "&.MuiInputLabel-shrink": {
       transform: "translate(14px, -6px) scale(0.75)",
-      background: theme.palette.common.white,
+      background: theme.palette.common.white, // Mantener fondo blanco para etiqueta reducida
       padding: "0 8px",
     },
     [theme.breakpoints.down("sm")]: {
@@ -176,7 +176,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
     },
   },
   "& .MuiSelect-select": {
-    color: theme.palette.common.black, // Texto de selección negro
+    color: theme.palette.common.black, // Cambiado a negro para selects
     fontFamily: "'Stage Grotesque', sans-serif",
   },
   "& .success-icon": {
