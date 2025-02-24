@@ -7,6 +7,7 @@ import {
   SubTitle,
 } from "../styles/constBlogUnpaid";
 import { BackButton } from "@/components/login/components/styles/constregistro";
+import { Box } from "@mui/material";
 
 export interface BlogPost {
   id: string;
@@ -28,10 +29,19 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({
   return (
     <>
       <DetailContainer>
+        {/* Contenedor para el botón de retroceso */}
+        <Box sx={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          marginBottom: '20px', 
+          paddingLeft: '15px'
+        }}>
+          <BackButton onClick={onBackToList}>
+            <ArrowBack />
+          </BackButton>
+        </Box>
+        
         <ArticleParagraph>
-        <BackButton onClick={onBackToList}>
-        <ArrowBack />
-      </BackButton>
           Dejar de cumplir el <HighlightText>pago de tus deudas</HighlightText>{" "}
           podría traerte consecuencias graves. Es importante tener una{" "}
           <HighlightText>educación financiera</HighlightText> para cumplir con
