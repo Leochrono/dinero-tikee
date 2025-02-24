@@ -95,25 +95,30 @@ const CreditForm = ({ onSubmit, initialData }: CreditFormProps) => {
   const handleInputChange = 
   (field: keyof CreditFormData) =>
   (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = parseFloat(event.target.value);
+    const inputValue = event.target.value;
     
-    // Si no es un número válido, usar 0 o el valor mínimo
-    if (isNaN(value)) {
-      if (field === 'amount') value = 2000;
-      else if (field === 'term') value = 6;
-      else if (field === 'income') value = 500;
+    // Permitir borrar completamente el campo
+    if (inputValue === '') {
+      setFormData(prev => ({
+        ...prev,
+        [field]: inputValue as any // Usar 'as any' para permitir temporalmente el valor vacío
+      }));
+      return;
     }
     
-    // Aplicar límites min/max
+    let value = parseFloat(inputValue);
+    
+    // Si no es un número válido, no actualizar el estado
+    if (isNaN(value)) {
+      return;
+    }
+    
+    // Aplicar límites solo en el máximo
     if (field === 'amount') {
-      if (value < 2000) value = 2000;
       if (value > 30000) value = 30000;
     } else if (field === 'term') {
-      if (value < 6) value = 6;
       if (value > 64) value = 64;
-      // No redondear al paso de 6, permitir cualquier valor intermedio
     } else if (field === 'income') {
-      if (value < 500) value = 500;
       if (value > 10000) value = 10000;
     }
 

@@ -1,5 +1,5 @@
-import React from "react";
-import { Typography, Box, TextField, InputAdornment } from "@mui/material";
+import React, { useState } from "react";
+import { Typography, Box, TextField, InputAdornment, Alert } from "@mui/material";
 import {
   SliderGroup,
   SliderContainer,
@@ -26,6 +26,40 @@ const CreditFormSliders = ({
   handleSliderChange,
   handleInputChange,
 }: CreditFormSlidersProps) => {
+  const [showAlert, setShowAlert] = useState({
+    amount: false,
+    term: false,
+    income: false
+  });
+
+  // Función para verificar valores al perder el foco
+  const handleBlur = (field: keyof CreditFormData) => () => {
+    let showWarning = false;
+    
+    if (field === 'amount' && (isNaN(formData.amount) || formData.amount < 2000)) {
+      showWarning = true;
+    }
+    else if (field === 'term' && (isNaN(formData.term) || formData.term < 6)) {
+      showWarning = true;
+    }
+    else if (field === 'income' && (isNaN(formData.income) || formData.income < 500)) {
+      showWarning = true;
+    }
+    
+    setShowAlert(prev => ({
+      ...prev,
+      [field]: showWarning
+    }));
+  };
+
+  // Función para ocultar la alerta al enfocar el campo
+  const handleFocus = (field: keyof CreditFormData) => () => {
+    setShowAlert(prev => ({
+      ...prev,
+      [field]: false
+    }));
+  };
+
   return (
     <SliderGroup>
       <SliderContainer>
@@ -42,6 +76,8 @@ const CreditFormSliders = ({
           <TextField
             value={formData.amount}
             onChange={handleInputChange("amount")}
+            onBlur={handleBlur("amount")}
+            onFocus={handleFocus("amount")}
             variant="outlined"
             size="small"
             type="number"
@@ -69,9 +105,6 @@ const CreditFormSliders = ({
               }
             }}
             inputProps={{
-              min: 2000,
-              max: 30000,
-              step: "any", // Permite cualquier valor, no solo múltiplos de 100
               sx: {
                 "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
                   WebkitAppearance: "none",
@@ -84,8 +117,13 @@ const CreditFormSliders = ({
             }}
           />
         </Box>
+        {showAlert.amount && (
+          <Alert severity="info" sx={{ mt: 1, fontSize: "12px", py: 0 }}>
+            El monto mínimo es $2,000
+          </Alert>
+        )}
         <StyledSlider
-          value={formData.amount}
+          value={isNaN(formData.amount) ? 2000 : formData.amount}
           onChange={handleSliderChange("amount")}
           min={2000} 
           max={30000}
@@ -94,6 +132,7 @@ const CreditFormSliders = ({
         />
         {formErrors.amount && <ErrorText>{formErrors.amount}</ErrorText>}
       </SliderContainer>
+      
       <SliderContainer>
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Typography
@@ -108,6 +147,8 @@ const CreditFormSliders = ({
           <TextField
             value={formData.term}
             onChange={handleInputChange("term")}
+            onBlur={handleBlur("term")}
+            onFocus={handleFocus("term")}
             variant="outlined"
             size="small"
             type="number"
@@ -135,9 +176,6 @@ const CreditFormSliders = ({
               }
             }}
             inputProps={{
-              min: 6,
-              max: 64,
-              step: "any", // Permite cualquier valor, no solo múltiplos de 6
               sx: {
                 "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
                   WebkitAppearance: "none",
@@ -150,8 +188,13 @@ const CreditFormSliders = ({
             }}
           />
         </Box>
+        {showAlert.term && (
+          <Alert severity="info" sx={{ mt: 1, fontSize: "12px", py: 0 }}>
+            El plazo mínimo es 6 meses
+          </Alert>
+        )}
         <StyledSlider
-          value={formData.term}
+          value={isNaN(formData.term) ? 6 : formData.term}
           onChange={handleSliderChange("term")}
           min={6}
           max={64}
@@ -160,6 +203,7 @@ const CreditFormSliders = ({
         />
         {formErrors.term && <ErrorText>{formErrors.term}</ErrorText>}
       </SliderContainer>
+      
       <SliderContainer>
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Typography
@@ -174,6 +218,8 @@ const CreditFormSliders = ({
           <TextField
             value={formData.income}
             onChange={handleInputChange("income")}
+            onBlur={handleBlur("income")}
+            onFocus={handleFocus("income")}
             variant="outlined"
             size="small"
             type="number"
@@ -201,9 +247,6 @@ const CreditFormSliders = ({
               }
             }}
             inputProps={{
-              min: 500,
-              max: 10000,
-              step: "any", // Permite cualquier valor, no solo múltiplos de 100
               sx: {
                 "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
                   WebkitAppearance: "none",
@@ -216,8 +259,13 @@ const CreditFormSliders = ({
             }}
           />
         </Box>
+        {showAlert.income && (
+          <Alert severity="info" sx={{ mt: 1, fontSize: "12px", py: 0 }}>
+            El ingreso mínimo es $500
+          </Alert>
+        )}
         <StyledSlider
-          value={formData.income}
+          value={isNaN(formData.income) ? 500 : formData.income}
           onChange={handleSliderChange("income")}
           min={500}
           max={10000}
