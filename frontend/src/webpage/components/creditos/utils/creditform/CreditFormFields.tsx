@@ -7,6 +7,7 @@ import {
   ValidFields,
 } from "../../../../../core/types/types";
 import { useTheme } from "@mui/material/styles";
+import { GlobalStyles } from "@mui/material";
 
 interface CreditFormFieldsProps {
   formData: CreditFormData;
@@ -25,10 +26,20 @@ const CreditFormFields = ({
   isSubmitted,
   validFields,
 }: CreditFormFieldsProps) => {
-  const theme = useTheme(); // Accedemos al tema
+  const theme = useTheme();
 
   return (
     <>
+      {/* Estilos globales para las opciones de select */}
+      <GlobalStyles
+        styles={{
+          'option': {
+            backgroundColor: 'white !important',
+            color: 'black !important'
+          }
+        }}
+      />
+      
       <StyledTextField
         select
         fullWidth
@@ -40,19 +51,16 @@ const CreditFormFields = ({
         SelectProps={{
           native: true,
           displayEmpty: true,
-          style: {
-            backgroundColor: theme.palette.common.white, // Fondo blanco del tema
-          }
         }}
         InputLabelProps={{
           shrink: true,
         }}
         sx={{
           "& .MuiOutlinedInput-root": {
-            backgroundColor: theme.palette.common.white, // Fondo blanco del tema
+            backgroundColor: theme.palette.common.white,
           },
           "& .MuiInputLabel-root": {
-            color: theme.palette.common.black, // Texto negro del tema
+            color: theme.palette.common.black,
           }
         }}
       >
@@ -84,16 +92,13 @@ const CreditFormFields = ({
           endAdornment: validFields.document && (
             <CheckCircleOutlineIcon color="success" />
           ),
-          style: {
-            backgroundColor: theme.palette.common.white, // Fondo blanco del tema
-          }
         }}
         sx={{
           "& .MuiOutlinedInput-root": {
-            backgroundColor: theme.palette.common.white, // Fondo blanco del tema
+            backgroundColor: theme.palette.common.white,
           },
           "& .MuiInputLabel-root": {
-            color: theme.palette.common.black, // Texto negro del tema
+            color: theme.palette.common.black,
           }
         }}
       />
@@ -111,16 +116,13 @@ const CreditFormFields = ({
           endAdornment: validFields.email && (
             <CheckCircleOutlineIcon color="success" />
           ),
-          style: {
-            backgroundColor: theme.palette.common.white, // Fondo blanco del tema
-          }
         }}
         sx={{
           "& .MuiOutlinedInput-root": {
-            backgroundColor: theme.palette.common.white, // Fondo blanco del tema
+            backgroundColor: theme.palette.common.white,
           },
           "& .MuiInputLabel-root": {
-            color: theme.palette.common.black, // Texto negro del tema
+            color: theme.palette.common.black,
           }
         }}
       />
