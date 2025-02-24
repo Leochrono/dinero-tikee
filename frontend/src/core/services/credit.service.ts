@@ -107,7 +107,6 @@ export const creditService = {
     }
   },
 
-
   updateStatus: async (
     creditId: string,
     status: string
@@ -241,12 +240,18 @@ export const creditService = {
     }
   },
 
-  getDocuments: async (creditId: string): Promise<ApiResponse<CreditDocument[]>> => {
+  getDocuments: async (
+    creditId: string
+  ): Promise<ApiResponse<CreditDocument[]>> => {
     try {
-      const response = await axiosInstance.get(`/credits/${creditId}/documents`);
+      const response = await axiosInstance.get(
+        `/credits/${creditId}/documents`
+      );
       return response.data;
     } catch (error: any) {
-      throw new Error(error.response?.data?.message || "Error al obtener documentos");
+      throw new Error(
+        error.response?.data?.message || "Error al obtener documentos"
+      );
     }
   },
 
@@ -292,15 +297,30 @@ export const creditService = {
       if (!creditId || !formData) {
         throw new Error("ID de crédito y archivos son requeridos");
       }
+
+      // Validar el archivo y tipo antes de enviarlo
       const file = formData.get("file") as File;
       const documentType = formData.get("documentType");
 
       if (!file || !documentType) {
         throw new Error("Archivo y tipo de documento son requeridos");
       }
+
+      // Validar tamaño y tipo de archivo
+      if (file.size > 5 * 1024 * 1024) {
+        // 5MB
+        throw new Error("El archivo es demasiado grande");
+      }
+
+      const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
+      if (!allowedTypes.includes(file.type)) {
+        throw new Error("Tipo de archivo no permitido");
+      }
+
       const newFormData = new FormData();
-      newFormData.append("file", file, file.name);
+      newFormData.append("file", file);
       newFormData.append("documentType", documentType.toString());
+
       const response = await axiosInstance.post(
         `/credits/${creditId}/documents/upload`,
         newFormData,
@@ -328,7 +348,21 @@ export const creditService = {
       return response.data;
     } catch (error: any) {
       console.error("Error en uploadCreditFiles:", error);
-      throw new Error(error.response?.data?.message || error.message);
+
+      // Mejorar el manejo de errores específicos
+      if (error.response?.status === 413) {
+        throw new Error("El archivo es demasiado grande para el servidor");
+      } else if (error.response?.status === 415) {
+        throw new Error("Tipo de archivo no soportado");
+      } else if (error.response?.status === 401) {
+        throw new Error("No autorizado. Por favor, inicie sesión nuevamente");
+      }
+
+      throw new Error(
+        error.response?.data?.message ||
+          error.message ||
+          "Error al subir el archivo. Por favor, intente nuevamente"
+      );
     }
   },
 };

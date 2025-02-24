@@ -49,8 +49,7 @@ const CreditDetails: React.FC<CreditDetailsProps> = ({
     requirements: DOCUMENT_REQUIREMENTS,
   });
 
-  const { calculateMonthlyPayment, calculateTotalPayment } =
-    useCreditCalculations();
+  const { calculateMonthlyPayment, calculateTotalPayment } = useCreditCalculations();
 
   if (institutionLoading || creditLoading) return <LoadingResults />;
 
@@ -99,14 +98,6 @@ const CreditDetails: React.FC<CreditDetailsProps> = ({
         fileInputRef={fileInputRef}
         onUploadClick={handleUploadClick}
         onDeleteFile={handleDeleteFile}
-      />
-
-      <input
-        type="file"
-        ref={fileInputRef}
-        style={{ display: "none" }}
-        accept=".jpg,.jpeg,.png,.pdf"
-        onChange={handleFileChange}
       />
 
       <Box
