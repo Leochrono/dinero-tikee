@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Typography, Box, TextField, InputAdornment, Alert } from "@mui/material";
+import {
+  Typography,
+  Box,
+  TextField,
+  InputAdornment,
+  Alert,
+} from "@mui/material";
 import {
   SliderGroup,
   SliderContainer,
@@ -29,41 +35,54 @@ const CreditFormSliders = ({
   const [showAlert, setShowAlert] = useState({
     amount: false,
     term: false,
-    income: false
+    income: false,
   });
 
   // Función para verificar valores al perder el foco
   const handleBlur = (field: keyof CreditFormData) => () => {
     let showWarning = false;
-    
-    if (field === 'amount' && (isNaN(formData.amount) || formData.amount < 2000)) {
+
+    if (
+      field === "amount" &&
+      (isNaN(formData.amount) || formData.amount < 2000)
+    ) {
+      showWarning = true;
+    } else if (
+      field === "term" &&
+      (isNaN(formData.term) || formData.term < 6)
+    ) {
+      showWarning = true;
+    } else if (
+      field === "income" &&
+      (isNaN(formData.income) || formData.income < 500)
+    ) {
       showWarning = true;
     }
-    else if (field === 'term' && (isNaN(formData.term) || formData.term < 6)) {
-      showWarning = true;
-    }
-    else if (field === 'income' && (isNaN(formData.income) || formData.income < 500)) {
-      showWarning = true;
-    }
-    
-    setShowAlert(prev => ({
+
+    setShowAlert((prev) => ({
       ...prev,
-      [field]: showWarning
+      [field]: showWarning,
     }));
   };
 
   // Función para ocultar la alerta al enfocar el campo
   const handleFocus = (field: keyof CreditFormData) => () => {
-    setShowAlert(prev => ({
+    setShowAlert((prev) => ({
       ...prev,
-      [field]: false
+      [field]: false,
     }));
   };
 
   return (
     <SliderGroup>
       <SliderContainer>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Typography
             color="white"
             sx={{
@@ -82,7 +101,9 @@ const CreditFormSliders = ({
             size="small"
             type="number"
             InputProps={{
-              startAdornment: <InputAdornment position="start">$</InputAdornment>,
+              startAdornment: (
+                <InputAdornment position="start">$</InputAdornment>
+              ),
               sx: {
                 bgcolor: "rgba(255, 255, 255, 0.1)",
                 borderRadius: "8px",
@@ -101,8 +122,8 @@ const CreditFormSliders = ({
                   fontFamily: "'Galano Grotesque', sans-serif",
                   fontWeight: 500,
                   padding: "8px 4px",
-                }
-              }
+                },
+              },
             }}
             inputProps={{
               sx: {
@@ -113,7 +134,7 @@ const CreditFormSliders = ({
                 "&[type=number]": {
                   MozAppearance: "textfield",
                 },
-              }
+              },
             }}
           />
         </Box>
@@ -125,16 +146,22 @@ const CreditFormSliders = ({
         <StyledSlider
           value={isNaN(formData.amount) ? 2000 : formData.amount}
           onChange={handleSliderChange("amount")}
-          min={2000} 
+          min={2000}
           max={30000}
           step={100}
           hasError={!!formErrors.amount}
         />
         {formErrors.amount && <ErrorText>{formErrors.amount}</ErrorText>}
       </SliderContainer>
-      
+
       <SliderContainer>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Typography
             color="white"
             sx={{
@@ -153,7 +180,9 @@ const CreditFormSliders = ({
             size="small"
             type="number"
             InputProps={{
-              endAdornment: <InputAdornment position="end">meses</InputAdornment>,
+              endAdornment: (
+                <InputAdornment position="end">meses</InputAdornment>
+              ),
               sx: {
                 bgcolor: "rgba(255, 255, 255, 0.1)",
                 borderRadius: "8px",
@@ -171,9 +200,17 @@ const CreditFormSliders = ({
                   textAlign: "right",
                   fontFamily: "'Galano Grotesque', sans-serif",
                   fontWeight: 500,
-                  padding: "8px 4px",
-                }
-              }
+                  padding: "8px 0px 8px 4px",
+                  marginRight: "0", 
+                },
+                "& .MuiInputAdornment-root": {
+                  marginLeft: "2px", 
+                  "& p": {
+                    color: "white",
+                    fontFamily: "'Galano Grotesque', sans-serif",
+                  },
+                },
+              },
             }}
             inputProps={{
               sx: {
@@ -184,7 +221,7 @@ const CreditFormSliders = ({
                 "&[type=number]": {
                   MozAppearance: "textfield",
                 },
-              }
+              },
             }}
           />
         </Box>
@@ -203,9 +240,15 @@ const CreditFormSliders = ({
         />
         {formErrors.term && <ErrorText>{formErrors.term}</ErrorText>}
       </SliderContainer>
-      
+
       <SliderContainer>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Typography
             color="white"
             sx={{
@@ -224,7 +267,9 @@ const CreditFormSliders = ({
             size="small"
             type="number"
             InputProps={{
-              startAdornment: <InputAdornment position="start">$</InputAdornment>,
+              startAdornment: (
+                <InputAdornment position="start">$</InputAdornment>
+              ),
               sx: {
                 bgcolor: "rgba(255, 255, 255, 0.1)",
                 borderRadius: "8px",
@@ -243,8 +288,8 @@ const CreditFormSliders = ({
                   fontFamily: "'Galano Grotesque', sans-serif",
                   fontWeight: 500,
                   padding: "8px 4px",
-                }
-              }
+                },
+              },
             }}
             inputProps={{
               sx: {
@@ -255,7 +300,7 @@ const CreditFormSliders = ({
                 "&[type=number]": {
                   MozAppearance: "textfield",
                 },
-              }
+              },
             }}
           />
         </Box>
