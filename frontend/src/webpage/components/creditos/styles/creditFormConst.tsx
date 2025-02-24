@@ -108,7 +108,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
       transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
     },
     "& input, & select": {
-      color: theme.palette.text.secondary,
+      color: theme.palette.common.black, // Cambiado a color negro
       "&::placeholder": {
         color: theme.palette.text.secondary,
         opacity: 1,
@@ -116,9 +116,17 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
       "&:-webkit-autofill, &:-webkit-autofill:hover, &:-webkit-autofill:focus":
         {
           WebkitBoxShadow: `0 0 0 30px ${theme.palette.common.white} inset !important`,
-          WebkitTextFillColor: `${theme.palette.text.secondary} !important`,
+          WebkitTextFillColor: `${theme.palette.common.black} !important`, // Cambiado a negro
           transition: "background-color 5000s ease-in-out 0s",
         },
+    },
+    // Eliminar flechas de incremento/decremento para campos numéricos
+    "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+      WebkitAppearance: "none",
+      margin: 0
+    },
+    "& input[type=number]": {
+      MozAppearance: "textfield"
     },
     "&.Mui-error": {
       animation: `${shake} 0.5s ease-in-out`,
@@ -138,12 +146,11 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
     },
   },
   "& .MuiInputLabel-root": {
-    color: theme.palette.text.secondary,
-
+    color: theme.palette.common.black, // Cambiado a negro
     fontFamily: "'Stage Grotesque', sans-serif",
     transition: "all 0.3s ease-in-out",
     "&.Mui-focused": {
-      color: theme.palette.text.secondary,
+      color: theme.palette.common.black, // Cambiado a negro
     },
     "&.Mui-error": {
       color: theme.palette.error.main,
@@ -177,7 +184,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
     },
   },
   "& .MuiSelect-select": {
-    color: theme.palette.text.secondary,
+    color: theme.palette.common.black, // Cambiado a negro
     fontFamily: "'Stage Grotesque', sans-serif",
   },
   "& .success-icon": {

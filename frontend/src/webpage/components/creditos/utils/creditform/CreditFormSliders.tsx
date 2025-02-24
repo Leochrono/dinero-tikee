@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "@mui/material";
+import { Typography, Box, TextField, InputAdornment } from "@mui/material";
 import {
   SliderGroup,
   SliderContainer,
@@ -15,33 +15,71 @@ interface CreditFormSlidersProps {
   handleSliderChange: (
     field: keyof CreditFormData
   ) => (event: Event, value: number | number[]) => void;
+  handleInputChange: (
+    field: keyof CreditFormData
+  ) => (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const CreditFormSliders = ({
   formData,
   formErrors,
   handleSliderChange,
+  handleInputChange,
 }: CreditFormSlidersProps) => {
   return (
     <SliderGroup>
       <SliderContainer>
-        <Typography
-          color="white"
-          sx={{
-            fontFamily: "'Brooklyn', sans-serif",
-            fontSize: "16px",
-          }}
-        >
-          Monto:
-        </Typography>
-        <SliderValue
-          sx={{
-            fontFamily: "'Galano Grotesque', sans-serif",
-            fontWeight: 500,
-          }}
-        >
-          ${formData.amount}
-        </SliderValue>
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <Typography
+            color="white"
+            sx={{
+              fontFamily: "'Brooklyn', sans-serif",
+              fontSize: "16px",
+            }}
+          >
+            Monto:
+          </Typography>
+          <TextField
+            value={formData.amount}
+            onChange={handleInputChange("amount")}
+            variant="outlined"
+            size="small"
+            InputProps={{
+              startAdornment: <InputAdornment position="start">$</InputAdornment>,
+              sx: {
+                bgcolor: "rgba(255, 255, 255, 0.1)",
+                borderRadius: "8px",
+                color: "white",
+                width: "120px",
+                height: "36px",
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "rgba(255, 255, 255, 0.2)",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "primary.light",
+                },
+                "& input": {
+                  color: "white",
+                  textAlign: "right",
+                  fontFamily: "'Galano Grotesque', sans-serif",
+                  fontWeight: 500,
+                  padding: "8px 4px",
+                }
+              }
+            }}
+            inputProps={{
+              sx: {
+                "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
+                  WebkitAppearance: "none",
+                  margin: 0,
+                },
+                "&[type=number]": {
+                  MozAppearance: "textfield",
+                },
+              }
+            }}
+          />
+        </Box>
         <StyledSlider
           value={formData.amount}
           onChange={handleSliderChange("amount")}
@@ -53,23 +91,57 @@ const CreditFormSliders = ({
         {formErrors.amount && <ErrorText>{formErrors.amount}</ErrorText>}
       </SliderContainer>
       <SliderContainer>
-        <Typography
-          color="white"
-          sx={{
-            fontFamily: "'Brooklyn', sans-serif",
-            fontSize: "16px",
-          }}
-        >
-          Plazo:
-        </Typography>
-        <SliderValue
-          sx={{
-            fontFamily: "'Galano Grotesque', sans-serif",
-            fontWeight: 500,
-          }}
-        >
-          {formData.term} meses
-        </SliderValue>
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <Typography
+            color="white"
+            sx={{
+              fontFamily: "'Brooklyn', sans-serif",
+              fontSize: "16px",
+            }}
+          >
+            Plazo:
+          </Typography>
+          <TextField
+            value={formData.term}
+            onChange={handleInputChange("term")}
+            variant="outlined"
+            size="small"
+            InputProps={{
+              endAdornment: <InputAdornment position="end">meses</InputAdornment>,
+              sx: {
+                bgcolor: "rgba(255, 255, 255, 0.1)",
+                borderRadius: "8px",
+                color: "white",
+                width: "120px",
+                height: "36px",
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "rgba(255, 255, 255, 0.2)",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "primary.light",
+                },
+                "& input": {
+                  color: "white",
+                  textAlign: "right",
+                  fontFamily: "'Galano Grotesque', sans-serif",
+                  fontWeight: 500,
+                  padding: "8px 4px",
+                }
+              }
+            }}
+            inputProps={{
+              sx: {
+                "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
+                  WebkitAppearance: "none",
+                  margin: 0,
+                },
+                "&[type=number]": {
+                  MozAppearance: "textfield",
+                },
+              }
+            }}
+          />
+        </Box>
         <StyledSlider
           value={formData.term}
           onChange={handleSliderChange("term")}
@@ -81,23 +153,57 @@ const CreditFormSliders = ({
         {formErrors.term && <ErrorText>{formErrors.term}</ErrorText>}
       </SliderContainer>
       <SliderContainer>
-        <Typography
-          color="white"
-          sx={{
-            fontFamily: "'Brooklyn', sans-serif",
-            fontSize: "16px",
-          }}
-        >
-          Ingresos:
-        </Typography>
-        <SliderValue
-          sx={{
-            fontFamily: "'Galano Grotesque', sans-serif",
-            fontWeight: 500,
-          }}
-        >
-          ${formData.income}
-        </SliderValue>
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <Typography
+            color="white"
+            sx={{
+              fontFamily: "'Brooklyn', sans-serif",
+              fontSize: "16px",
+            }}
+          >
+            Ingresos:
+          </Typography>
+          <TextField
+            value={formData.income}
+            onChange={handleInputChange("income")}
+            variant="outlined"
+            size="small"
+            InputProps={{
+              startAdornment: <InputAdornment position="start">$</InputAdornment>,
+              sx: {
+                bgcolor: "rgba(255, 255, 255, 0.1)",
+                borderRadius: "8px",
+                color: "white",
+                width: "120px",
+                height: "36px",
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "rgba(255, 255, 255, 0.2)",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "primary.light",
+                },
+                "& input": {
+                  color: "white",
+                  textAlign: "right",
+                  fontFamily: "'Galano Grotesque', sans-serif",
+                  fontWeight: 500,
+                  padding: "8px 4px",
+                }
+              }
+            }}
+            inputProps={{
+              sx: {
+                "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
+                  WebkitAppearance: "none",
+                  margin: 0,
+                },
+                "&[type=number]": {
+                  MozAppearance: "textfield",
+                },
+              }
+            }}
+          />
+        </Box>
         <StyledSlider
           value={formData.income}
           onChange={handleSliderChange("income")}
