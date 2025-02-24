@@ -2,7 +2,6 @@ import React from "react";
 import { ArrowBack } from "@mui/icons-material";
 import {
   DetailContainer,
-  ArticleTitle,
   ArticleParagraph,
   HighlightText,
   SubTitle,
@@ -28,10 +27,10 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({
 }) => {
   return (
     <>
+      <DetailContainer>
       <BackButton onClick={onBackToList}>
         <ArrowBack />
       </BackButton>
-      <DetailContainer>
         <ArticleParagraph>
           Dejar de cumplir el <HighlightText>pago de tus deudas</HighlightText>{" "}
           podría traerte consecuencias graves. Es importante tener una{" "}
