@@ -1,15 +1,15 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { creditService } from '@/src/core/services/credit.service';
-import { creditDocumentService } from '@/src/core/services/credit-document.service';
-import { toast } from 'react-hot-toast';
-import { CreditFormData } from '@/src/core/types/types';
-import { 
-  DocumentType, 
+import { useState, useRef, useCallback, useEffect } from "react";
+import { creditService } from "@/src/core/services/credit.service";
+import { creditDocumentService } from "@/src/core/services/credit-document.service";
+import { toast } from "react-hot-toast";
+import { CreditFormData } from "@/src/core/types/types";
+import {
+  DocumentType,
   DocumentRequirement,
   FileData,
   UploadProgress,
   UploadedFiles,
-} from '@/src/core/types/documents.types';
+} from "@/src/core/types/documents.types";
 
 interface UseCreditDetailsProps {
   initialFormData: CreditFormData;
@@ -24,7 +24,7 @@ export const useCreditDetails = ({
   institutionId,
   creditId,
   onApply,
-  requirements
+  requirements,
 }: UseCreditDetailsProps) => {
   const [institution, setInstitution] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,22 +34,27 @@ export const useCreditDetails = ({
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFiles>({});
   const [uploadProgress, setUploadProgress] = useState<UploadProgress>({});
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [currentDocType, setCurrentDocType] = useState<DocumentType | null>(
+    null
+  );
 
   const loadInstitutionDetails = useCallback(async () => {
     try {
       setInstitutionLoading(true);
       const response = await creditService.getDetails(creditId);
+
       if (response.success && response.data) {
         setInstitution(response.data.institution);
-        
+
+        // Cargar documentos existentes
         const docsResponse = await creditDocumentService.getDocuments(creditId);
         if (docsResponse.success && docsResponse.data) {
           const filesData: UploadedFiles = {};
-          docsResponse.data.forEach(doc => {
+          docsResponse.data.forEach((doc) => {
             filesData[doc.documentType] = {
               file: new File([], doc.fileName, { type: doc.fileType }),
-              type: doc.fileType.startsWith('image/') ? 'image' : 'pdf',
-              previewUrl: doc.fileUrl
+              type: doc.fileType.startsWith("image/") ? "image" : "pdf",
+              previewUrl: doc.fileUrl,
             };
           });
           setUploadedFiles(filesData);
@@ -69,101 +74,167 @@ export const useCreditDetails = ({
     }
   }, [institutionId, creditId, loadInstitutionDetails]);
 
-  const handleUploadClick = useCallback(() => {
-    fileInputRef.current?.click();
+  const handleUploadClick = useCallback((docType: DocumentType) => {
+    setCurrentDocType(docType);
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
   }, []);
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const selectedFile = event.target.files?.[0];
-    if (!selectedFile) return;
+    if (!selectedFile || !currentDocType) return;
 
     try {
       if (selectedFile.size > 5 * 1024 * 1024) {
         throw new Error("El archivo no debe superar los 5MB");
       }
 
-      const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png'];
+      const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
       if (!allowedTypes.includes(selectedFile.type)) {
         throw new Error("Solo se permiten archivos PDF, JPG y PNG");
       }
 
-      const currentRequirement = requirements[Object.keys(uploadedFiles).length];
-      if (!currentRequirement) return;
+      const fileType: "image" | "pdf" = selectedFile.type.startsWith("image/")
+        ? "image"
+        : "pdf";
 
-      const fileType: 'image' | 'pdf' = selectedFile.type.startsWith('image/') ? 'image' : 'pdf';
-
-      setUploadProgress((prev) => ({ 
-        ...prev, 
-        [currentRequirement.id]: 0 
+      // Mostrar progreso
+      setUploadProgress((prev) => ({
+        ...prev,
+        [currentDocType]: 0,
       }));
 
+      // Almacenar el archivo temporalmente para mostrar vista previa
+      const previewUrl =
+        fileType === "image" ? URL.createObjectURL(selectedFile) : undefined;
+      setUploadedFiles((prev) => ({
+        ...prev,
+        [currentDocType]: {
+          file: selectedFile,
+          type: fileType,
+          previewUrl,
+        },
+      }));
+
+      // Subir el archivo al servidor
       const response = await creditDocumentService.uploadDocument(
         creditId,
-        currentRequirement.type,
+        currentDocType,
         selectedFile,
         (progress) => {
-          setUploadProgress((prev) => ({ 
-            ...prev, 
-            [currentRequirement.id]: progress 
+          setUploadProgress((prev) => ({
+            ...prev,
+            [currentDocType]: progress,
           }));
         }
       );
 
       if (response.success) {
-        setUploadedFiles((prev) => ({
-          ...prev,
-          [currentRequirement.id]: {
-            file: selectedFile,
-            type: fileType,
-            previewUrl: fileType === 'image' ? URL.createObjectURL(selectedFile) : undefined
+        // Asegurar que data existe y hacer aserción de tipo
+        const responseData = response.data;
+
+        if (responseData) {
+          toast.success("Documento subido exitosamente");
+
+          setUploadedFiles((prev) => ({
+            ...prev,
+            [currentDocType]: {
+              file: selectedFile,
+              type: fileType,
+              previewUrl:
+                fileType === "image" ? responseData.fileUrl : undefined,
+            },
+          }));
+
+          if (fileInputRef.current) {
+            fileInputRef.current.value = "";
           }
-        }));
-        toast.success("Documento subido exitosamente");
-        
-        if (fileInputRef.current) {
-          fileInputRef.current.value = '';
+        } else {
+          throw new Error(
+            "Error al subir el documento: no se recibieron datos"
+          );
         }
+      } else {
+        throw new Error("Error al subir el documento");
       }
-    } catch (error: any) {
-      console.error('Error al subir archivo:', error);
-      toast.error(error.message || "Error al subir el archivo");
       
+    } catch (error: any) {
+      console.error("Error al subir archivo:", error);
+      toast.error(error.message || "Error al subir el archivo");
+
+      // Limpiar el progreso y el archivo temporal en caso de error
       setUploadProgress((prev) => {
         const newProgress = { ...prev };
-        const currentRequirement = requirements[Object.keys(uploadedFiles).length];
-        if (currentRequirement) {
-          delete newProgress[currentRequirement.id];
+        if (currentDocType) {
+          delete newProgress[currentDocType];
         }
         return newProgress;
       });
+
+      setUploadedFiles((prev) => {
+        const newFiles = { ...prev };
+        if (currentDocType && prev[currentDocType]?.previewUrl) {
+          URL.revokeObjectURL(prev[currentDocType]!.previewUrl!);
+          delete newFiles[currentDocType];
+        }
+        return newFiles;
+      });
+    } finally {
+      // Resetear input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     }
   };
 
-  const handleDeleteFile = useCallback(async (documentId: string) => {
-    try {
-      await creditDocumentService.deleteDocument(creditId, documentId);
-      
-      setUploadedFiles((prev) => {
-        const newFiles = { ...prev };
-        delete newFiles[documentId];
-        return newFiles;
-      });
-      
-      setUploadProgress((prev) => {
-        const newProgress = { ...prev };
-        delete newProgress[documentId];
-        return newProgress;
-      });
-      
-      toast.success("Documento eliminado exitosamente");
-    } catch (error: any) {
-      console.error('Error al eliminar archivo:', error);
-      toast.error(error.message || "Error al eliminar el archivo");
-    }
-  }, [creditId]);
+  const handleDeleteFile = useCallback(
+    async (documentType: DocumentType) => {
+      try {
+        // Primero encontrar el documento por tipo
+        const docsResponse = await creditDocumentService.getDocuments(creditId);
+
+        if (docsResponse.success && docsResponse.data) {
+          const documentToDelete = docsResponse.data.find(
+            (doc) => doc.documentType === documentType
+          );
+
+          if (documentToDelete) {
+            await creditDocumentService.deleteDocument(
+              creditId,
+              documentToDelete.id
+            );
+
+            setUploadedFiles((prev) => {
+              const newFiles = { ...prev };
+              if (prev[documentType]?.previewUrl) {
+                URL.revokeObjectURL(prev[documentType]!.previewUrl!);
+              }
+              delete newFiles[documentType];
+              return newFiles;
+            });
+
+            setUploadProgress((prev) => {
+              const newProgress = { ...prev };
+              delete newProgress[documentType];
+              return newProgress;
+            });
+
+            toast.success("Documento eliminado exitosamente");
+          }
+        }
+      } catch (error: any) {
+        console.error("Error al eliminar archivo:", error);
+        toast.error(error.message || "Error al eliminar el archivo");
+      }
+    },
+    [creditId]
+  );
 
   const areAllFilesUploaded = useCallback(() => {
-    return Object.keys(uploadedFiles).length === requirements.length;
+    return requirements.every((req) => uploadedFiles[req.type]);
   }, [requirements, uploadedFiles]);
 
   const handleApplyClick = useCallback(async () => {
@@ -182,12 +253,6 @@ export const useCreditDetails = ({
       setIsSubmitting(false);
     }
   }, [areAllFilesUploaded, onApply]);
-
-  useEffect(() => {
-    setUploadedFiles({});
-    setUploadProgress({});
-    setLoadingError(null);
-  }, [creditId]);
 
   return {
     institution,
