@@ -9,22 +9,18 @@ import {
 import { BackButton } from "@/components/login/components/styles/constregistro";
 import { Box, styled } from "@mui/material";
 
-// Crear un contenedor personalizado que incluya margen para el botón
-const ContentContainer = styled('div')(({ theme }) => ({
-  width: '100%',
-  paddingTop: '20px', // Espacio para separar del carrusel
+// Contenedor principal con posición relativa
+const BlogContentWrapper = styled('div')(({ theme }) => ({
+  position: 'relative',
+  paddingTop: '40px', // Espacio para el botón arriba
 }));
 
-// Botón de regreso estilizado para estar en línea con el texto
-const StyledBackButton = styled(BackButton)(({ theme }) => ({
-  marginBottom: '20px',
-  marginLeft: '15px', // Alineado con el texto
-  display: 'inline-flex',
-  alignItems: 'center',
-  color: '#39ff14', // Verde neón para coincide con tu estilo
-  '&:hover': {
-    color: '#45a049', // Oscurecido al pasar el ratón
-  }
+// Contenedor para el botón de retroceso
+const BackButtonContainer = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  top: '0',
+  left: '20px',
+  zIndex: 10
 }));
 
 export interface BlogPost {
@@ -45,12 +41,14 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({
   onBackToList,
 }) => {
   return (
-    <ContentContainer>
-      <DetailContainer>
-        <StyledBackButton onClick={onBackToList}>
+    <BlogContentWrapper>
+      <BackButtonContainer>
+        <BackButton onClick={onBackToList}>
           <ArrowBack />
-        </StyledBackButton>
-        
+        </BackButton>
+      </BackButtonContainer>
+      
+      <DetailContainer>
         <ArticleParagraph>
           Dejar de cumplir el <HighlightText>pago de tus deudas</HighlightText>{" "}
           podría traerte consecuencias graves. Es importante tener una{" "}
@@ -148,7 +146,7 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({
           tu caso y buscará una solución legal que no implique perjudicarte.
         </ArticleParagraph>
       </DetailContainer>
-    </ContentContainer>
+    </BlogContentWrapper>
   );
 };
 
