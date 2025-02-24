@@ -6,6 +6,7 @@ import {
   FormErrors,
   ValidFields,
 } from "../../../../../core/types/types";
+import { useTheme } from "@mui/material/styles";
 
 interface CreditFormFieldsProps {
   formData: CreditFormData;
@@ -24,6 +25,8 @@ const CreditFormFields = ({
   isSubmitted,
   validFields,
 }: CreditFormFieldsProps) => {
+  const theme = useTheme(); // Accedemos al tema
+
   return (
     <>
       <StyledTextField
@@ -37,9 +40,20 @@ const CreditFormFields = ({
         SelectProps={{
           native: true,
           displayEmpty: true,
+          style: {
+            backgroundColor: theme.palette.common.white, // Fondo blanco del tema
+          }
         }}
         InputLabelProps={{
           shrink: true,
+        }}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            backgroundColor: theme.palette.common.white, // Fondo blanco del tema
+          },
+          "& .MuiInputLabel-root": {
+            color: theme.palette.common.black, // Texto negro del tema
+          }
         }}
       >
         <option value="" disabled hidden>
@@ -70,6 +84,17 @@ const CreditFormFields = ({
           endAdornment: validFields.document && (
             <CheckCircleOutlineIcon color="success" />
           ),
+          style: {
+            backgroundColor: theme.palette.common.white, // Fondo blanco del tema
+          }
+        }}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            backgroundColor: theme.palette.common.white, // Fondo blanco del tema
+          },
+          "& .MuiInputLabel-root": {
+            color: theme.palette.common.black, // Texto negro del tema
+          }
         }}
       />
 
@@ -86,6 +111,17 @@ const CreditFormFields = ({
           endAdornment: validFields.email && (
             <CheckCircleOutlineIcon color="success" />
           ),
+          style: {
+            backgroundColor: theme.palette.common.white, // Fondo blanco del tema
+          }
+        }}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            backgroundColor: theme.palette.common.white, // Fondo blanco del tema
+          },
+          "& .MuiInputLabel-root": {
+            color: theme.palette.common.black, // Texto negro del tema
+          }
         }}
       />
     </>
