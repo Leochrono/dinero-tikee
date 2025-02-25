@@ -7,6 +7,21 @@ import {
   SubTitle,
 } from "@/components/blog/styles/constBlogUnpaid";
 import { BackButton } from "@/components/login/components/styles/constregistro";
+import { styled } from "@mui/material";
+
+// Contenedor principal con posición relativa
+const BlogContentWrapper = styled('div')(({ theme }) => ({
+  position: 'relative',
+  paddingTop: '40px', // Espacio para el botón arriba
+}));
+
+// Contenedor para el botón de retroceso
+const BackButtonContainer = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  top: '0',
+  left: '20px',
+  zIndex: 10
+}));
 
 export interface BlogPost {
   id: string;
@@ -23,10 +38,13 @@ interface BlogDetailsProps {
 
 const BlogLoan: React.FC<BlogDetailsProps> = ({ blogPost, onBackToList }) => {
   return (
-    <>
-      <BackButton onClick={onBackToList}>
-        <ArrowBack />
-      </BackButton>
+    <BlogContentWrapper>
+      <BackButtonContainer>
+        <BackButton onClick={onBackToList}>
+          <ArrowBack />
+        </BackButton>
+      </BackButtonContainer>
+      
       <DetailContainer>
         <ArticleParagraph>
           Los préstamos pueden ser una herramienta financiera útil o una trampa
@@ -97,7 +115,7 @@ const BlogLoan: React.FC<BlogDetailsProps> = ({ blogPost, onBackToList }) => {
           y la comprensión profunda de tus necesidades y capacidades económicas.
         </ArticleParagraph>
       </DetailContainer>
-    </>
+    </BlogContentWrapper>
   );
 };
 

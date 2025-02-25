@@ -7,6 +7,21 @@ import {
   SubTitle,
 } from "@/components/blog/styles/constBlogUnpaid";
 import { BackButton } from "@/components/login/components/styles/constregistro";
+import { styled } from "@mui/material";
+
+// Contenedor principal con posición relativa
+const BlogContentWrapper = styled('div')(({ theme }) => ({
+  position: 'relative',
+  paddingTop: '40px', // Espacio para el botón arriba
+}));
+
+// Contenedor para el botón de retroceso
+const BackButtonContainer = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  top: '0',
+  left: '20px',
+  zIndex: 10
+}));
 
 export interface BlogPost {
   id: string;
@@ -26,10 +41,13 @@ const BlogMutualFunds: React.FC<BlogDetailsProps> = ({
   onBackToList,
 }) => {
   return (
-    <>
-      <BackButton onClick={onBackToList}>
-        <ArrowBack />
-      </BackButton>
+    <BlogContentWrapper>
+      <BackButtonContainer>
+        <BackButton onClick={onBackToList}>
+          <ArrowBack />
+        </BackButton>
+      </BackButtonContainer>
+      
       <DetailContainer>
         <ArticleParagraph>
           En el mundo de las inversiones, los fondos mutuos se han convertido en
@@ -104,7 +122,7 @@ const BlogMutualFunds: React.FC<BlogDetailsProps> = ({
           convertirlos en una herramienta poderosa para construir tu patrimonio.
         </ArticleParagraph>
       </DetailContainer>
-    </>
+    </BlogContentWrapper>
   );
 };
 

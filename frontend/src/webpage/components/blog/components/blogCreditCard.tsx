@@ -7,6 +7,21 @@ import {
   SubTitle,
 } from "@/components/blog/styles/constBlogUnpaid";
 import { BackButton } from "@/components/login/components/styles/constregistro";
+import { styled } from "@mui/material";
+
+// Contenedor principal con posición relativa
+const BlogContentWrapper = styled('div')(({ theme }) => ({
+  position: 'relative',
+  paddingTop: '40px', // Espacio para el botón arriba
+}));
+
+// Contenedor para el botón de retroceso
+const BackButtonContainer = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  top: '0',
+  left: '20px',
+  zIndex: 10
+}));
 
 export interface BlogPost {
   id: string;
@@ -26,10 +41,13 @@ const BlogCreditCard: React.FC<BlogDetailsProps> = ({
   onBackToList,
 }) => {
   return (
-    <>
-      <BackButton onClick={onBackToList}>
-        <ArrowBack />
-      </BackButton>
+    <BlogContentWrapper>
+      <BackButtonContainer>
+        <BackButton onClick={onBackToList}>
+          <ArrowBack />
+        </BackButton>
+      </BackButtonContainer>
+      
       <DetailContainer>
         <ArticleParagraph>
           Obtener una tarjeta de crédito en Ecuador puede ser un paso importante
@@ -97,7 +115,7 @@ const BlogCreditCard: React.FC<BlogDetailsProps> = ({
           responsable y el uso inteligente del crédito.
         </ArticleParagraph>
       </DetailContainer>
-    </>
+    </BlogContentWrapper>
   );
 };
 

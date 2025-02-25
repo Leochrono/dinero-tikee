@@ -7,6 +7,21 @@ import {
   SubTitle,
 } from "@/components/blog/styles/constBlogUnpaid";
 import { BackButton } from "@/components/login/components/styles/constregistro";
+import { Box, styled } from "@mui/material";
+
+// Contenedor principal con posición relativa
+const BlogContentWrapper = styled('div')(({ theme }) => ({
+  position: 'relative',
+  paddingTop: '40px', // Espacio para el botón arriba
+}));
+
+// Contenedor para el botón de retroceso
+const BackButtonContainer = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  top: '0',
+  left: '20px',
+  zIndex: 10
+}));
 
 export interface BlogPost {
   id: string;
@@ -26,12 +41,15 @@ const BlogRealEstate: React.FC<BlogDetailsProps> = ({
   onBackToList,
 }) => {
   return (
-    <>
+    <BlogContentWrapper>
+      <BackButtonContainer>
+        <BackButton onClick={onBackToList}>
+          <ArrowBack />
+        </BackButton>
+      </BackButtonContainer>
+      
       <DetailContainer>
         <ArticleParagraph>
-        <BackButton onClick={onBackToList}>
-        <ArrowBack />
-      </BackButton>
           Bienes raíces: una industria que va mucho más allá de comprar y vender
           propiedades. Es un ecosistema complejo de inversión, desarrollo y
           oportunidades estratégicas que puede convertirse en una fuente
@@ -101,7 +119,7 @@ const BlogRealEstate: React.FC<BlogDetailsProps> = ({
           visión a largo plazo.
         </ArticleParagraph>
       </DetailContainer>
-    </>
+    </BlogContentWrapper>
   );
 };
 
