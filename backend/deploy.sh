@@ -10,7 +10,7 @@ NAME_IMAGE="api-dinero-al-vuelo"
 PORT_EXPOSE=8430
 ENV_FILE="/CONFIG/VARIABLES_ENTORNO/dinero/.env"
 NETWORK="database"
-VOLUME="uploads:/app/uploads"
+VOLUME="/CONFIG/FILES/dinero/uploads:/app/uploads"
 
 docker build --target production -t "$NAME_IMAGE" -f Dockerfile .
 
