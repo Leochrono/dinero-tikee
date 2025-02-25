@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from "react";
+import React, { useCallback } from "react";
 import { toast } from "react-hot-toast";
 import {
   RequirementContainer,
@@ -12,26 +12,18 @@ import {
   ProgressBar,
   DeleteButton,
 } from "@/webpage/components/creditos/styles/creditDetailConst";
-
-interface Requirement {
-  id: string;
-  name: string;
-  accept: string;
-  maxSize: number;
-}
-
-interface FileData {
-  file: File;
-  type: "image" | "pdf";
-  previewUrl?: string;
-}
+import {
+  DocumentRequirement,
+  FileData,
+  DocumentType,
+} from "@/src/core/types/documents.types";
 
 interface FileUploadRequirementProps {
-  requirement: Requirement;
+  requirement: DocumentRequirement;
   uploadedFile: FileData | null;
   uploadProgress?: number;
-  onUploadClick: (reqId: string) => void;
-  onDeleteFile: (reqId: string) => void;
+  onUploadClick: (docType: DocumentType) => void;
+  onDeleteFile: (docType: DocumentType) => void;
   fileInputRef: React.RefObject<HTMLInputElement>;
 }
 
@@ -43,46 +35,20 @@ const FileUploadRequirement: React.FC<FileUploadRequirementProps> = ({
   onDeleteFile,
   fileInputRef,
 }) => {
-  const validateFileType = (file: File): "image" | "pdf" | null => {
-    if (file.type.startsWith("image/")) return "image";
-    if (file.type === "application/pdf") return "pdf";
-    return null;
-  };
+  const handleClick = useCallback(() => {
+    // Guardamos el tipo de documento actual y abrimos el selector de archivos
+    localStorage.setItem('currentDocumentType', requirement.type);
+    onUploadClick(requirement.type);
+  }, [requirement.type, onUploadClick]);
 
-  const handleFileChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files?.[0];
-      if (!file) return;
-
-      const fileType = validateFileType(file);
-
-      if (!fileType) {
-        toast.error(
-          "Solo se permiten imágenes (JPG, JPEG, PNG) o archivos PDF"
-        );
-        if (event.target) event.target.value = "";
-        return;
-      }
-
-      if (file.size > requirement.maxSize) {
-        toast.error("El archivo es demasiado grande. Máximo 5MB");
-        if (event.target) event.target.value = "";
-        return;
-      }
-
-      // Esta lógica de establecer el archivo se manejará en el componente padre
-      onUploadClick(requirement.id);
-    },
-    [requirement, onUploadClick]
-  );
+  const handleDelete = useCallback(() => {
+    onDeleteFile(requirement.type);
+  }, [requirement.type, onDeleteFile]);
 
   return (
     <RequirementContainer>
-      <RequirementButton
-        onClick={() => onUploadClick(requirement.id)}
-        fullWidth
-      >
-        {requirement.name}
+      <RequirementButton onClick={handleClick} fullWidth>
+        {requirement.label}
         <span>CARGAR</span>
       </RequirementButton>
 
@@ -110,22 +76,11 @@ const FileUploadRequirement: React.FC<FileUploadRequirementProps> = ({
               <ProgressBar variant="determinate" value={uploadProgress} />
             )}
           </FileDetails>
-          <DeleteButton
-            onClick={() => onDeleteFile(requirement.id)}
-            disabled={uploadProgress > 0}
-          >
+          <DeleteButton onClick={handleDelete} disabled={uploadProgress > 0}>
             Eliminar
           </DeleteButton>
         </FilePreview>
       )}
-
-      <input
-        type="file"
-        ref={fileInputRef}
-        style={{ display: "none" }}
-        accept={requirement.accept}
-        onChange={handleFileChange}
-      />
     </RequirementContainer>
   );
 };

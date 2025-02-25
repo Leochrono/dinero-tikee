@@ -66,6 +66,7 @@ const CreditForm = ({ onSubmit, initialData }: CreditFormProps) => {
     setShowLoginModal,
     setPendingFormData,
   } = useCreditFormSubmission();
+  
   const handleSliderChange =
     (field: keyof CreditFormData) => (_: Event, value: number | number[]) => {
       const newFormData = {
@@ -90,6 +91,43 @@ const CreditForm = ({ onSubmit, initialData }: CreditFormProps) => {
       setFormData(newFormData);
     };
 
+  // Nueva función para manejar la entrada manual en los sliders
+  const handleInputChange = 
+  (field: keyof CreditFormData) =>
+  (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    
+    // Permitir borrar completamente el campo
+    if (inputValue === '') {
+      setFormData(prev => ({
+        ...prev,
+        [field]: inputValue as any // Usar 'as any' para permitir temporalmente el valor vacío
+      }));
+      return;
+    }
+    
+    let value = parseFloat(inputValue);
+    
+    // Si no es un número válido, no actualizar el estado
+    if (isNaN(value)) {
+      return;
+    }
+    
+    // Aplicar límites solo en el máximo
+    if (field === 'amount') {
+      if (value > 30000) value = 30000;
+    } else if (field === 'term') {
+      if (value > 64) value = 64;
+    } else if (field === 'income') {
+      if (value > 10000) value = 10000;
+    }
+
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsSubmitted(true);
@@ -111,6 +149,7 @@ const CreditForm = ({ onSubmit, initialData }: CreditFormProps) => {
               formData={formData}
               formErrors={formErrors}
               handleSliderChange={handleSliderChange}
+              handleInputChange={handleInputChange}
             />
           </SliderGroup>
           <FormFields>

@@ -2,12 +2,26 @@ import React from "react";
 import { ArrowBack } from "@mui/icons-material";
 import {
   DetailContainer,
-  ArticleTitle,
   ArticleParagraph,
   HighlightText,
   SubTitle,
 } from "../styles/constBlogUnpaid";
 import { BackButton } from "@/components/login/components/styles/constregistro";
+import { Box, styled } from "@mui/material";
+
+// Contenedor principal con posición relativa
+const BlogContentWrapper = styled('div')(({ theme }) => ({
+  position: 'relative',
+  paddingTop: '40px', // Espacio para el botón arriba
+}));
+
+// Contenedor para el botón de retroceso
+const BackButtonContainer = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  top: '0',
+  left: '20px',
+  zIndex: 10
+}));
 
 export interface BlogPost {
   id: string;
@@ -27,10 +41,13 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({
   onBackToList,
 }) => {
   return (
-    <>
-      <BackButton onClick={onBackToList}>
-        <ArrowBack />
-      </BackButton>
+    <BlogContentWrapper>
+      <BackButtonContainer>
+        <BackButton onClick={onBackToList}>
+          <ArrowBack />
+        </BackButton>
+      </BackButtonContainer>
+      
       <DetailContainer>
         <ArticleParagraph>
           Dejar de cumplir el <HighlightText>pago de tus deudas</HighlightText>{" "}
@@ -129,7 +146,7 @@ const BlogDetails: React.FC<BlogDetailsProps> = ({
           tu caso y buscará una solución legal que no implique perjudicarte.
         </ArticleParagraph>
       </DetailContainer>
-    </>
+    </BlogContentWrapper>
   );
 };
 

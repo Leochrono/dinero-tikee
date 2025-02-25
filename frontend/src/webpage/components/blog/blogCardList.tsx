@@ -33,7 +33,7 @@ const BlogCardList: React.FC = () => {
     {
       id: "1",
       title: "¿Qué pasa si no puedo pagar un préstamo?",
-      image: "/assets/img/piggi.jpg",
+      image: "/assets/img/blog/nopay.webp",
       slug: "no-puedo-pagar-prestamo",
       content:
         "Contenido detallado sobre qué hacer si no puedes pagar un préstamo",
@@ -41,14 +41,14 @@ const BlogCardList: React.FC = () => {
     {
       id: "2",
       title: "Metas y Presupuesto Personal",
-      image: "/assets/img/budget.jpg",
+      image: "/assets/img/blog/presupuesto.webp",
       slug: "metas-presupuesto",
       content: "Estrategias para establecer y alcanzar metas financieras",
     },
     {
       id: "3",
       title: "Formas Creativas de Manejar Tus Finanzas en Época Festiva",
-      image: "/assets/img/creative-finances.jpg",
+      image: "/assets/img/blog/finanzas.webp",
       slug: "finanzas-creativas",
       content:
         "Consejos para mantener tus finanzas saludables durante las fiestas",
@@ -56,35 +56,35 @@ const BlogCardList: React.FC = () => {
     {
       id: "4",
       title: "Fundamentos de Fondos Mutuos",
-      image: "/assets/img/mutual-funds.jpg",
+      image: "/assets/img/blog/fondos.webp",
       slug: "fondos-mutuos",
       content: "Guía completa para entender los fondos mutuos",
     },
     {
       id: "5",
       title: "Inversión en Bienes Raíces",
-      image: "/assets/img/real-estate.jpg",
+      image: "/assets/img/blog/bienes.webp",
       slug: "inversion-bienes-raices",
       content: "Estrategias para invertir inteligentemente en propiedades",
     },
     {
       id: "6",
       title: "Tarjetas de Crédito: Guía Completa",
-      image: "/assets/img/credit-card.jpg",
+      image: "/assets/img/blog/tarjetas.webp",
       slug: "tarjetas-credito",
       content: "Todo lo que necesitas saber sobre tarjetas de crédito",
     },
     {
       id: "7",
       title: "Préstamos Personales Explicados",
-      image: "/assets/img/loans.jpg",
+      image: "/assets/img/blog/personalloan.webp",
       slug: "prestamos-personales",
       content: "Cómo solicitar y manejar préstamos de manera responsable",
     },
     {
       id: "8",
       title: "Estrategias de Pago de Créditos",
-      image: "/assets/img/credit-payment.jpg",
+      image: "/assets/img/blog/estrategia.webp",
       slug: "pago-creditos",
       content: "Consejos para manejar tus pagos de crédito eficientemente",
     },

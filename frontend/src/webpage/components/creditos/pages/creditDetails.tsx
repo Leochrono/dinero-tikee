@@ -67,7 +67,7 @@ const CreditDetails: React.FC<CreditDetailsProps> = ({
 
   const monthlyPayment = calculateMonthlyPayment(
     initialFormData.amount,
-    institution.products.personalLoan.minRate,
+    institution.products?.personalLoan?.minRate || 0,
     initialFormData.term
   );
   const totalPayment = calculateTotalPayment(

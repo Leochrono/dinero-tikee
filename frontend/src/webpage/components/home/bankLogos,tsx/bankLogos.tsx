@@ -16,27 +16,27 @@ interface BankLogo {
 const BankLogos: React.FC = () => {
   const logos: BankLogo[] = [
     {
-      src: "/assets/img/pichincha.jpg",
+      src: "/assets/img//logobank/pichincha.webp",
       alt: "Banco Pichincha",
     },
     {
-      src: "https://www.clave.com.ec/wp-content/uploads/2021/07/banco-pacifico.png",
+      src: "/assets/img//logobank/pacifico.webp",
       alt: "Banco del Pacífico",
     },
     {
-      src: "https://ccq.ec/wp-content/uploads/2018/12/Produbanco-1.jpg-1024x282.jpeg",
+      src: "/assets/img/logobank/produbanco.webp",
       alt: "Produbanco",
     },
     {
-      src: "https://emprendimiento.ec/wp-content/uploads/Financiamiento/emprendimiento-ecuador-financiamiento-emprendedores-cooperativa-29-octubre-1024x683.jpg",
+      src: "/assets/img/logobank/29.webp",
       alt: "Cooperativa 29 de Octubre",
     },
     {
-      src: "https://play-lh.googleusercontent.com/1rk_Nw5REpMle46jLJzwKWgR9bGYXmiNH1qien0ZqJrYm5UOK8GbwtIlgMNovup13j8=w240-h480",
+      src: "/assets/img/logobank/jep.webp",
       alt: "Cooperativa JEP",
     },
     {
-      src: "/static/1f7d8003e7b7de4c0244b5d4116dd882/63159/logo_bg_white.png",
+      src: "/assets/img/logobank/guayaquil.webp",
       alt: "Banco de Guayaquil",
     },
   ];
