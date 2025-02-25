@@ -4,7 +4,7 @@
       "id": "pichincha",
       "name": "Banco Pichincha",
       "type": "bank",
-      "logo": "/assets/img/pichincha.jpg",
+      "logo": "/assets/img//logobank/pichincha.webp",
       "minRate": 14.0,
       "maxRate": 17.5,
       "products": {
@@ -33,7 +33,7 @@
       "id": "pacifico",
       "name": "Banco del Pacífico",
       "type": "bank",
-      "logo": "https://www.clave.com.ec/wp-content/uploads/2021/07/banco-pacifico.png",
+      "logo": "/assets/img/logobank/pacifico.webp",
       "minRate": 13.5,
       "maxRate": 16.5,
       "products": {
@@ -62,7 +62,7 @@
       "id": "produbanco",
       "name": "Produbanco",
       "type": "bank",
-      "logo": "https://ccq.ec/wp-content/uploads/2018/12/Produbanco-1.jpg-1024x282.jpeg",
+      "logo": "/assets/img/logobank/produbanco.webp",
       "minRate": 14.25,
       "maxRate": 16.9,
       "products": {
@@ -91,7 +91,7 @@
       "id": "29octubre",
       "name": "Cooperativa 29 de Octubre",
       "type": "cooperative",
-      "logo": "https://emprendimiento.ec/wp-content/uploads/Financiamiento/emprendimiento-ecuador-financiamiento-emprendedores-cooperativa-29-octubre-1024x683.jpg",
+      "logo": "/assets/img/logobank/29.webp",
       "minRate": 15.5,
       "maxRate": 18.5,
       "products": {
@@ -120,7 +120,7 @@
       "id": "jep",
       "name": "Cooperativa JEP",
       "type": "cooperative",
-      "logo": "https://play-lh.googleusercontent.com/1rk_Nw5REpMle46jLJzwKWgR9bGYXmiNH1qien0ZqJrYm5UOK8GbwtIlgMNovup13j8=w240-h480",
+      "logo": "/assets/img/logobank/jep.webp",
       "minRate": 15.9,
       "maxRate": 19.0,
       "products": {
@@ -149,7 +149,7 @@
       "id": "guayaquil",
       "name": "Banco de Guayaquil",
       "type": "bank",
-      "logo": "https://images.seeklogo.com/logo-png/40/1/banco-guayaquil-2020-fondo-magenta-logo-png_seeklogo-408168.png?v=638658831250000000",
+      "logo": "/assets/img/logobank/guayaquil.webp",
       "minRate": 14.5,
       "maxRate": 17.0,
       "products": {
