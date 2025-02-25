@@ -16,7 +16,7 @@ interface BankLogo {
 const BankLogos: React.FC = () => {
   const logos: BankLogo[] = [
     {
-      src: "/assets/img/pichincha.jpg",
+      src: "/assets/img//logobank/pichincha.webp",
       alt: "Banco Pichincha",
     },
     {
@@ -36,7 +36,7 @@ const BankLogos: React.FC = () => {
       alt: "Cooperativa JEP",
     },
     {
-      src: "/static/1f7d8003e7b7de4c0244b5d4116dd882/63159/logo_bg_white.png",
+      src: "/assets/img/logobank/guayaquil.webp",
       alt: "Banco de Guayaquil",
     },
   ];
