@@ -210,12 +210,12 @@ export interface CreditDocument {
   id: string;
   documentType: DocumentType;
   fileName: string;
-  fileUrl: string;
+  fileUrl?: string;      
+  fileContent?: string;  
   fileType: FileType;
-  fileSize: number;
   isVerified: boolean;
   createdAt: Date;
-  metadata?: DocumentMetadata;
+  metadata?: any;
 }
 
 export interface VerifyDocumentDto {
