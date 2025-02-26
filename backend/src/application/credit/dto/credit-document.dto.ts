@@ -51,7 +51,8 @@ export class DocumentResponseDto {
   id: string;
   documentType: DocumentType;
   fileName: string;
-  fileUrl: string;
+  fileUrl?: string;           
+  fileContent?: string;      
   fileType: FileType;
   isVerified: boolean;
   createdAt: Date;

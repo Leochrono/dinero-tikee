@@ -405,20 +405,38 @@ export class CreditDocumentService {
         where: { credit: { id: creditId } },
         order: { createdAt: 'DESC' },
       });
-
-      const baseUrl =
-        this.configService.get('APP_URL') || 'http://localhost:3000';
-
-      return documents.map((document) => ({
-        id: document.id,
-        documentType: document.documentType,
-        fileName: document.fileName,
-        fileUrl: `${baseUrl}/uploads/${document.fileUrl}`,
-        fileType: document.fileType,
-        isVerified: document.isVerified,
-        createdAt: document.createdAt,
-        metadata: document.metadata,
-      }));
+  
+      const documentsWithContent = await Promise.all(
+        documents.map(async (document) => {
+          let fileContent = null;
+          try {
+            // Ruta completa al archivo
+            const filePath = path.join(process.cwd(), 'uploads', document.fileUrl);
+            this.logger.debug(`Leyendo archivo desde: ${filePath}`);
+            
+            // Leer el archivo como Buffer
+            const buffer = await fs.readFile(filePath);
+            
+            // Convertir a base64
+            fileContent = buffer.toString('base64');
+          } catch (error) {
+            this.logger.error(`Error al leer el archivo ${document.fileName}:`, error);
+          }
+  
+          return {
+            id: document.id,
+            documentType: document.documentType,
+            fileName: document.fileName,
+            fileContent,  // Contenido en base64
+            fileType: document.fileType,
+            isVerified: document.isVerified,
+            createdAt: document.createdAt,
+            metadata: document.metadata,
+          };
+        })
+      );
+  
+      return documentsWithContent;
     } catch (error) {
       this.logger.error('Error obteniendo documentos:', error);
       throw new BadRequestException('Error al obtener los documentos');
