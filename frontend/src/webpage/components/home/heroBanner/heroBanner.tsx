@@ -21,7 +21,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ onReadMore }) => {
   return (
     <BannerContainer>
       <BackgroundImage
-        src="/assets/img/money.webp"
+        src="/assets/img/blog/money.webp"
         alt="Préstamo personal - Imagen representativa de finanzas y préstamos"
         loading="eager"
       />

@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import {
   BlogContainer,
   BlogTitle,
@@ -19,38 +18,43 @@ interface BlogPost {
   slug: string;
 }
 
-const BlogPosts: React.FC = () => {
-  const navigate = useNavigate();
+// Añadir props para manejar clics en los posts
+interface BlogPostsProps {
+  onPostClick?: (slug: string) => void;
+}
 
+const BlogPosts: React.FC<BlogPostsProps> = ({ onPostClick }) => {
   const posts: BlogPost[] = [
     {
       id: "1",
-      image: "/assets/img/estrategias.webp",
-      title: "Estrategias Financieras para Préstamos Impagos",
+      image: "/assets/img/blog/estrategia.webp",
+      title: "Estrategias de pago de crédito",
       slug: "prestamos-impagos",
     },
     {
       id: "2",
-      image: "/assets/img/presupuesto.webp",
+      image: "/assets/img/blog/presupuesto.webp",
       title: "Metas y Presupuesto: Guía Financiera Práctica",
       slug: "metas-presupuesto",
     },
     {
       id: "3",
-      image: "/assets/img/finanzas.webp",
+      image: "/assets/img/blog/finanzas.webp",
       title: "Finanzas Creativas en Época Festiva",
       slug: "finanzas-creativas",
     },
     {
       id: "4",
-      image: "/assets/img/fondos.webp",
+      image: "/assets/img/blog/fondos.webp",
       title: "Fondos Mutuos: Guía Completa de Inversión",
       slug: "fondos-mutuos",
     },
   ];
 
   const handleReadClick = (slug: string) => {
-    navigate(`/blog/${slug}`);
+    if (onPostClick) {
+      onPostClick(slug);
+    }
   };
 
   return (
