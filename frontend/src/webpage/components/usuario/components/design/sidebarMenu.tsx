@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { 
+import {
   Home as HomeIcon,
   Settings as SettingsIcon,
   ContactSupport as ContactIcon,
@@ -8,8 +8,10 @@ import {
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
   Menu as MenuIcon,
+  CreditCard as CreditCardIcon, // Icono para Nuevo Crédito
+  AccountCircle as AccountCircleIcon // Icono para Perfil
 } from '@mui/icons-material';
-import { Box } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import { routesWebpage } from '@/webpage/components/contants/routes';
 import {
   SidebarContainer,
@@ -33,8 +35,10 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Añadido "Nuevo Crédito" a los items del menú
   const menuItems = [
     { id: 'home', icon: HomeIcon, label: 'Inicio', path: routesWebpage.perfil },
+    { id: 'new-credit', icon: CreditCardIcon, label: 'Nuevo Crédito', path: routesWebpage.creditos },
     { id: 'settings', icon: SettingsIcon, label: 'Configuración', path: routesWebpage.configuracion },
     { id: 'contact', icon: ContactIcon, label: 'Contacto', path: routesWebpage.contacto },
     { id: 'about', icon: InfoIcon, label: 'Acerca de', path: routesWebpage.acercaDe }
@@ -70,7 +74,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
 
   return (
     <MainContentWrapper>
-      <MobileMenuButton 
+      <MobileMenuButton
         className={`menu-button ${mobileOpen ? 'menu-open' : ''}`}
         onClick={toggleMobileMenu}
       >
@@ -78,25 +82,40 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
       </MobileMenuButton>
 
       {mobileOpen && (
-        <SidebarOverlay 
-          className={mobileOpen ? 'visible' : ''} 
+        <SidebarOverlay
+          className={mobileOpen ? 'visible' : ''}
           onClick={() => setMobileOpen(false)}
         />
       )}
 
-      <SidebarContainer 
+      <SidebarContainer
         className={`sidebar ${!expanded ? 'collapsed' : ''} ${mobileOpen ? 'mobile-visible' : ''}`}
       >
         <SidebarHeader>
           {expanded && (
             <SidebarLogo>
-              <img src="/assets/logo.png" alt="Logo" />
-              <span className="logo-text">Mi App</span>
+              <img src="/assets/logo.png" alt="Dinero al Vuelo" />
+              <span className="logo-text">Dinero al Vuelo</span>
             </SidebarLogo>
           )}
-          <Box 
+          <Box
             className="toggle-button"
             onClick={() => setExpanded(!expanded)}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '32px',
+              height: '32px',
+              borderRadius: '50%',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              color: 'white',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+              }
+            }}
           >
             {expanded ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </Box>
@@ -104,15 +123,78 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
 
         <SidebarContent>
           {menuItems.map(({ id, icon: Icon, label, path }) => (
-            <SidebarItem
-              key={id}
-              className={location.pathname === path ? 'active' : ''}
-              onClick={() => handleNavigation(path)}
-            >
-              <Icon className="icon" />
-              {(expanded || mobileOpen) && <span className="label">{label}</span>}
-            </SidebarItem>
+            expanded ? (
+              // Versión expandida
+              <SidebarItem
+                key={id}
+                className={location.pathname === path ? 'active' : ''}
+                onClick={() => handleNavigation(path)}
+              >
+                <Icon className="icon" />
+                <span className="label">{label}</span>
+              </SidebarItem>
+            ) : (
+              // Versión contraída con tooltips
+              <Tooltip 
+                key={id} 
+                title={label} 
+                placement="right"
+                arrow
+              >
+                <SidebarItem
+                  className={location.pathname === path ? 'active' : ''}
+                  onClick={() => handleNavigation(path)}
+                  sx={{
+                    justifyContent: 'center',
+                    padding: '12px',
+                    '& .icon': {
+                      margin: 0
+                    }
+                  }}
+                >
+                  <Icon className="icon" />
+                </SidebarItem>
+              </Tooltip>
+            )
           ))}
+          
+          {/* Separador y perfil al final */}
+          <Box 
+            sx={{ 
+              mt: 'auto', 
+              pt: 2, 
+              borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '8px'
+            }}
+          >
+            {expanded ? (
+              <SidebarItem 
+                onClick={() => navigate(routesWebpage.perfil)}
+                className={location.pathname === routesWebpage.perfil ? 'active' : ''}
+              >
+                <AccountCircleIcon className="icon" />
+                <span className="label">Mi Perfil</span>
+              </SidebarItem>
+            ) : (
+              <Tooltip title="Mi Perfil" placement="right" arrow>
+                <SidebarItem 
+                  onClick={() => navigate(routesWebpage.perfil)}
+                  className={location.pathname === routesWebpage.perfil ? 'active' : ''}
+                  sx={{
+                    justifyContent: 'center',
+                    padding: '12px',
+                    '& .icon': {
+                      margin: 0
+                    }
+                  }}
+                >
+                  <AccountCircleIcon className="icon" />
+                </SidebarItem>
+              </Tooltip>
+            )}
+          </Box>
         </SidebarContent>
       </SidebarContainer>
 
