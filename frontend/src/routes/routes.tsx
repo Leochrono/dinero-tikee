@@ -22,6 +22,10 @@ import { FullWidthLayout } from '@/webpage/layouts/full-width-layout/FullWidthLa
 import Blog from '@/webpage/pages/blog/blog';
 import { CreditFormData } from '@/src/core/types/types';
 
+// Importar los nuevos componentes
+import PreguntasFrecuentes from '@/webpage/components/info/questions';
+import QuienesSomos from '@/webpage/components/info/who-we-are';
+
 type CreditContextType = {
   formData: CreditFormData;
   initialData: CreditFormData;
@@ -111,6 +115,15 @@ const routes: RouteObject[] = [
       {
         path: routesWebpage.blog,
         element: <Blog />,
+      },
+      // Añadidas nuevas rutas para Preguntas Frecuentes y Quiénes Somos
+      {
+        path: routesWebpage.preguntasFrecuentes,
+        element: <PreguntasFrecuentes />,
+      },
+      {
+        path: routesWebpage.quienesSomos,
+        element: <QuienesSomos />,
       },
     ],
   },

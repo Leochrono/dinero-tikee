@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   StyledFooter,
   StyledGreenLine,
@@ -17,8 +18,15 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import Logowhite from "../logo/logowhite";
 import { IconButton } from "@mui/material";
+import { routesWebpage } from "@/webpage/components/contants/routes";
 
 const Footer: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+  };
+
   return (
     <StyledFooter>
       <FooterMainContent>
@@ -26,11 +34,15 @@ const Footer: React.FC = () => {
           <Logowhite />
         </LogoContainer>
         <NavigationLinks>
-          <StyledLink href="/preguntas-frecuentes">
+          <StyledLink onClick={() => handleNavigation(routesWebpage.preguntasFrecuentes)}>
             Preguntas Frecuentes
           </StyledLink>
-          <StyledLink href="/quienes-somos">¿Quiénes Somos?</StyledLink>
-          <StyledLink href="/blog">Blog</StyledLink>
+          <StyledLink onClick={() => handleNavigation(routesWebpage.quienesSomos)}>
+            ¿Quiénes Somos?
+          </StyledLink>
+          <StyledLink onClick={() => handleNavigation(routesWebpage.blog)}>
+            Blog
+          </StyledLink>
         </NavigationLinks>
       </FooterMainContent>
       <StyledGreenLine />

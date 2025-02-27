@@ -31,10 +31,13 @@ export const routesWebpage = {
   configuracion: "/configuracion",
   contacto: "/contacto",
   acercaDe: "/acerca",
-  // Rutas anidadas de configuración si las necesitas
+  // Rutas anidadas de configuración
   configuracionPerfil: "/configuracion/perfil",
   configuracionSeguridad: "/configuracion/seguridad",
   configuracionNotificaciones: "/configuracion/notificaciones",
+  // Nuevas rutas para Preguntas Frecuentes y Quiénes Somos
+  preguntasFrecuentes: "/preguntas-frecuentes",
+  quienesSomos: "/quienes-somos",
 } as const;
 
 export const routePaths = Object.values(routesWebpage);
@@ -46,6 +49,8 @@ export const publicRoutes = {
   blog: routesWebpage.blog,
   contacto: routesWebpage.contacto,
   acercaDe: routesWebpage.acercaDe,
+  preguntasFrecuentes: routesWebpage.preguntasFrecuentes,
+  quienesSomos: routesWebpage.quienesSomos,
 };
 
 export const authRoutes = {
@@ -69,4 +74,10 @@ export const blogRoutes = {
   tarjetasCredito: routesWebpage.blogTarjetasCredito,
   prestamosPersonales: routesWebpage.blogPrestamosPersonales,
   pagoCreditos: routesWebpage.blogPagoCreditos,
+};
+
+// Nuevas agrupaciones para secciones informativas
+export const infoRoutes = {
+  preguntasFrecuentes: routesWebpage.preguntasFrecuentes,
+  quienesSomos: routesWebpage.quienesSomos,
 };
