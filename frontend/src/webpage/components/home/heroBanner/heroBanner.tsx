@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import {
   BannerContainer,
   BackgroundImage,
@@ -13,13 +12,9 @@ interface HeroBannerProps {
 }
 
 const HeroBanner: React.FC<HeroBannerProps> = ({ onReadMore }) => {
-  const navigate = useNavigate();
-
   const handleReadMore = () => {
     if (onReadMore) {
       onReadMore();
-    } else {
-      navigate("/blog/que-es-un-prestamo-personal");
     }
   };
 
