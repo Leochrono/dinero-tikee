@@ -10,11 +10,11 @@ import {
   Menu as MenuIcon,
   CreditCard as CreditCardIcon,
   AccountCircle as AccountCircleIcon,
-  ExitToApp as ExitToAppIcon // Icono para Cerrar Sesión
+  ExitToApp as ExitToAppIcon
 } from '@mui/icons-material';
-import { Box, Tooltip, Divider } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import { routesWebpage } from '@/webpage/components/contants/routes';
-import { useGlobalAuth } from "@/src/core/context/authContext"; // Importamos el contexto de autenticación
+import { useGlobalAuth } from "@/src/core/context/authContext";
 import {
   SidebarContainer,
   SidebarHeader,
@@ -36,7 +36,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { logout, isAuthenticated } = useGlobalAuth(); // Obtenemos la función logout del contexto
+  const { logout, isAuthenticated } = useGlobalAuth();
 
   const menuItems = [
     { id: 'home', icon: HomeIcon, label: 'Inicio', path: routesWebpage.perfil },
@@ -102,12 +102,13 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
         className={`sidebar ${!expanded ? 'collapsed' : ''} ${mobileOpen ? 'mobile-visible' : ''}`}
       >
         <SidebarHeader>
-          {expanded && (
+          {(expanded || mobileOpen) && (
             <SidebarLogo>
               <img src="/assets/logo.png" alt="Dinero al Vuelo" />
               <span className="logo-text">Dinero al Vuelo</span>
             </SidebarLogo>
           )}
+          {/* Ocultar el botón de toggle en móvil - ya está en tus estilos */}
           <Box
             className="toggle-button"
             onClick={() => setExpanded(!expanded)}
@@ -133,7 +134,8 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
 
         <SidebarContent>
           {menuItems.map(({ id, icon: Icon, label, path }) => (
-            expanded ? (
+            expanded || mobileOpen ? (
+              // Versión expandida o en móvil - siempre mostrar texto
               <SidebarItem
                 key={id}
                 className={location.pathname === path ? 'active' : ''}
@@ -143,6 +145,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
                 <span className="label">{label}</span>
               </SidebarItem>
             ) : (
+              // Versión contraída en desktop - solo iconos con tooltip
               <Tooltip 
                 key={id} 
                 title={label} 
@@ -178,7 +181,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
             }}
           >
             {/* Perfil */}
-            {expanded ? (
+            {expanded || mobileOpen ? (
               <SidebarItem 
                 onClick={() => handleNavigation(routesWebpage.perfil)}
                 className={location.pathname === routesWebpage.perfil ? 'active' : ''}
@@ -206,7 +209,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
             
             {/* Botón de Cerrar Sesión - Solo mostrar si está autenticado */}
             {isAuthenticated && (
-              expanded ? (
+              expanded || mobileOpen ? (
                 <SidebarItem 
                   onClick={handleLogout}
                   sx={{
