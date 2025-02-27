@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import LoadingResults from "../shared/loadingResults";
 import ErrorMessage from "../shared/errorMessage";
 import { UserContainer } from "./styles/constUsuario";
-import Navbar from "../navbar/navbar";
 import { userData } from "./utils/userData";
 import WelcomeSectionComponent from "./components/design/welcomeSection";
 import CreditsList from "./components/creditsList";
@@ -34,7 +33,6 @@ const Usuario = () => {
 
   return (
     <SidebarMenu>
-      <Navbar />
       <UserContainer>
         <WelcomeSectionComponent userProfile={userProfile} />
         <CreditsList

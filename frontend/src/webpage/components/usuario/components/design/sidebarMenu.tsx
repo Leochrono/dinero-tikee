@@ -8,11 +8,13 @@ import {
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
   Menu as MenuIcon,
-  CreditCard as CreditCardIcon, // Icono para Nuevo Crédito
-  AccountCircle as AccountCircleIcon // Icono para Perfil
+  CreditCard as CreditCardIcon,
+  AccountCircle as AccountCircleIcon,
+  ExitToApp as ExitToAppIcon // Icono para Cerrar Sesión
 } from '@mui/icons-material';
-import { Box, Tooltip } from '@mui/material';
+import { Box, Tooltip, Divider } from '@mui/material';
 import { routesWebpage } from '@/webpage/components/contants/routes';
+import { useGlobalAuth } from "@/src/core/context/authContext"; // Importamos el contexto de autenticación
 import {
   SidebarContainer,
   SidebarHeader,
@@ -34,8 +36,8 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { logout, isAuthenticated } = useGlobalAuth(); // Obtenemos la función logout del contexto
 
-  // Añadido "Nuevo Crédito" a los items del menú
   const menuItems = [
     { id: 'home', icon: HomeIcon, label: 'Inicio', path: routesWebpage.perfil },
     { id: 'new-credit', icon: CreditCardIcon, label: 'Nuevo Crédito', path: routesWebpage.creditos },
@@ -46,6 +48,14 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
 
   const handleNavigation = (path: string) => {
     navigate(path);
+    if (window.innerWidth <= 600) {
+      setMobileOpen(false);
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate(routesWebpage.inicio);
     if (window.innerWidth <= 600) {
       setMobileOpen(false);
     }
@@ -124,7 +134,6 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
         <SidebarContent>
           {menuItems.map(({ id, icon: Icon, label, path }) => (
             expanded ? (
-              // Versión expandida
               <SidebarItem
                 key={id}
                 className={location.pathname === path ? 'active' : ''}
@@ -134,7 +143,6 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
                 <span className="label">{label}</span>
               </SidebarItem>
             ) : (
-              // Versión contraída con tooltips
               <Tooltip 
                 key={id} 
                 title={label} 
@@ -158,7 +166,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
             )
           ))}
           
-          {/* Separador y perfil al final */}
+          {/* Separador para perfil y logout */}
           <Box 
             sx={{ 
               mt: 'auto', 
@@ -169,9 +177,10 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
               gap: '8px'
             }}
           >
+            {/* Perfil */}
             {expanded ? (
               <SidebarItem 
-                onClick={() => navigate(routesWebpage.perfil)}
+                onClick={() => handleNavigation(routesWebpage.perfil)}
                 className={location.pathname === routesWebpage.perfil ? 'active' : ''}
               >
                 <AccountCircleIcon className="icon" />
@@ -180,7 +189,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
             ) : (
               <Tooltip title="Mi Perfil" placement="right" arrow>
                 <SidebarItem 
-                  onClick={() => navigate(routesWebpage.perfil)}
+                  onClick={() => handleNavigation(routesWebpage.perfil)}
                   className={location.pathname === routesWebpage.perfil ? 'active' : ''}
                   sx={{
                     justifyContent: 'center',
@@ -193,6 +202,43 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ children }) => {
                   <AccountCircleIcon className="icon" />
                 </SidebarItem>
               </Tooltip>
+            )}
+            
+            {/* Botón de Cerrar Sesión - Solo mostrar si está autenticado */}
+            {isAuthenticated && (
+              expanded ? (
+                <SidebarItem 
+                  onClick={handleLogout}
+                  sx={{
+                    color: '#ff5252', // Color rojo para indicar acción de salida
+                    '&:hover': {
+                      backgroundColor: 'rgba(255, 82, 82, 0.1)', // Fondo rojo con transparencia al pasar el mouse
+                    }
+                  }}
+                >
+                  <ExitToAppIcon className="icon" />
+                  <span className="label">Cerrar Sesión</span>
+                </SidebarItem>
+              ) : (
+                <Tooltip title="Cerrar Sesión" placement="right" arrow>
+                  <SidebarItem 
+                    onClick={handleLogout}
+                    sx={{
+                      justifyContent: 'center',
+                      padding: '12px',
+                      '& .icon': {
+                        margin: 0,
+                        color: '#ff5252' // Color rojo para el icono
+                      },
+                      '&:hover': {
+                        backgroundColor: 'rgba(255, 82, 82, 0.1)', // Fondo rojo con transparencia al pasar el mouse
+                      }
+                    }}
+                  >
+                    <ExitToAppIcon className="icon" />
+                  </SidebarItem>
+                </Tooltip>
+              )
             )}
           </Box>
         </SidebarContent>
